@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9025258F-FD74-4ECA-8942-F8BB4F1F30A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointSale", "PointSaleApi\PointSale.csproj", "{8CEB8110-C22E-40B2-866C-81CF0887158A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88C43E45-23D5-49FD-A83A-987397680BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C43E45-23D5-49FD-A83A-987397680BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C43E45-23D5-49FD-A83A-987397680BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C43E45-23D5-49FD-A83A-987397680BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9025258F-FD74-4ECA-8942-F8BB4F1F30A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9025258F-FD74-4ECA-8942-F8BB4F1F30A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9025258F-FD74-4ECA-8942-F8BB4F1F30A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9025258F-FD74-4ECA-8942-F8BB4F1F30A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CEB8110-C22E-40B2-866C-81CF0887158A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CEB8110-C22E-40B2-866C-81CF0887158A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CEB8110-C22E-40B2-866C-81CF0887158A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CEB8110-C22E-40B2-866C-81CF0887158A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {108AFB02-570D-4E05-BF63-9E2A6B860345}
+	EndGlobalSection
+EndGlobal
