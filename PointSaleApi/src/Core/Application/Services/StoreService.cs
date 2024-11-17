@@ -9,6 +9,12 @@ namespace PointSaleApi.src.Core.Application.Services
   {
     private readonly IStoresRepository _storesRepository = storesRepository;
 
+    public async Task<Store?> FindOneByIdAsync(Guid storeId)
+    {
+      var store = await _storesRepository.FindOneById(storeId);
+      return store;
+    }
+
     public async Task<List<Store>> GetAllByManager(Guid managerId)
     {
       List<Store> stores = await _storesRepository.FindAllByManagerAsync(managerId);

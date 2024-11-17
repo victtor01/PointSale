@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
 using PointSaleApi.src.Core.Application.Services;
 using PointSaleApi.src.Infra.Api.Middlewares;
@@ -23,12 +24,28 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IManagersService, ManagersService>();
 builder.Services.AddScoped<IManagersRepository, ManagersRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddScoped<IStoresService, StoresService>();
 builder.Services.AddScoped<IStoresRepository, StoresRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddSingleton<ISessionService, SessionService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+
+var validationParameters = new TokenValidationParameters
+{
+  ValidateIssuer = true,
+  ValidateAudience = true,
+  ValidAudience = "teste",
+  ValidIssuer = "teste",
+  ValidateIssuerSigningKey = true,
+  IssuerSigningKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"]!)
+  ),
+  ValidateLifetime = true,
+  ClockSkew = TimeSpan.Zero,
+};
+
+builder.Services.AddSingleton(validationParameters);
 
 builder
   .Services.AddAuthentication(options =>
@@ -38,16 +55,7 @@ builder
   })
   .AddJwtBearer(options =>
   {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-      ValidateIssuer = true,
-      ValidateAudience = true,
-      ValidateLifetime = true,
-      IssuerSigningKey = new SymmetricSecurityKey(
-        Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"]!)
-      ),
-      ClockSkew = TimeSpan.Zero,
-    };
+    options.TokenValidationParameters = validationParameters;
   });
 
 builder.Services.AddDbContext<DatabaseContext>(options =>

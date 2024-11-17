@@ -16,6 +16,12 @@ namespace PointSaleApi.src.Infra.Repositories
       return stores;
     }
 
+    public async Task<Store?> FindOneById(Guid storeId)
+    {
+      var store = await _context.Stores.FirstOrDefaultAsync(s => s.Id == storeId) ?? null;
+      return store;
+    }
+
     public async Task<Store> SaveAsync(Store store)
     {
       var saved = await _context.AddAsync(store);

@@ -1,16 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
+using System.Security.Claims;
 
 namespace PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces
 {
   public interface IJwtService
   {
-    public JwtTokensDto CreateJwtToken(string userId, string email, string role);
-    public Dictionary<string, string> DecodeTokenAndGetClaims(string token);
-    public Dictionary<string, string> GetClaimsOfJwtSecurityToken(
-      JwtSecurityToken jwtSecurityToken
-    );
-    public JwtSecurityToken DecodeJwt(string token);
+    public string ParseJwtTokenToString(JwtSecurityToken token);
+    public Dictionary<string, string> VerifyTokenAndGetClaims(string token);
+    public JwtSecurityToken GenerateToken(Claim[] claim, DateTime expiration);
   }
 }

@@ -6,5 +6,6 @@ namespace PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces
   {
     public Task<Store> SaveAsync(Store store);
     public Task<List<Store>> FindAllByManagerAsync(Guid managerId);
+    public Task<Store?> FindOneById(Guid storeId);
   }
 }

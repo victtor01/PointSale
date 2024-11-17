@@ -1,80 +1,67 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
 using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.src.Infra.Config;
 
 namespace PointSaleApi.src.Core.Application.Services
 {
-  public class JwtService(IConfiguration configuration) : IJwtService
+  public class JwtService(
+    IConfiguration configuration,
+    TokenValidationParameters validationParameters
+  ) : IJwtService
   {
     private readonly IConfiguration _configuration = configuration;
+    private readonly TokenValidationParameters _validationParameters = validationParameters;
 
-    public Dictionary<string, string> GetClaimsOfJwtSecurityToken(
-      JwtSecurityToken jwtSecurityToken
-    ) => jwtSecurityToken.Claims.ToDictionary(c => c.Type, c => c.Value);
-
-    public JwtSecurityToken DecodeJwt(string token)
+    public Dictionary<string, string> VerifyTokenAndGetClaims(string token)
     {
-      var handler = new JwtSecurityTokenHandler();
-      JwtSecurityToken decodedToken = handler.ReadJwtToken(token);
-      return decodedToken;
+      try
+      {
+        var handler = new JwtSecurityTokenHandler();
+
+        ClaimsPrincipal valid = handler.ValidateToken(
+          token,
+          _validationParameters,
+          out SecurityToken validatedToken
+        );
+
+        var claims = valid.Claims.ToDictionary(c => c.Type, c => c.Value);
+
+        return claims;
+      }
+      catch (Exception e)
+      {
+        Console.Write(e);
+        throw new BadRequestException("The session is not valid!");
+      }
     }
 
-    public Dictionary<string, string> DecodeTokenAndGetClaims(string token)
-    {
-      JwtSecurityToken securityToken = DecodeJwt(token);
-      Dictionary<string, string> Claims = GetClaimsOfJwtSecurityToken(securityToken);
-      return Claims;
-    }
-
-    public (string, string) GenerateToken(Claim[] claims)
+    public JwtSecurityToken GenerateToken(Claim[] claims, DateTime expiration)
     {
       var privateKey = new SymmetricSecurityKey(
         Encoding.UTF8.GetBytes(_configuration["jwt:secretKey"]!)
       );
+
       var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
 
-      DateTime expiration = DateTime.UtcNow.AddMinutes(1);
-      DateTime longerExpiration = DateTime.UtcNow.AddMinutes(10);
-
       var token = new JwtSecurityToken(
+        issuer: "teste",
+        audience: "teste",
         expires: expiration,
         signingCredentials: credentials,
         claims: claims
       );
 
-      var refreshToken = new JwtSecurityToken(
-        expires: longerExpiration,
-        signingCredentials: credentials,
-        claims: claims
-      );
-
-      string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-      string refreshTokenString = new JwtSecurityTokenHandler().WriteToken(refreshToken);
-
-      return (tokenString, refreshTokenString);
+      return token;
     }
 
-    public JwtTokensDto CreateJwtToken(string userId, string email, string role)
+    public string ParseJwtTokenToString(JwtSecurityToken token)
     {
-      var claims = new Claim[]
-      {
-        new("userId", userId),
-        new("email", email),
-        new("role", role),
-        new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-      };
+      string stringToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-      var (tokenString, refreshTokenString) = GenerateToken(claims);
-      JwtTokensDto jwtDto = new() { AccessToken = tokenString, RefreshToken = refreshTokenString };
-
-      return jwtDto;
+      return stringToken;
     }
   }
 }

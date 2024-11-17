@@ -6,5 +6,6 @@ namespace PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces
   public interface IAuthService
   {
     public Task<JwtTokensDto> AuthManager(AuthDto authDto);
+    public Task<string> AuthSelectStore(SelectStoreDto selectStoreDto);
   }
 }

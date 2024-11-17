@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
 using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
+using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
 using PointSaleApi.src.Infra.Attributes;
 using PointSaleApi.src.Infra.Config;
+using PointSaleApi.src.Infra.Extensions;
 
 namespace PointSaleApi.src.Infra.Api.Controllers
 {
@@ -22,20 +24,35 @@ namespace PointSaleApi.src.Infra.Api.Controllers
       CookieOptions cookieOptions = new() { HttpOnly = true };
 
       HttpContext.Response.Cookies.Append(
-        CookiesNames.AccessToken,
+        CookiesSessionKeys.AccessToken,
         logged.AccessToken,
         cookieOptions
       );
 
       HttpContext.Response.Cookies.Append(
-        CookiesNames.RefreshToken,
+        CookiesSessionKeys.RefreshToken,
         logged.RefreshToken,
         cookieOptions
       );
 
-      HttpContext.Response.Cookies.Append("Role", logged.Role, cookieOptions);
-
       return Ok(logged);
+    }
+
+    [IsAdminRoute()]
+    [HttpPost("select/{storeId}")]
+    public async Task<IActionResult> Select(Guid storeId)
+    {
+      Session session = HttpContext.GetSession();
+
+      string token = await _authService.AuthSelectStore(
+        new SelectStoreDto { ManagerId = session.UserId, StoreId = storeId }
+      );
+
+      CookieOptions cookieOptions = new() { HttpOnly = true };
+
+      HttpContext.Response.Cookies.Append("_store", token, cookieOptions);
+
+      return Ok("login store success");
     }
   }
 }
