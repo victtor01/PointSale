@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\PointSaleApi",
+    "\\PointSaleApi\\src",
+    "\\PointSaleApi\\src\\Core",
+    "\\PointSaleApi\\src\\Core\\Application",
+    "\\PointSaleApi\\src\\Core\\Application\\Services"
   ],
-  "SelectedNode": "\\delivery.sln",
+  "SelectedNode": "\\PointSaleApi\\src\\Core\\Application\\Services\\ManagersService.cs",
   "PreviewInSolutionExplorer": false
 }

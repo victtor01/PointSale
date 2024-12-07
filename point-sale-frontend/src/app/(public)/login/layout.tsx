@@ -1,5 +1,5 @@
-import { fontFiraCode } from "@/fonts";
-import { FaArrowRight } from "react-icons/fa";
+import { fontFiraCode, fontSaira } from "@/fonts";
+import { FaArrowRight, FaListUl } from "react-icons/fa";
 
 export default function LayoutLogin({
   children,
@@ -12,11 +12,16 @@ export default function LayoutLogin({
         <div className="grid-image"></div>
       </div>
 
-      <header className="w-full p-4 flex text-zinc-900 dark:text-white items-center border-b-2 dark:border-neutral-900 dark:bg-zinc-950 bg-white z-20 justify-between">
-        <div className={`${fontFiraCode} text-xl`}>
-          Organizze
+      <header className="w-full p-4 flex text-zinc-900 dark:text-white items-center border-b dark:border-neutral-900 dark:bg-zinc-950 bg-white z-20 justify-between">
+        <div className={`${fontSaira} text-xl flex gap-2 items-center`}>
+          <div className="flex items-center justify-center w-6 h-6 bg-indigo-500 rounded-full ">
+
+          </div>
+          <h2 className="text-indigo-500 font-semibold">
+            Organizze
+          </h2>
         </div>
-        <button className="border text-white bg-neutral-800 dark:border-zinc-500opacity-80 px-4 text-sm font-semibold hover:opacity-100 flex items-center gap-2 justify-center p-2 rounded">
+        <button className=" shadow shadow-indigo-500/50 shadow-lg text-white bg-gradient-to-r from-indigo-500 to-blue-600 dark:border-zinc-500 opacity-80 px-4 text-sm font-semibold hover:opacity-100 flex items-center gap-2 justify-center p-2 rounded">
           Crie sua conta!
           <FaArrowRight size={15} />
         </button>

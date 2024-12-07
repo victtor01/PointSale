@@ -15,7 +15,7 @@ namespace PointSaleApi.src.Infra.Api.Controllers
     [IsPublicRoute]
     public async Task<IActionResult> GetAllManagers([FromBody] CreateUserDto createUserDto)
     {
-      var register = await this._managersService.Register(createUserDto);
+      var register = await _managersService.RegisterAsync(createUserDto);
 
       return Ok(register);
     }

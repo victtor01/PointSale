@@ -18,7 +18,7 @@ namespace PointSaleApi.src.Core.Application.Services
       return manager;
     }
 
-    public async Task<Manager> Register(CreateUserDto createUserDto)
+    public async Task<Manager> RegisterAsync(CreateUserDto createUserDto)
     {
       var row = await _managersRepository.FindByEmailAsync(createUserDto.Email);
       if (row != null)

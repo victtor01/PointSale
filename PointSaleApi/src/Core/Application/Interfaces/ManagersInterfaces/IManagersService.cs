@@ -10,7 +10,7 @@ namespace PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces
   public interface IManagersService
   {
     public Task<Manager> Save();
-    public Task<Manager> Register(CreateUserDto createUserDto);
+    public Task<Manager> RegisterAsync(CreateUserDto createUserDto);
     public Task<Manager> FindByEmailOrThrowAsync(string Email);
   }
 }

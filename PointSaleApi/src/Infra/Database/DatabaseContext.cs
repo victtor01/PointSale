@@ -12,9 +12,10 @@ namespace PointSaleApi.src.Infra.Database
     {
       base.OnModelCreating(modelBuilder);
       ManagersConfigure(modelBuilder);
+      StoresConfigure(modelBuilder);
     }
 
-    protected void ManagersConfigure(ModelBuilder modelBuilder)
+    private static void ManagersConfigure(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Manager>(managerEntity =>
       {
@@ -28,7 +29,7 @@ namespace PointSaleApi.src.Infra.Database
       });
     }
 
-    protected void StoresConfigure(ModelBuilder modelBuilder)
+    private static void StoresConfigure(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Store>(storeEntity =>
       {

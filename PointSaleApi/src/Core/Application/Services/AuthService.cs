@@ -8,6 +8,7 @@ using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
 using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.src.Core.Application.Utils;
 using PointSaleApi.src.Core.Domain;
 using PointSaleApi.src.Infra.Config;
 
@@ -25,25 +26,35 @@ namespace PointSaleApi.src.Core.Application.Services
     private readonly IJwtService _jwtService = jwtService;
     private readonly IStoresService _storesService = storesService;
 
-    public void VerifyPassword(string userId, string password, string hash)
+    public bool VerifyPasswordOrThrowError(string userId, string password, string hash)
     {
       var Indentity = new IdentityUser { Id = userId };
       var passwordHasher = new PasswordHasher<IdentityUser>();
       var hashed = passwordHasher.VerifyHashedPassword(Indentity, hash, password);
 
       if (hashed == PasswordVerificationResult.Failed)
-        throw new UnauthorizedException("Email ou senha incorretos!");
+        throw new UnauthorizedException("incorrect password!");
+
+      return true;
     }
 
     public async Task<JwtTokensDto> AuthManager(AuthDto authDto)
     {
       Manager manager = await _managersService.FindByEmailOrThrowAsync(authDto.Email);
 
-      VerifyPassword(
-        password: authDto.Password,
-        userId: manager.Id.ToString(),
-        hash: manager.Password
-      );
+      try
+      {
+        VerifyPasswordOrThrowError(
+          password: authDto.Password,
+          userId: manager.Id.ToString(),
+          hash: manager.Password
+        );
+      }
+      catch (Exception e)
+      {
+        Logger.Error(e.Message);
+        throw new UnauthorizedException("email or password is incorrect!");
+      }
 
       JwtTokensDto tokens = _sessionService.CreateSessionUser(
         role: UserRole.ADMIN.ToString(),
@@ -60,6 +71,26 @@ namespace PointSaleApi.src.Core.Application.Services
 
       if (store == null || store.ManagerId != selectStoreDto.ManagerId)
         throw new UnauthorizedException("store not found!");
+
+      if (store.Password != null && string.IsNullOrEmpty(selectStoreDto.Password))
+        throw new BadRequestException("This store is required password!");
+
+      if (store.Password != null)
+      {
+        try
+        {
+          VerifyPasswordOrThrowError(
+            userId: selectStoreDto.ManagerId.ToString(),
+            password: selectStoreDto.Password,
+            hash: store.Password
+          );
+        }
+        catch (Exception e)
+        {
+          Logger.Error(e.Message);
+          throw new BadRequestException("password store is incorrect!");
+        }
+      }
 
       Claim[] claims =
       [

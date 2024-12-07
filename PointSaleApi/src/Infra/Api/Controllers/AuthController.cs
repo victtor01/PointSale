@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
 using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
@@ -14,6 +15,11 @@ namespace PointSaleApi.src.Infra.Api.Controllers
   public class AuthController(IAuthService authService) : ControllerBase
   {
     private readonly IAuthService _authService = authService;
+
+    public class PasswordRequest
+    {
+      public string Password { get; set; } = string.Empty;
+    }
 
     [IsPublicRoute()]
     [HttpPost()]
@@ -40,12 +46,20 @@ namespace PointSaleApi.src.Infra.Api.Controllers
 
     [IsAdminRoute()]
     [HttpPost("select/{storeId}")]
-    public async Task<IActionResult> Select(Guid storeId)
+    public async Task<IActionResult> Select(
+      [FromBody] AuthStoreDto authStoreDto,
+      [FromRoute] Guid storeId
+    )
     {
       Session session = HttpContext.GetSession();
 
       string token = await _authService.AuthSelectStore(
-        new SelectStoreDto { ManagerId = session.UserId, StoreId = storeId }
+        new SelectStoreDto
+        {
+          ManagerId = session.UserId,
+          Password = authStoreDto.Password,
+          StoreId = storeId,
+        }
       );
 
       CookieOptions cookieOptions = new() { HttpOnly = true };

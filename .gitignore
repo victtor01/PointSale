@@ -1,1 +1,4 @@
 /PointSaleApi/docker/postgres
+/PointSaleApi/logs
+/PointSaleApi/bin
+/PointSaleApi/obj

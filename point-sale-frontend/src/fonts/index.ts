@@ -3,6 +3,7 @@ import {
   Inter,
   Open_Sans,
   Roboto,
+  Saira,
   Varela_Round,
 } from "next/font/google";
 
@@ -26,12 +27,18 @@ const valela = Varela_Round({
   weight: ["400"],
 });
 
+const saira = Saira({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+
 const firaCode = Fira_Code({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
-
+export const fontSaira = saira.className;
 export const fontRoboto = roboto.className;
 export const fontOpenSans = openSans.className;
 export const fontInter = inter.className;

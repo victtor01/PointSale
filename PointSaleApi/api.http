@@ -25,16 +25,17 @@ POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
 
 {
-  "name" : "example"
+  "name" : "example2",
+  "password": "example"
 }
 
 ###
 
-POST {{HOST}}/auth/select/4261fb55-d3ff-4f94-a1c6-eb18d79f5bb5 HTTP/1.1
+POST {{HOST}}/auth/select/e240662b-7f01-49f6-89f0-c0a87066083d HTTP/1.1
 Content-Type: application/json
 
 {
-  "name" : "example"
+  "password": "teste"
 }
 
 ###

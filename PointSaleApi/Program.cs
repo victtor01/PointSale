@@ -12,6 +12,7 @@ using PointSaleApi.src.Core.Application.Services;
 using PointSaleApi.src.Infra.Api.Middlewares;
 using PointSaleApi.src.Infra.Database;
 using PointSaleApi.src.Infra.Repositories;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,13 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSingleton<ISessionService, SessionService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+
+Log.Logger = new LoggerConfiguration()
+  .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code) // Tema com cores
+  .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day) // Log em arquivo com rotação diária
+  .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var validationParameters = new TokenValidationParameters
 {

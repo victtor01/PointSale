@@ -30,7 +30,21 @@ namespace PointSaleApi.src.Core.Application.Services
         throw new UnauthorizedException("count of stores!");
       }
 
-      var storeToSave = new Store { Name = createStoreDto.Name, ManagerId = managerId };
+      var nameIsEqual = storesOfManager.Any(store => store.Name == createStoreDto.Name);
+      if (nameIsEqual)
+      {
+        throw new BadRequestException("you have a store with that name.");
+      }
+
+      var storeToSave = new Store
+      {
+        Name = createStoreDto.Name,
+        ManagerId = managerId,
+        Password = createStoreDto.Password,
+      };
+
+      storeToSave.HashAndSetPassword(managerId.ToString());
+
       var saved = await _storesRepository.SaveAsync(storeToSave);
 
       return saved;
