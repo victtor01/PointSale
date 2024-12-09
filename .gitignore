@@ -2,3 +2,8 @@
 /PointSaleApi/logs
 /PointSaleApi/bin
 /PointSaleApi/obj
+
+/Tests/obj
+/Tests/bin
+
+.vs/

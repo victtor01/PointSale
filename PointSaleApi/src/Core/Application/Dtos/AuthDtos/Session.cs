@@ -1,4 +1,4 @@
-namespace PointSaleApi.src.Core.Application.Dtos.AuthDtos
+namespace PointSaleApi.Src.Core.Application.Dtos.AuthDtos
 {
   public enum UserRole
   {

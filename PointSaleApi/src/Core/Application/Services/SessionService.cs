@@ -4,11 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
+using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class SessionService(IJwtService jwtService) : ISessionService
   {

@@ -1,8 +1,9 @@
 using System.Net;
 using System.Text.Json;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Utils;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Infra.Api.Middlewares
+namespace PointSaleApi.Src.Infra.Api.Middlewares
 {
   public class ErrorMiddleware(RequestDelegate next)
   {
@@ -12,10 +13,12 @@ namespace PointSaleApi.src.Infra.Api.Middlewares
     {
       try
       {
+        Console.WriteLine("PASSOU NO ERRORMIDDLEARE");
         await _next(context);
       }
       catch (Exception ex)
       {
+        Logger.Error("PASSOU DENOVO NO ERRORMIDDLEWARE");
         await HandleExceptionAsync(context, ex);
       }
     }
@@ -28,16 +31,23 @@ namespace PointSaleApi.src.Infra.Api.Middlewares
       if (exception is ErrorInstance errorInstance)
       {
         response.StatusCode = errorInstance.StatusCode;
-        var result = JsonSerializer.Serialize(
-          new { error = errorInstance.Error, message = errorInstance.Message }
+        string result = JsonSerializer.Serialize(
+          new
+          {
+            type = errorInstance.Type,
+            message = errorInstance.Message,
+            errors = errorInstance.Errors,
+          }
         );
+
         return response.WriteAsync(result);
       }
       else
       {
+        Logger.Fatal(exception.Message);
         response.StatusCode = (int)HttpStatusCode.InternalServerError;
         var defaultResult = JsonSerializer.Serialize(
-          new { error = "Internal Server Error", message = exception.Message }
+          new { error = "Internal Server Error", message = "Houve um erro desconhecido!" }
         );
         return response.WriteAsync(defaultResult);
       }

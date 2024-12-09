@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.StoresDtos;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Core.Domain;
-using PointSaleApi.src.Infra.Attributes;
-using PointSaleApi.src.Infra.Extensions;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Attributes;
+using PointSaleApi.Src.Infra.Extensions;
 
-namespace PointSaleApi.src.Infra.Api.Controllers
+namespace PointSaleApi.Src.Infra.Api.Controllers
 {
   [ApiController()]
   [Route("/stores")]

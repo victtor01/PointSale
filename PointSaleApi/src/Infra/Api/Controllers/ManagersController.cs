@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using PointSaleApi.src.Core.Application.Dtos.ManagersDtos;
-using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
-using PointSaleApi.src.Infra.Attributes;
+using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.Src.Infra.Attributes;
 
-namespace PointSaleApi.src.Infra.Api.Controllers
+namespace PointSaleApi.Src.Infra.Api.Controllers
 {
   [ApiController]
   [Route("managers")]

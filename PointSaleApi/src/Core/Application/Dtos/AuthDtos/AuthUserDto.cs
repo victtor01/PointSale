@@ -1,8 +1,13 @@
-namespace PointSaleApi.src.Core.Application.Dtos.AuthDtos
+using System.ComponentModel.DataAnnotations;
+
+namespace PointSaleApi.Src.Core.Application.Dtos.AuthDtos
 {
   public class AuthDto
   {
-    public required string Email { get; set; }
-    public required string Password { get; set; }
+    [Required(ErrorMessage = "email is required")]
+    public string Email { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "password is required")]
+    public string Password { get; set; } = string.Empty;
   }
 }

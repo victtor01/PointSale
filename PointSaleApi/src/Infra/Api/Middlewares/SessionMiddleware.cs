@@ -1,14 +1,14 @@
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
-using PointSaleApi.src.Core.Application.Utils;
-using PointSaleApi.src.Infra.Attributes;
-using PointSaleApi.src.Infra.Config;
-using PointSaleApi.src.Infra.Extensions;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
+using PointSaleApi.Src.Core.Application.Utils;
+using PointSaleApi.Src.Infra.Attributes;
+using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Extensions;
 
-namespace PointSaleApi.src.Infra.Api.Middlewares
+namespace PointSaleApi.Src.Infra.Api.Middlewares
 {
   public class SessionMiddleware(
     RequestDelegate next,

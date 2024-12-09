@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PointSaleApi.src.Core.Application.Dtos.AuthDtos
+namespace PointSaleApi.Src.Core.Application.Dtos.AuthDtos
 {
   public class AuthStoreDto
   {

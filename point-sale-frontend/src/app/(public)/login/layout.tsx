@@ -1,5 +1,5 @@
-import { fontFiraCode, fontSaira } from "@/fonts";
-import { FaArrowRight, FaListUl } from "react-icons/fa";
+import { fontSaira } from "@/fonts";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function LayoutLogin({
   children,

@@ -3,15 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Core.Application.Services;
-using PointSaleApi.src.Infra.Api.Middlewares;
-using PointSaleApi.src.Infra.Database;
-using PointSaleApi.src.Infra.Repositories;
+using PointSaleApi.Src.Infra.Api.Middlewares;
+using PointSaleApi.Src.Infra.Database;
+using PointSaleApi.src.Infra.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,19 +16,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<IManagersService, ManagersService>();
-builder.Services.AddScoped<IManagersRepository, ManagersRepository>();
-builder.Services.AddScoped<IStoresService, StoresService>();
-builder.Services.AddScoped<IStoresRepository, StoresRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-builder.Services.AddSingleton<ISessionService, SessionService>();
-builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddApplicationServices();
+builder.Services.AddCorsPolicy();
+builder.Services.ConfigureValidationBehavior();
 
 Log.Logger = new LoggerConfiguration()
-  .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code) // Tema com cores
-  .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day) // Log em arquivo com rotação diária
+  .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code)
+  .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
   .CreateLogger();
 
 builder.Host.UseSerilog();
@@ -79,6 +67,7 @@ if (app.Environment.IsDevelopment())
   app.UseSwaggerUI();
 }
 
+app.UseCors("AllowSpecificOriginWithCredentials");
 app.UseMiddleware<ErrorMiddleware>();
 app.UseMiddleware<SessionMiddleware>();
 app.UseAuthentication();

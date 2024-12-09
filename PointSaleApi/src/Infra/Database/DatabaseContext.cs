@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.src.Core.Domain;
+using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Infra.Database
+namespace PointSaleApi.Src.Infra.Database
 {
   public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
   {

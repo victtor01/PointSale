@@ -1,17 +1,19 @@
-namespace PointSaleApi.src.Infra.Config
+namespace PointSaleApi.Src.Infra.Config
 {
   public class ErrorInstance(string message, int statusCode = 500) : Exception(message)
   {
     public int StatusCode { get; } = statusCode;
-    public string Error { get; set; } = "Internal Server Error"; // Mensagem padrão
+    public string Type { get; set; } = "Internal Server Error"; // Mensagem padrão
+    public Dictionary<string, string[]?>? Errors;
   }
 
   public class BadRequestException : ErrorInstance
   {
-    public BadRequestException(string message)
+    public BadRequestException(string message, Dictionary<string, string[]?>? errors = null)
       : base(message, 400)
     {
-      Error = "Bad Request";
+      Type = "Bad Request";
+      Errors = errors ?? [];
     }
   }
 
@@ -20,7 +22,7 @@ namespace PointSaleApi.src.Infra.Config
     public NotFoundException(string message)
       : base(message, 404)
     {
-      Error = "Not Found";
+      Type = "Not Found";
     }
   }
 
@@ -29,7 +31,7 @@ namespace PointSaleApi.src.Infra.Config
     public UnauthorizedException(string message)
       : base(message, 401)
     {
-      Error = "Unauthorized";
+      Type = "Unauthorized";
     }
   }
 }

@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Domain
+namespace PointSaleApi.Src.Core.Domain
 {
   public class Store
   {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
     public required string Name { get; set; }
@@ -19,17 +19,19 @@ namespace PointSaleApi.src.Core.Domain
     [ForeignKey("ManagerId")]
     public Manager? Manager { get; set; }
 
-    [Required(ErrorMessage = "Password is required")]
-    public required string Password { get; set; }
+    public string? Password { get; set; }
 
     public void HashAndSetPassword(string storeId)
     {
-      if (Password.Length < 4)
+      if (Password != null && Password.Length < 4)
         throw new BadRequestException("Senha curta demais");
 
-      var passwordHasher = new PasswordHasher<string>();
-      string newPassword = passwordHasher.HashPassword(storeId, Password);
-      Password = newPassword;
+      if (Password != null)
+      {
+        var passwordHasher = new PasswordHasher<string>();
+        string newPassword = passwordHasher.HashPassword(storeId, Password);
+        Password = newPassword;
+      }
     }
   }
 }

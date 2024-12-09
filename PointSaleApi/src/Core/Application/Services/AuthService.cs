@@ -1,18 +1,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.SessionInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Core.Application.Utils;
-using PointSaleApi.src.Core.Domain;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Application.Utils;
+using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class AuthService(
     IManagersService managersService,

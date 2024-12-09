@@ -1,4 +1,4 @@
-namespace PointSaleApi.src.Core.Application.Dtos.JwtDtos
+namespace PointSaleApi.Src.Core.Application.Dtos.JwtDtos
 {
   public class JwtTokensDto
   {

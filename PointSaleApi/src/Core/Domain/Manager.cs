@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Domain
+namespace PointSaleApi.Src.Core.Domain
 {
   public class Manager : User
   {

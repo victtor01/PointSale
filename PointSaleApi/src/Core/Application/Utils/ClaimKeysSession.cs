@@ -1,4 +1,4 @@
-namespace PointSaleApi.src.Core.Application.Utils
+namespace PointSaleApi.Src.Core.Application.Utils
 {
   public static class ClaimKeysSession
   {

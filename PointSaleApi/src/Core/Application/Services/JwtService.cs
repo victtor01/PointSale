@@ -2,10 +2,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using PointSaleApi.src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.Src.Core.Application.Utils;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class JwtService(
     IConfiguration configuration,
@@ -33,7 +34,7 @@ namespace PointSaleApi.src.Core.Application.Services
       }
       catch (Exception e)
       {
-        Console.Write(e);
+        Logger.Error(e.Message);
         throw new BadRequestException("The session is not valid!");
       }
     }

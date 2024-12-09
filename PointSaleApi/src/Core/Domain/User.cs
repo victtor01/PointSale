@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PointSaleApi.src.Core.Domain
+namespace PointSaleApi.Src.Core.Domain
 {
   public abstract class User
   {

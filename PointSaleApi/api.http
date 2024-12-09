@@ -15,7 +15,7 @@ POST {{HOST}}/auth HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"example@gmail.com",
+  "email":"examplegmail.com",
   "password":"example"
 }
 
@@ -25,8 +25,7 @@ POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
 
 {
-  "name" : "example2",
-  "password": "example"
+  "name" : "example5"
 }
 
 ###
@@ -35,7 +34,7 @@ POST {{HOST}}/auth/select/e240662b-7f01-49f6-89f0-c0a87066083d HTTP/1.1
 Content-Type: application/json
 
 {
-  "password": "teste"
+  "password": "example"
 }
 
 ###

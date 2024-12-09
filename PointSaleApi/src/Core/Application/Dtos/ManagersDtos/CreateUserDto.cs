@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PointSaleApi.src.Core.Application.Dtos.ManagersDtos
+namespace PointSaleApi.Src.Core.Application.Dtos.ManagersDtos
 {
   public class CreateUserDto
   {

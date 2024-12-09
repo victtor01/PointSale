@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Core.Domain;
-using PointSaleApi.src.Infra.Database;
+using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Database;
 
-namespace PointSaleApi.src.Infra.Repositories
+namespace PointSaleApi.Src.Infra.Repositories
 {
   public class StoresRepository(DatabaseContext context) : IStoresRepository
   {

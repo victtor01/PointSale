@@ -1,6 +1,6 @@
-using PointSaleApi.src.Core.Domain;
+using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces
 {
   public interface IManagersRepository
   {

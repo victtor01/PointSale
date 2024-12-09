@@ -1,9 +1,9 @@
-using PointSaleApi.src.Core.Application.Dtos.ManagersDtos;
-using PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces;
-using PointSaleApi.src.Core.Domain;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class ManagersService(IManagersRepository managersRepository) : IManagersService
   {

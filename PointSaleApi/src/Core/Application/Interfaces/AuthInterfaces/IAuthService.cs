@@ -1,7 +1,7 @@
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
 
-namespace PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces
 {
   public interface IAuthService
   {

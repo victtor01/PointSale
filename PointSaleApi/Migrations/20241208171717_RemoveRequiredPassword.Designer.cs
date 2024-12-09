@@ -12,8 +12,8 @@ using PointSaleApi.Src.Infra.Database;
 namespace PointSaleApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241206215505_add password on stores")]
-    partial class AddPasswordAndStores
+    [Migration("20241208171717_RemoveRequiredPassword")]
+    partial class RemoveRequiredPassword
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,6 @@ namespace PointSaleApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

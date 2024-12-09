@@ -1,6 +1,6 @@
-using PointSaleApi.src.Core.Domain;
+using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces
 {
   public interface IStoresRepository
   {

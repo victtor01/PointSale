@@ -1,25 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.src.Core.Application.Interfaces.AuthInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Infra.Attributes;
-using PointSaleApi.src.Infra.Config;
-using PointSaleApi.src.Infra.Extensions;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
+using PointSaleApi.Src.Infra.Attributes;
+using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Extensions;
 
-namespace PointSaleApi.src.Infra.Api.Controllers
+namespace PointSaleApi.Src.Infra.Api.Controllers
 {
   [ApiController]
   [Route("/auth")]
   public class AuthController(IAuthService authService) : ControllerBase
   {
     private readonly IAuthService _authService = authService;
-
-    public class PasswordRequest
-    {
-      public string Password { get; set; } = string.Empty;
-    }
 
     [IsPublicRoute()]
     [HttpPost()]
@@ -40,6 +33,7 @@ namespace PointSaleApi.src.Infra.Api.Controllers
         logged.RefreshToken,
         cookieOptions
       );
+      Console.WriteLine("PASSOU NESSA MERDAS");
 
       return Ok(logged);
     }

@@ -1,4 +1,4 @@
-namespace PointSaleApi.src.Infra.Config
+namespace PointSaleApi.Src.Infra.Config
 {
   public class CookiesSessionKeys
   {

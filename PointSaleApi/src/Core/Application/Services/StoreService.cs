@@ -1,9 +1,9 @@
-using PointSaleApi.src.Core.Application.Dtos.StoresDtos;
-using PointSaleApi.src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.src.Core.Domain;
-using PointSaleApi.src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
+using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class StoresService(IStoresRepository storesRepository) : IStoresService
   {
@@ -33,17 +33,16 @@ namespace PointSaleApi.src.Core.Application.Services
       var nameIsEqual = storesOfManager.Any(store => store.Name == createStoreDto.Name);
       if (nameIsEqual)
       {
-        throw new BadRequestException("you have a store with that name.");
+        throw new BadRequestException("you have a store with that name");
       }
 
-      var storeToSave = new Store
-      {
-        Name = createStoreDto.Name,
-        ManagerId = managerId,
-        Password = createStoreDto.Password,
-      };
+      var storeToSave = new Store { Name = createStoreDto.Name, ManagerId = managerId };
 
-      storeToSave.HashAndSetPassword(managerId.ToString());
+      if (!string.IsNullOrEmpty(createStoreDto.Password))
+      {
+        storeToSave.Password = createStoreDto.Password;
+        storeToSave.HashAndSetPassword(managerId.ToString());
+      }
 
       var saved = await _storesRepository.SaveAsync(storeToSave);
 

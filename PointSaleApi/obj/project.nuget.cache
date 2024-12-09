@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "w2BrUAnNV/p30P1vji0a/++pgRLjyCMk06AjVzottaXxSAQOG57AVCLZtPWm/KoTCHlKkhbnV4bamE4Qk0Cv7w==",
+  "dgSpecHash": "L/TZ4lHUCJ7jVyLBmNrsaPMZzqc7rqbzupBgbASrbIRMMK+PlYQg6d+9QIylhwxtdlC9fF8ItDPUCKoCv9TT/w==",
   "success": true,
   "projectFilePath": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.8\\microsoft.aspnetcore.authentication.jwtbearer.8.0.8.nupkg.sha512",
+    "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\2.2.0\\microsoft.aspnetcore.cryptography.internal.2.2.0.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\2.2.0\\microsoft.aspnetcore.cryptography.keyderivation.2.2.0.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.dataprotection\\2.2.0\\microsoft.aspnetcore.dataprotection.2.2.0.nupkg.sha512",

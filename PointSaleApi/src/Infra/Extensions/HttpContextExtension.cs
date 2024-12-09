@@ -1,6 +1,6 @@
-using PointSaleApi.src.Core.Application.Dtos.AuthDtos;
+using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 
-namespace PointSaleApi.src.Infra.Extensions
+namespace PointSaleApi.Src.Infra.Extensions
 {
   public static class HttpContextExtensions
   {

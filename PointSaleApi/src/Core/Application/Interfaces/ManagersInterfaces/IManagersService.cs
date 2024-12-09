@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PointSaleApi.src.Core.Application.Dtos.ManagersDtos;
-using PointSaleApi.src.Core.Domain;
+using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
+using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Core.Application.Interfaces.ManagersInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces
 {
   public interface IManagersService
   {
