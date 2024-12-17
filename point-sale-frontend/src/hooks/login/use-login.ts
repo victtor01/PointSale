@@ -1,11 +1,48 @@
+"use client";
+
 import { api } from "@/utils/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
+
+const schemaLogin = z.object({
+  email: z.string().email({ message: "O email é inválido!" }).min(1, "Email vazio!"),
+  password: z.string().min(1, { message: "A senha deve contar ao menos 1 caractere!" }).max(30),
+});
+
+type SchemaLoginProps = {
+  email: string;
+  password: string;
+};
+
+type useFormLoginResponse = {
+  form: UseFormReturn<SchemaLoginProps, any, undefined>;
+};
+
+const useFormLogin = (): useFormLoginResponse => {
+  const form = useForm<SchemaLoginProps>({
+    resolver: zodResolver(schemaLogin),
+  });
+
+  return { form };
+};
+
+const _PAGE_URL_SELECT_STORE = "/select-store"
 
 const useLogin = () => {
-  const submitLogin = async (): Promise<void> => {
-    const body = { email: "example@gmail.com", password: "example" };
-    const res = await api.post("/auth", body);
-
-    console.log(res);
+  const router = useRouter();
+  const submitLogin = async (data: SchemaLoginProps): Promise<void> => {
+    try {
+      const { email, password } = data;
+      const body = { email, password };
+      await api.post("/auth", body);
+      toast.success("login sucessfull");
+      router.replace(_PAGE_URL_SELECT_STORE);
+    } catch (error) {
+      console.log("Houve um erro ao tentar fazer o login!", error);
+    }
   };
 
   return {
@@ -13,5 +50,5 @@ const useLogin = () => {
   };
 };
 
-export { useLogin };
+export { useFormLogin, useLogin };
 

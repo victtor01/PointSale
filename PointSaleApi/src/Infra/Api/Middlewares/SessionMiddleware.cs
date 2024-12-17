@@ -34,21 +34,6 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       return isAdminRoute;
     }
 
-    public JwtTokensDto GetCookieToken(HttpContext context)
-    {
-      var cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
-      var cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
-
-      if (string.IsNullOrEmpty(cookiesAccessToken) || string.IsNullOrEmpty(cookiesRefreshToken))
-        throw new BadRequestException("Faça o login!");
-
-      return new JwtTokensDto
-      {
-        AccessToken = cookiesAccessToken,
-        RefreshToken = cookiesRefreshToken,
-      };
-    }
-
     public Session ParseDictionarySessionToSession(Dictionary<string, string> payload)
     {
       try
@@ -91,8 +76,6 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
         var accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newAccessToken);
 
-        Console.WriteLine("---------atualizou----------");
-
         response.Cookies.Append(
           key: CookiesSessionKeys.AccessToken,
           value: newTokens.AccessToken,
@@ -107,6 +90,21 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       }
     }
 
+    public JwtTokensDto GetCookieToken(HttpContext context)
+    {
+      var cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
+      var cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
+
+      if (string.IsNullOrEmpty(cookiesAccessToken) || string.IsNullOrEmpty(cookiesRefreshToken))
+        throw new BadRequestException("Faça o login!");
+
+      return new JwtTokensDto
+      {
+        AccessToken = cookiesAccessToken,
+        RefreshToken = cookiesRefreshToken,
+      };
+    }
+
     public async Task InvokeAsync(HttpContext httpContext)
     {
       if (IsPublicRoute(httpContext))
@@ -117,12 +115,15 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
       JwtTokensDto cookiesSession = GetCookieToken(httpContext);
 
+      Logger.Error(cookiesSession.AccessToken);
+
       string AccessToken = cookiesSession.AccessToken;
 
       Dictionary<string, string> payload = VerifyAndRenewTokenAsync(
         cookiesSession,
         httpContext.Response
       );
+
       Session payloadSession = ParseDictionarySessionToSession(payload);
 
       if (IsAdminRoute(httpContext) && payloadSession.Role != UserRole.ADMIN)

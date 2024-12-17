@@ -29,7 +29,7 @@ const valela = Varela_Round({
 
 const saira = Saira({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "600", "700"],
 });
 
 

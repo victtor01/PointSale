@@ -17,6 +17,13 @@ namespace PointSaleApi.Src.Infra.Repositories
       return manager;
     }
 
+    public async Task<Manager?> FindByIdAsync(Guid managerId)
+    {
+      var manager =
+        await _context.Managers.FirstOrDefaultAsync(manager => manager.Id == managerId) ?? null;
+      return manager;
+    }
+
     public async Task<Manager> Save(Manager manager)
     {
       var savedManager = await _context.Managers.AddAsync(manager);

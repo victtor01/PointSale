@@ -8,5 +8,6 @@ namespace PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces
     public Task<List<Store>> GetAllByManager(Guid userId);
     public Task<Store> SaveAsync(CreateStoreDto createStoreDto, Guid managerId);
     public Task<Store?> FindOneByIdAsync(Guid storeId);
+    public Task<Store> FindOneByIdAndManagerOrThrowAsync(Guid storeId, Guid managerId);
   }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "L/TZ4lHUCJ7jVyLBmNrsaPMZzqc7rqbzupBgbASrbIRMMK+PlYQg6d+9QIylhwxtdlC9fF8ItDPUCKoCv9TT/w==",
+  "dgSpecHash": "Dh2mNhxjHuJ8nhE2Yih+DxR5gxkwNCkmKBQlScqEfp7Tn92tx2vpyzJ+14ybsCcq3sM2rNxjAu74kNec8kMy5A==",
   "success": true,
-  "projectFilePath": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
+  "projectFilePath": "C:\\csharp\\delivery\\PointSaleAPi\\PointSale.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\josev\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\josev\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

@@ -28,14 +28,29 @@ namespace PointSaleApi.Src.Infra.Api.Controllers
 
     [IsAdminRoute()]
     [HttpGet("my")]
-    public async Task<List<Store>> FindMyStores()
+    public async Task<ActionResult<List<Store>>> FindMyStores()
     {
       Session session = HttpContext.GetSession();
       Guid managerId = session.UserId;
 
       List<Store> stores = await _storesService.GetAllByManager(managerId);
 
-      return stores;
+      return Ok(stores);
+    }
+
+    [IsAdminRoute()]
+    [HttpGet("{storeId}")]
+    public async Task<IActionResult> FindStoreByIdAndManager(string storeId)
+    {
+      Session session = HttpContext.GetSession();
+      Guid managerId = session.UserId;
+
+      Store store = await _storesService.FindOneByIdAndManagerOrThrowAsync(
+        storeId: Guid.Parse(storeId),
+        managerId: managerId
+      );
+
+      return Ok(store);
     }
   }
 }

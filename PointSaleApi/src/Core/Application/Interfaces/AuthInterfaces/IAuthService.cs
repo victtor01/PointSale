@@ -1,5 +1,6 @@
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Domain;
 
 namespace PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces
 {
