@@ -81,7 +81,7 @@ public class AuthService(
       {
         VerifyPasswordOrThrowError(
           userId: selectStoreDto.ManagerId.ToString(),
-          password: selectStoreDto.Password,
+          password: selectStoreDto.Password!,
           hash: store.Password
         );
       }

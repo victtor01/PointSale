@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\csharp\\delivery\\PointSaleAPi\\PointSale.csproj": {}
+    "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj": {}
   },
   "projects": {
-    "C:\\csharp\\delivery\\PointSaleAPi\\PointSale.csproj": {
+    "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\csharp\\delivery\\PointSaleAPi\\PointSale.csproj",
+        "projectUniqueName": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
         "projectName": "PointSale",
-        "projectPath": "C:\\csharp\\delivery\\PointSaleAPi\\PointSale.csproj",
+        "projectPath": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
         "packagesPath": "C:\\Users\\josev\\.nuget\\packages\\",
-        "outputPath": "C:\\csharp\\delivery\\PointSaleAPi\\obj\\",
+        "outputPath": "C:\\csharp\\delivery\\PointSaleApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\josev\\AppData\\Roaming\\NuGet\\NuGet.Config",

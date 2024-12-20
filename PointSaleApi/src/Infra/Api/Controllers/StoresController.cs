@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
 using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
@@ -35,7 +36,7 @@ namespace PointSaleApi.Src.Infra.Api.Controllers
 
       List<Store> stores = await _storesService.GetAllByManager(managerId);
 
-      return Ok(stores);
+      return Ok(stores.Select(store => store.ToStoreMapper()));
     }
 
     [IsAdminRoute()]
@@ -50,7 +51,7 @@ namespace PointSaleApi.Src.Infra.Api.Controllers
         managerId: managerId
       );
 
-      return Ok(store);
+      return Ok(store.ToStoreMapper());
     }
   }
 }

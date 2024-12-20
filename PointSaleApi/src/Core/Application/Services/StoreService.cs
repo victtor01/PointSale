@@ -9,6 +9,16 @@ public class StoresService(IStoresRepository storesRepository) : IStoresService
 {
   private readonly IStoresRepository _storesRepository = storesRepository;
 
+  private static void IsValidStoreToCreate(List<Store> stores, string name)
+  {
+    if (stores.Count >= 4)
+      throw new UnauthorizedException("count of stores!");
+
+    var nameIsEqual = stores.Any(store => store.Name == name);
+    if (nameIsEqual)
+      throw new BadRequestException("you have a store with that name");
+  }
+
   public async Task<Store?> FindOneByIdAsync(Guid storeId)
   {
     Store? store = await this._storesRepository.FindOneById(storeId);
@@ -34,17 +44,7 @@ public class StoresService(IStoresRepository storesRepository) : IStoresService
   public async Task<Store> SaveAsync(CreateStoreDto createStoreDto, Guid managerId)
   {
     var storesOfManager = await GetAllByManager(managerId);
-
-    if (storesOfManager.Count >= 4)
-    {
-      throw new UnauthorizedException("count of stores!");
-    }
-
-    var nameIsEqual = storesOfManager.Any(store => store.Name == createStoreDto.Name);
-    if (nameIsEqual)
-    {
-      throw new BadRequestException("you have a store with that name");
-    }
+    IsValidStoreToCreate(stores: storesOfManager, name: createStoreDto.Name);
 
     var storeToSave = new Store { Name = createStoreDto.Name, ManagerId = managerId };
 

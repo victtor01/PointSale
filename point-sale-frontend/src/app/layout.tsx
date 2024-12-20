@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className="light" suppressHydrationWarning>
       <body
         cz-shortcut-listen="false"
-        className={`${geistSans.variable} ${geistMono.variable} text-neutral-700 dark:text-neutral-200 bg-gray-50 dark:bg-neutral-950 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} text-neutral-700 dark:text-neutral-200 bg-white dark:bg-neutral-950 antialiased`}
       >
         <QueryProvider>{children}</QueryProvider>
         <ToastContainer position="bottom-right" />

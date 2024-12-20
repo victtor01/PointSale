@@ -1,12 +1,8 @@
 "use client"
 
+import { IStore } from "@/interfaces/IStore"
 import { api } from "@/utils/api"
 import { useQuery } from "@tanstack/react-query"
-
-interface IStore {
-  name: string,
-  id: string,
-}
 
 const useStore = () => {
   const { data: stores, isLoading } = useQuery<IStore[]>({

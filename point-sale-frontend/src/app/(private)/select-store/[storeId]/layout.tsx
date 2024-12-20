@@ -6,11 +6,10 @@ interface TemplateProps {
 }
 
 async function TemplateSelectStoreWithId(props: TemplateProps) {
-  const params = await props?.params;
   const children = await props?.children;
 
   return (
-    <div className="flex bg-blue-50 h-screen w-full ">
+    <div className="flex bg-blue-50 h-screen w-full p-6">
       {children}
     </div>
   )

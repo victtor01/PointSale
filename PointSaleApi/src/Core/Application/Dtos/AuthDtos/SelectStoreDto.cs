@@ -10,6 +10,6 @@ namespace PointSaleApi.Src.Core.Application.Dtos.AuthDtos
     [Required(ErrorMessage = "manager not found, this options is required!")]
     public Guid ManagerId { get; set; }
 
-    public string Password { get; set; } = string.Empty;
+    public string? Password { get; set; } = string.Empty;
   }
 }

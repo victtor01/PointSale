@@ -38,15 +38,15 @@ export default function Login() {
       <form onSubmit={handleSubmit(submitLogin)} className="grid gap-1">
         <label htmlFor="email" className="grid gap-2">
           <span className="opacity-60">Email</span>
-          <div className="flex gap-2 border dark:border-neutral-800/70 w-full pl-3 items-center rounded-md">
-            <MdEmail className="opacity-30" size={18} />
+          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md">
+            <MdEmail className="opacity-30 w-12" size={18} />
             <input
               type="email"
               id="email"
               autoComplete="off"
               {...register("email")}
               placeholder="jonhDoe@gmail.com"
-              className={`bg-transparent rounded outline-none w-full py-3 text-lg text-gray-600 dark:text-gray-200 ${fontOpenSans}`}
+              className={`bg-transparent border-l px-2 outline-none flex-1 py-2 text-lg text-gray-600 dark:text-gray-200 ${fontOpenSans}`}
             />
           </div>
 
@@ -61,15 +61,15 @@ export default function Login() {
 
         <label htmlFor="password" className="grid gap-2 mt-2">
           <span className="opacity-60">Password</span>
-          <div className="flex gap-2 border dark:border-neutral-800/70 pl-3 w-full items-center rounded-md">
-            <FaLock className="opacity-30" size={16} />
+          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md">
+            <FaLock className="opacity-30 w-12" size={16} />
             <input
               type="password"
               {...register("password")}
               id="password"
               autoComplete="off"
               placeholder="••••••••••"
-              className={`bg-transparent rounded outline-none w-full py-3 text-lg text-gray-600 dark:text-gray-200 ${fontOpenSans}`}
+              className={`bg-transparent border-l px-2 outline-none flex-1 py-2 text-lg text-gray-600 dark:text-gray-200 ${fontOpenSans}`}
             />
           </div>
 
