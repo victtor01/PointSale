@@ -1,5 +1,7 @@
 import { twMerge } from "tailwind-merge";
-import { callbackify } from "util";
+import { motion } from "framer-motion";
+import { RefObject } from "react";
+import { useCanvasDiv } from "@/hooks/canvas/useCanvas.ts";
 
 type ContainerMainProps = {
   children?: React.ReactNode;
@@ -18,65 +20,36 @@ type CanvasDivProps = {
 
 type CanvasContainerProps = {} & ContainerMainProps;
 
-const useCanvasDiv = () => {
-  const makeDraggable = (
-    e: React.MouseEvent,
-    callback: ({ x, y }: Position) => any
-  ) => {
-    const target = e.currentTarget as HTMLElement;
-    let offsetX = e.clientX - target.offsetLeft;
-    let offsetY = e.clientY - target.offsetTop;
-
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      let newX = moveEvent.clientX - offsetX;
-      let newY = moveEvent.clientY - offsetY;
-
-      const canvas = window.document.getElementById("container-canvas");
-
-      if (canvas) {
-        newX = Math.max(0, Math.min(newX, canvas.offsetWidth - 40));
-        newY = Math.max(0, Math.min(newY, canvas.offsetHeight - 40));
-        callback({ x: newX, y: newY });
-      }
-    };
-
-    const onMouseUp = () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
-  };
-
-  return { makeDraggable };
-};
-
 function CanvasDiv(props: CanvasDivProps) {
   const { makeDraggable } = useCanvasDiv();
   const { children, className, top = 1, left = 1, callback } = props;
-  const mergeClass = twMerge("w-10 h-10 absolute bg-red-400", className);
+  const mergeClass = twMerge(
+    "w-10 h-10 absolute  bg-white/50 grid place-items-center rounded shadow",
+    className
+  );
 
   return (
-    <div
-      onMouseDown={(e) => makeDraggable(e, callback)}
+    <motion.div
+      whileTap={{ scale: 1.2, boxShadow: "10px 10px 20px rgba(0,0,0,0.1)" }}
       style={{ top, left }}
+      onMouseDown={(e) => makeDraggable(e, callback)}
       className={mergeClass}
     >
       <div>{children}</div>
-    </div>
+    </motion.div>
   );
 }
 
 function CanvasContainer(props: CanvasContainerProps) {
   const { children, className } = props;
   const mergeClass = twMerge(
-    "w-full relative p-2 h-auto min-h-[10rem] rounded bg-gray-100 border",
+    "w-full relative p-2 h-auto min-h-[30rem] rounded bg-gray-100 border",
     className
   );
+
   return (
     <div className={mergeClass} id="container-canvas">
-      <div>{children}</div>
+      {children}
     </div>
   );
 }

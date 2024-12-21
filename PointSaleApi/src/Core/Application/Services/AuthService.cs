@@ -98,7 +98,7 @@ public class AuthService(
       new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
     ];
 
-    JwtSecurityToken token = _jwtService.GenerateToken(claims, DateTime.UtcNow.AddMinutes(1));
+    JwtSecurityToken token = _jwtService.GenerateToken(claims, DateTime.UtcNow.AddMinutes(10));
     string tokenString = _jwtService.ParseJwtTokenToString(token);
 
     return tokenString;

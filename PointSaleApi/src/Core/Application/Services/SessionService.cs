@@ -21,7 +21,7 @@ public class SessionService(IJwtService jwtService) : ISessionService
     ];
 
     DateTime expiration = DateTime.UtcNow.AddMinutes(1);
-    DateTime longerExpiration = DateTime.UtcNow.AddMinutes(10);
+    DateTime longerExpiration = DateTime.UtcNow.AddMinutes(20);
 
     var token = _jwtService.GenerateToken(claims, expiration);
     var refreshToken = _jwtService.GenerateToken(claims, longerExpiration);

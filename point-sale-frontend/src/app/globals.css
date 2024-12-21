@@ -29,3 +29,7 @@ body {
     linear-gradient(to bottom, #80808012 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+.text-shadow {
+  text-shadow:  rgb(147 51 234 / 0) 0px 0px 7px;
+}

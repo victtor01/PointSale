@@ -6,16 +6,9 @@ namespace PointSaleApi.Src.Core.Domain
   {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
-
-    [Required]
     public required string Name { get; set; }
-
-    [Required]
     public required string Email { get; set; }
-
-    [Required]
-    public string Password { get; set; } = string.Empty;
-
+    public required string Password { get; set; }
     public abstract void HashAndSetPassword(string userId, string password);
   }
 }
