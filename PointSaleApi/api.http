@@ -13,7 +13,6 @@ Content-Type: application/json
 }
 
 ###
-# @name managers
 GET {{HOST}}/managers/i HTTP/1.1
 Content-Type: application/json
 
@@ -29,7 +28,16 @@ Content-Type: application/json
 }
 
 ###
-# @name store
+# select store
+POST {{HOST}}/auth/select/e240662b-7f01-49f6-89f0-c0a87066083d HTTP/1.1
+Content-Type: application/json
+
+{
+  "password": "example"
+} 
+
+###
+# @name stores
 # manager create a new store
 POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
@@ -39,20 +47,17 @@ Content-Type: application/json
 }
 
 ###
-# @name auth
-# select store
-POST {{HOST}}/auth/select/e240662b-7f01-49f6-89f0-c0a87066083d HTTP/1.1
-Content-Type: application/json
-
-{
-  "password": null
-} 
-
-###
-# @name stores
 # find all my stores
 GET {{HOST}}/stores/my HTTP/1.1
 
 ###
-
 GET {{HOST}}/stores/96eb3aee-3b34-4ae9-bbc1-9500dc2411fc HTTP/1.1
+
+###
+# @name tables
+POST {{HOST}}/tables HTTP/1.1
+Content-Type: application/json
+
+{
+  "number": 2
+}

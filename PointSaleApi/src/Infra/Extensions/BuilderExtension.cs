@@ -1,11 +1,20 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces.TablesInterfaces;
+using PointSaleApi.src.Core.Application.Interfaces.TablesInterfaces;
 using PointSaleApi.Src.Core.Application.Services;
+using PointSaleApi.src.Core.Application.Services;
 using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Database;
+using PointSaleApi.src.Infra.Repositories;
 using PointSaleApi.Src.Infra.Repositories;
 
 namespace PointSaleApi.src.Infra.Extensions
@@ -34,16 +43,17 @@ namespace PointSaleApi.src.Infra.Extensions
   {
     public static void AddApplicationServices(this IServiceCollection services)
     {
-      services.AddScoped<IManagersService, ManagersService>();
       services.AddScoped<IManagersRepository, ManagersRepository>();
-      services.AddScoped<IStoresService, StoresService>();
       services.AddScoped<IStoresRepository, StoresRepository>();
+      services.AddScoped<ITablesRepository, TablesRepository>();
       services.AddScoped<IAuthService, AuthService>();
-
+      services.AddScoped<IManagersService, ManagersService>();
+      services.AddScoped<IStoresService, StoresService>();
+      services.AddScoped<ITablesService, TablesService>();
       services.AddSingleton<ISessionService, SessionService>();
       services.AddSingleton<IJwtService, JwtService>();
     }
-  }
+  };
 
   public static class ApiBehaviorExtensions
   {
@@ -64,6 +74,50 @@ namespace PointSaleApi.src.Infra.Extensions
           throw new BadRequestException("One or more validation errors occurred.", errors);
         };
       });
+    }
+  }
+
+  public static class ConnectToDatabase
+  {
+    public static void ConfigureDatabase(this WebApplicationBuilder builder)
+    {
+      builder.Services.AddDbContext<DatabaseContext>(options =>
+      {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+      });
+    }
+  }
+
+  public static class Authentication
+  {
+    public static void ConfigureAuthentication(this WebApplicationBuilder builder)
+    {
+      var validationParameters = new TokenValidationParameters
+      {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = "teste",
+        ValidIssuer = "teste",
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+          Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"]!)
+        ),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+      };
+
+      builder.Services.AddSingleton(validationParameters);
+
+      builder
+        .Services.AddAuthentication(options =>
+        {
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+          options.TokenValidationParameters = validationParameters;
+        });
     }
   }
 }

@@ -9,6 +9,6 @@ namespace PointSaleApi.Src.Core.Domain
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
-    public abstract void HashAndSetPassword(string userId, string password);
+    public abstract void HashAndSetPassword(string userId);
   }
 }

@@ -7,6 +7,7 @@ namespace PointSaleApi.Src.Infra.Database
   {
     public DbSet<Manager> Managers { get; set; }
     public DbSet<Store> Stores { get; set; }
+    public DbSet<StoreTable> Tables { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

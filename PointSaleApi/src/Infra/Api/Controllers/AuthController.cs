@@ -14,8 +14,8 @@ namespace PointSaleApi.Src.Infra.Api.Controllers
   {
     private readonly IAuthService _authService = authService;
 
-    [IsPublicRoute()]
-    [HttpPost()]
+    [HttpPost]
+    [IsPublicRoute]
     public async Task<IActionResult> Auth([FromBody] AuthDto authDto)
     {
       JwtTokensDto logged = await _authService.AuthManager(authDto);
@@ -33,7 +33,6 @@ namespace PointSaleApi.Src.Infra.Api.Controllers
         logged.RefreshToken,
         cookieOptions
       );
-      Console.WriteLine("PASSOU NESSA MERDAS");
 
       return Ok(logged);
     }

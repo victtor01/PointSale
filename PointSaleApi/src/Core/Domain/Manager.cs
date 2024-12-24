@@ -7,13 +7,13 @@ namespace PointSaleApi.Src.Core.Domain
   {
     public List<Store> Stores { get; set; } = [];
 
-    public override void HashAndSetPassword(string userId, string password)
+    public override void HashAndSetPassword(string userId)
     {
-      if (password.Length < 6)
+      if (Password.Length < 6)
         throw new BadRequestException("Senha curta demais");
 
       var passwordHasher = new PasswordHasher<string>();
-      string newPassword = passwordHasher.HashPassword(userId, password);
+      string newPassword = passwordHasher.HashPassword(userId, Password);
       Password = newPassword;
     }
   }

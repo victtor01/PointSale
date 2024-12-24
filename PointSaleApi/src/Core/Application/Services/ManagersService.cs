@@ -33,8 +33,14 @@ public class ManagersService(IManagersRepository managersRepository) : IManagers
     if (row != null)
       throw new UnauthorizedException("user already exists");
 
-    var manager = new Manager { Name = createUserDto.Name, Email = createUserDto.Email };
-    manager.HashAndSetPassword(manager.Id.ToString(), createUserDto.Password);
+    var manager = new Manager
+    {
+      Name = createUserDto.Name,
+      Email = createUserDto.Email,
+      Password = createUserDto.Password,
+    };
+
+    manager.HashAndSetPassword(manager.Id.ToString());
 
     var saved = await _managersRepository.Save(manager);
 

@@ -1,6 +1,5 @@
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
 using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
 using PointSaleApi.Src.Core.Application.Utils;
@@ -20,6 +19,13 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     private readonly RequestDelegate _next = next;
     private readonly IJwtService _jwtService = jwtService;
 
+    public bool IsStoreSelectedRoute(HttpContext context)
+    {
+      var endpoint = context.GetEndpoint();
+      var isStoreSelectedRoute = endpoint?.Metadata?.GetMetadata<IsStoreSelectedRoute>() != null;
+      return isStoreSelectedRoute;
+    }
+
     public bool IsPublicRoute(HttpContext context)
     {
       var endpoint = context.GetEndpoint();
@@ -34,18 +40,28 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       return isAdminRoute;
     }
 
-    public Session ParseDictionarySessionToSession(Dictionary<string, string> payload)
+    public Session ParseDictionaryToSession(Dictionary<string, string> payload)
     {
       try
       {
         UserRole role = Enum.Parse<UserRole>(payload["_role"]);
+        Guid? store = payload.ContainsKey(CookiesSessionKeys.StoreToken)
+          ? Guid.Parse(payload[CookiesSessionKeys.StoreToken])
+          : null;
+
         Session createSession =
-          new(userId: Guid.Parse(payload["userId"]), email: payload["_email"], role: role);
+          new(
+            userId: Guid.Parse(payload["userId"]),
+            email: payload["_email"],
+            storeId: store,
+            role: role
+          );
 
         return createSession;
       }
-      catch (Exception)
+      catch (Exception e)
       {
+        Logger.Error(e.Message);
         throw new BadRequestException("session not found!");
       }
     }
@@ -55,26 +71,22 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       HttpResponse response
     )
     {
-      string accessToken = tokens.AccessToken;
-      string refreshToken = tokens.RefreshToken;
-
       try
       {
+        string accessToken = tokens.AccessToken;
         return _jwtService.VerifyTokenAndGetClaims(accessToken);
       }
       catch (BadRequestException)
       {
+        string refreshToken = tokens.RefreshToken;
         var refreshTokenClaims = _jwtService.VerifyTokenAndGetClaims(refreshToken);
-
         JwtTokensDto newTokens = _sessionService.CreateSessionUser(
           userId: refreshTokenClaims[ClaimKeysSession.UserId],
           email: refreshTokenClaims[ClaimKeysSession.Email],
           role: refreshTokenClaims[ClaimKeysSession.Role]
         );
 
-        string newAccessToken = newTokens.AccessToken;
-
-        var accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newAccessToken);
+        var accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newTokens.AccessToken);
 
         response.Cookies.Append(
           key: CookiesSessionKeys.AccessToken,
@@ -84,9 +96,10 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
         return accessTokenClaims;
       }
-      catch (Exception)
+      catch (Exception e)
       {
-        throw new UnauthorizedException("The session is not valid!");
+        Logger.Fatal(e.Message);
+        throw new UnauthorizedException("A sessão está inválida");
       }
     }
 
@@ -94,6 +107,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     {
       var cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
       var cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
+      var cookiesStoreToken = context.Request.Cookies[CookiesSessionKeys.StoreToken] ?? null;
 
       if (string.IsNullOrEmpty(cookiesAccessToken) || string.IsNullOrEmpty(cookiesRefreshToken))
         throw new BadRequestException("Faça o login!");
@@ -102,6 +116,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       {
         AccessToken = cookiesAccessToken,
         RefreshToken = cookiesRefreshToken,
+        StoreToken = cookiesStoreToken,
       };
     }
 
@@ -114,20 +129,31 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       }
 
       JwtTokensDto cookiesSession = GetCookieToken(httpContext);
-
-      Logger.Error(cookiesSession.AccessToken);
-
-      string AccessToken = cookiesSession.AccessToken;
-
-      Dictionary<string, string> payload = VerifyAndRenewTokenAsync(
-        cookiesSession,
-        httpContext.Response
-      );
-
-      Session payloadSession = ParseDictionarySessionToSession(payload);
+      var payload = this.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
+      Session payloadSession = ParseDictionaryToSession(payload);
 
       if (IsAdminRoute(httpContext) && payloadSession.Role != UserRole.ADMIN)
-        throw new BadRequestException("user not have permission!");
+        throw new BadRequestException("usuário não tem permissão!");
+
+      var isStoreSelectedRoute = IsStoreSelectedRoute(httpContext);
+
+      var sessionStoreToken = cookiesSession.StoreToken ?? null;
+      if (isStoreSelectedRoute && string.IsNullOrEmpty(cookiesSession.StoreToken))
+        throw new BadRequestException("selecione a loja primeiro!");
+
+      if (isStoreSelectedRoute && !string.IsNullOrEmpty(sessionStoreToken))
+      {
+        try
+        {
+          var sessionStorePayload = this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken);
+          if (sessionStorePayload.TryGetValue("storeId", out string? storeId))
+            payloadSession.StoreId = Guid.Parse(storeId);
+        }
+        catch (Exception)
+        {
+          throw new BadRequestException("Selecione a loja novamente!");
+        }
+      }
 
       httpContext.SetSession(payloadSession);
 

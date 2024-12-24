@@ -6,7 +6,6 @@ import { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import { FaArrowRight, FaPlay } from "react-icons/fa";
 
-
 type TableProps = {
   table: {
     number: number;
