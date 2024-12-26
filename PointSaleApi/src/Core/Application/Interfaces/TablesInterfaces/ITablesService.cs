@@ -5,6 +5,10 @@ namespace PointSaleApi.src.Core.Application.Interfaces.TablesInterfaces;
 
 public interface ITablesService
 {
-  public Task<StoreTable> SaveAsync(CreateTableDto createTableDto, Guid ManagerId);
+  public Task<List<StoreTable>> FindAllByStoreIdAndManagerOrThrowAsync(
+    Guid managerId,
+    Guid storeId
+  );
+  public Task<StoreTable> SaveAsync(CreateTableDto createTableDto, Guid managerId, Guid storeId);
   public Task<StoreTable> FindByNumberOrThrowAsync(int number);
 }

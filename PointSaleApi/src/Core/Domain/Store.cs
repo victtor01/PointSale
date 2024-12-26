@@ -9,17 +9,13 @@ namespace PointSaleApi.Src.Core.Domain
   {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
-
-    [Required]
     public required string Name { get; set; }
-
-    [Required]
     public required Guid ManagerId { get; set; }
+    public required string? Password { get; set; }
+    public List<StoreTable> Tables { get; set; } = [];
 
     [ForeignKey("ManagerId")]
     public Manager? Manager { get; set; }
-
-    public string? Password { get; set; }
 
     public void HashAndSetPassword(string storeId)
     {

@@ -2,15 +2,20 @@
 
 import { CenterSection } from "@/components/center-section";
 import { fontSaira } from "@/fonts";
+import { useAllTables } from "@/hooks/tables";
+import Link from "next/link";
 import { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import { FaArrowRight, FaPlay } from "react-icons/fa";
 
+type ITable = {
+  id: string;
+  number: number;
+  quantityOfOrders?: number | null;
+};
+
 type TableProps = {
-  table: {
-    number: number;
-    quantityOfOrders: number;
-  };
+  table: ITable;
 };
 
 function Table(props: TableProps) {
@@ -34,7 +39,7 @@ function Table(props: TableProps) {
         <span
           className={`text-lg flex font-semibold text-white w-10 h-10 items-center justify-center bg-gradient-45 from-gray-900 to-gray-800 border-4 border-gray-300 rounded-xl ${fontSaira}`}
         >
-          {table.quantityOfOrders}
+          {table?.quantityOfOrders || 0}
         </span>
       </div>
 
@@ -52,49 +57,12 @@ function Table(props: TableProps) {
 }
 
 function AllTables() {
-  const [tables, setTables] = useState([
-    { number: 32, quantityOfOrders: 12 },
-    { number: 63, quantityOfOrders: 3 },
-  ]);
+  const { data: tables, isLoading } = useAllTables();
+
+  if (isLoading) return "loading...";
 
   return (
-    <section className="grid grid-cols-2 gap-5">
-      {tables?.map((table) => (
-        <Table key={table.number} table={table} />
-      ))}
-    </section>
-  );
-}
-
-function Tables() {
-  return (
-    <CenterSection className="p-0">
-      <header className="flex w-full py-4 px-5 rounded-b-xl bg-gray-100 justify-between text-gray-600 dark:text-gray-200">
-        <div className="font-semibold text-lg">
-          <div className="flex gap-2 items-center drop-shadow-lg">
-            <FaPlay size={10} />
-            <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
-          </div>
-        </div>
-        <div className={fontSaira}>
-          <button className="text-md flex gap-1 items-center bg-white shadow px-2 p-1 font-semibold rounded-md opacity-90 hover:opacity-100">
-            <BsPlus size={20} />
-            Criar
-          </button>
-        </div>
-      </header>
-
-      <section
-        className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
-      >
-        <div className="flex flex-col gap-1">
-          <span className="font-semibold opacity-80">Modo de exibição</span>
-          <select name="" id="">
-            <option value=""></option>
-          </select>
-        </div>
-      </section>
-
+    <div className="flex flex-col gap-1">
       <section
         className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
       >
@@ -112,6 +80,43 @@ function Tables() {
         </div>
       </section>
 
+      <section className="grid grid-cols-2 gap-5 w-full">
+        {tables?.map((table: ITable) => (
+          <Table key={table.number} table={table} />
+        ))}
+      </section>
+    </div>
+  );
+}
+
+function Tables() {
+  return (
+    <CenterSection className="p-0">
+      <header className="flex w-full py-4 px-5 rounded-b-xl bg-gray-100 justify-between text-gray-600 dark:text-gray-200">
+        <div className="font-semibold text-lg">
+          <div className="flex gap-2 items-center drop-shadow-lg">
+            <FaPlay size={10} />
+            <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
+          </div>
+        </div>
+        <div className={fontSaira}>
+          <Link href="/" className="text-md flex gap-1 items-center bg-white shadow px-2 p-1 font-semibold rounded-md opacity-90 hover:opacity-100">
+            <BsPlus size={20} />
+            Criar
+          </Link>
+        </div>
+      </header>
+
+      {/* <section
+        className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
+      >
+        <div className="flex flex-col gap-1">
+          <span className="font-semibold opacity-80">Modo de exibição</span>
+          <select name="" id="">
+            <option value=""></option>
+          </select>
+        </div>
+      </section> */}
       <AllTables />
     </CenterSection>
   );

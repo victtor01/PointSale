@@ -3,20 +3,9 @@ using PointSaleApi.Src.Core.Domain;
 
 namespace PointSaleApi.Src.Infra.Database
 {
-  public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
+  internal static class Extensions
   {
-    public DbSet<Manager> Managers { get; set; }
-    public DbSet<Store> Stores { get; set; }
-    public DbSet<StoreTable> Tables { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      base.OnModelCreating(modelBuilder);
-      ManagersConfigure(modelBuilder);
-      StoresConfigure(modelBuilder);
-    }
-
-    private static void ManagersConfigure(ModelBuilder modelBuilder)
+    public static void ManagersConfigure(this ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Manager>(managerEntity =>
       {
@@ -30,7 +19,7 @@ namespace PointSaleApi.Src.Infra.Database
       });
     }
 
-    private static void StoresConfigure(ModelBuilder modelBuilder)
+    public static void StoresConfigure(this ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Store>(storeEntity =>
       {
@@ -41,6 +30,31 @@ namespace PointSaleApi.Src.Infra.Database
           .WithMany(manager => manager.Stores)
           .HasForeignKey(store => store.ManagerId);
       });
+    }
+
+    public static void TablesConfigure(this ModelBuilder builder)
+    {
+      builder.Entity<StoreTable>(table =>
+      {
+        table.Property(e => e.Id).HasColumnType("uuid");
+        table.HasKey(e => e.Id);
+        table.HasOne(e => e.Store).WithMany(store => store.Tables).HasForeignKey(e => e.StoreId);
+      });
+    }
+  }
+
+  public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
+  {
+    public DbSet<Manager> Managers { get; set; }
+    public DbSet<Store> Stores { get; set; }
+    public DbSet<StoreTable> Tables { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      base.OnModelCreating(modelBuilder);
+      modelBuilder.ManagersConfigure();
+      modelBuilder.StoresConfigure();
+      modelBuilder.TablesConfigure();
     }
   }
 }

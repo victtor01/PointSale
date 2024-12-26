@@ -136,16 +136,15 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         throw new BadRequestException("usuário não tem permissão!");
 
       var isStoreSelectedRoute = IsStoreSelectedRoute(httpContext);
-
       var sessionStoreToken = cookiesSession.StoreToken ?? null;
-      if (isStoreSelectedRoute && string.IsNullOrEmpty(cookiesSession.StoreToken))
+      if (isStoreSelectedRoute && string.IsNullOrEmpty(sessionStoreToken))
         throw new BadRequestException("selecione a loja primeiro!");
 
-      if (isStoreSelectedRoute && !string.IsNullOrEmpty(sessionStoreToken))
+      if (isStoreSelectedRoute)
       {
         try
         {
-          var sessionStorePayload = this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken);
+          var sessionStorePayload = this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken!);
           if (sessionStorePayload.TryGetValue("storeId", out string? storeId))
             payloadSession.StoreId = Guid.Parse(storeId);
         }

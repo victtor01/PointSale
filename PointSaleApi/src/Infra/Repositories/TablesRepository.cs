@@ -9,6 +9,12 @@ public class TablesRepository(DatabaseContext databaseContext) : ITablesReposito
 {
   private readonly DatabaseContext _context = databaseContext;
 
+  public async Task<List<StoreTable>?> FindAllByStore(Guid storeId)
+  {
+    var storeTables = await _context.Tables.Where(table => table.StoreId == storeId).ToListAsync();
+    return storeTables;
+  }
+
   public async Task<StoreTable?> FindByIdAsync(Guid tableId)
   {
     var storeTable =
