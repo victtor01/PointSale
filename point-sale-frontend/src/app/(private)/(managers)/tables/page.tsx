@@ -2,122 +2,131 @@
 
 import { CenterSection } from "@/components/center-section";
 import { fontSaira } from "@/fonts";
-import { useAllTables } from "@/hooks/tables";
+import { createTable } from "@/hooks/tables";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
-import { FaArrowRight, FaPlay } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
+import { z } from "zod";
+import { AllTables } from "./all-tables";
 
-type ITable = {
-  id: string;
-  number: number;
-  quantityOfOrders?: number | null;
+const animationBase = {
+  initial: { opacity: 0, scale: 0.6 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.6 },
+} satisfies MotionProps;
+
+const createTableSchema = z.object({
+  number: z.string().min(1),
+});
+
+type CreateTableSchemaProps = z.infer<typeof createTableSchema>;
+
+const useFormTable = () => {
+  const form = useForm<CreateTableSchemaProps>({
+    resolver: zodResolver(createTableSchema),
+  });
+
+  return {
+    form,
+  };
 };
 
-type TableProps = {
-  table: ITable;
-};
+function FormCreateTable() {
+  const { form } = useFormTable();
+  const router = useRouter();
 
-function Table(props: TableProps) {
-  const { table } = props;
+  const handleCreateTable = async (props: CreateTableSchemaProps) => {
+    await createTable(props);
+    router.push("?");
+  };
 
   return (
-    <div className="flex group relative items-center justify-between select-none gap-4 p-2 px-3 bg-white shadow transition-all rounded-lg opacity-90 hover:opacity-100">
-      <div
-        className={`pointer-events-none flex-1 flex flex-col font-semibold p-2 bg-gray-200/70 rounded-md ${fontSaira}`}
-      >
-        <span className="flex text-sm">Número da mesa</span>
-        <span className={`text-3xl font-semibold ${fontSaira}`}>
-          {table.number}
+    <motion.form
+      onSubmit={form.handleSubmit(handleCreateTable)}
+      variants={animationBase}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="flex rounded-2xl top-[100%] right-0 max-w-[20rem] bg-white shadow-xl p-8 w-full ml-auto mt-2 flex-col 
+      before:content-[''] before:w-1 before:h-[5rem] before:border-l-4 before:border-dotted before:absolute
+      before:bottom-[100%] before:right-2 before:translate-y-[3rem] before:shadow-xl absolute"
+    >
+      <label htmlFor="number">
+        <span className={`${fontSaira} font-semibold text-md`}>
+          Número da mesa
         </span>
-      </div>
+        <input
+          type="number"
+          max={1000}
+          {...form.register("number")}
+          className="flex w-full p-2 rounded outline-none bg-gray-100 font-semibold"
+          placeholder="143"
+        />
+      </label>
 
-      <div
-        className={`pointer-events-none flex-1 flex-col font-semibold ${fontSaira}`}
-      >
-        <span className="flex text-sm capitalize">pedidos hoje</span>
-        <span
-          className={`text-lg flex font-semibold text-white w-10 h-10 items-center justify-center bg-gradient-45 from-gray-900 to-gray-800 border-4 border-gray-300 rounded-xl ${fontSaira}`}
-        >
-          {table?.quantityOfOrders || 0}
-        </span>
-      </div>
-
-      <div className="flex items-center absolute right-2 top-[50%] translate-y-[-50%]">
+      <footer className="flex mt-8 w-full justify-between">
         <button
-          className="flex w-9 items-center justify-center text-violet-200 h-9 translate-x-[2rem]
-          rounded-xl bg-gray-800 to-gray-800 opacity-0 hover:opacity-100 group-hover:translate-x-[1.5rem]
-          group-hover:opacity-100 transition-all z-20 "
+          type="submit"
+          className="bg-indigo-600 p-1 px-4 rounded-xl text-indigo-100 transition-all border-4 hover:border-indigo-400 border-transparent text-sm opacity-95 hover:opacity-100"
         >
-          <FaArrowRight />
+          Criar
         </button>
-      </div>
-    </div>
-  );
-}
 
-function AllTables() {
-  const { data: tables, isLoading } = useAllTables();
-
-  if (isLoading) return "loading...";
-
-  return (
-    <div className="flex flex-col gap-1">
-      <section
-        className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
-      >
-        <div className="flex-1 flex gap-2 text-center">
-          <span className="text-[2rem] text-gray-700 font-semibold text-shadow">
-            15
-          </span>
-          <span className="text-md font-semibold self-end mb-2">
-            Pedidos no total
-          </span>
-        </div>
-
-        <div className="p-1 px-3 bg-gray-200 rounded-full font-semibold opacity-50">
-          2/25
-        </div>
-      </section>
-
-      <section className="grid grid-cols-2 gap-5 w-full">
-        {tables?.map((table: ITable) => (
-          <Table key={table.number} table={table} />
-        ))}
-      </section>
-    </div>
+        <Link
+          href="?"
+          className="bg-gray-200 flex items-center  p-1 px-3 rounded-xl text-sm opacity-80 hover:opacity-100"
+        >
+          Fechar
+        </Link>
+      </footer>
+    </motion.form>
   );
 }
 
 function Tables() {
+  const actionModalOption = useSearchParams();
+  const action = actionModalOption.get("action") || null;
+
   return (
-    <CenterSection className="p-0">
-      <header className="flex w-full py-4 px-5 rounded-b-xl bg-gray-100 justify-between text-gray-600 dark:text-gray-200">
+    <CenterSection className="p-0 px-4">
+      <header className="flex relative w-full pt-5 px-0 z-30 rounded-b-xl justify-between text-gray-600 dark:text-gray-200">
         <div className="font-semibold text-lg">
           <div className="flex gap-2 items-center drop-shadow-lg">
             <FaPlay size={10} />
             <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
           </div>
         </div>
-        <div className={fontSaira}>
-          <Link href="/" className="text-md flex gap-1 items-center bg-white shadow px-2 p-1 font-semibold rounded-md opacity-90 hover:opacity-100">
+        <div className={`${fontSaira} relative`}>
+          <Link
+            href="?action=create"
+            className="text-md z-30 relative flex gap-1 items-center bg-white shadow px-2 p-1 font-semibold rounded-md opacity-90 hover:opacity-100"
+          >
             <BsPlus size={20} />
             Criar
           </Link>
         </div>
+
+        <AnimatePresence>
+          {action === "create" && <FormCreateTable />}
+        </AnimatePresence>
       </header>
 
-      {/* <section
+      <section
         className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
       >
         <div className="flex flex-col gap-1">
           <span className="font-semibold opacity-80">Modo de exibição</span>
-          <select name="" id="">
-            <option value=""></option>
-          </select>
+          <div className="flex p-2 rounded-md bg-gray-200 text-sm opacity-60">
+            Nenhum selecionado
+          </div>
         </div>
-      </section> */}
-      <AllTables />
+      </section>
+
+      <AllTables key="5" />
     </CenterSection>
   );
 }

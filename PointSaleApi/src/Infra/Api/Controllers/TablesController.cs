@@ -47,7 +47,7 @@ namespace PointSaleApi.src.Infra.Api.Controllers
         storeId: storeId
       );
 
-      return Ok(tables);
+      return Ok(tables.Select(table => table.ToMapper()).ToList());
     }
   }
 }

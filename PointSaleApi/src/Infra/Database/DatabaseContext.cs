@@ -23,7 +23,7 @@ namespace PointSaleApi.Src.Infra.Database
     {
       modelBuilder.Entity<Store>(storeEntity =>
       {
-        storeEntity.Property(e => e.Id).HasColumnType("uuid");
+        storeEntity.Property(e => e.Id).HasColumnType("uuid").IsRequired();
         storeEntity.HasKey(e => e.Id);
         storeEntity
           .HasOne(e => e.Manager)
@@ -45,9 +45,9 @@ namespace PointSaleApi.Src.Infra.Database
 
   public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
   {
-    public DbSet<Manager> Managers { get; set; }
-    public DbSet<Store> Stores { get; set; }
-    public DbSet<StoreTable> Tables { get; set; }
+    public DbSet<Manager> Managers { get; set; } = null!;
+    public DbSet<Store> Stores { get; set; } = null!;
+    public DbSet<StoreTable> Tables { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
