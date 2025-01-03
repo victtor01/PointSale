@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces
 {
   public interface IJwtService
   {

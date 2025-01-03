@@ -1,7 +1,6 @@
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Config;

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Core.Application.Mappers
+namespace PointSaleApi.Src.Core.Application.Mappers
 {
   public static class ManagerMapper
   {

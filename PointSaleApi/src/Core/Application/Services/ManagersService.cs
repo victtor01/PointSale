@@ -1,5 +1,5 @@
 using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
-using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
 
@@ -42,7 +42,7 @@ public class ManagersService(IManagersRepository managersRepository) : IManagers
 
     manager.HashAndSetPassword(manager.Id.ToString());
 
-    var saved = await _managersRepository.Save(manager);
+    var saved = await _managersRepository.SaveAsync(manager);
 
     return saved;
   }

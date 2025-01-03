@@ -1,6 +1,6 @@
 using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces.TablesInterfaces;
+namespace PointSaleApi.Src.Core.Application.Interfaces;
 
 public interface ITablesRepository
 {

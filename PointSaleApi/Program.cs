@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PointSaleApi.Src.Infra.Api.Middlewares;
-using PointSaleApi.src.Infra.Extensions;
+using PointSaleApi.Src.Infra.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

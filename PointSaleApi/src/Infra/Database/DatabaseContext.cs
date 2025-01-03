@@ -5,6 +5,19 @@ namespace PointSaleApi.Src.Infra.Database
 {
   internal static class Extensions
   {
+    public static void ProductsConfigure(this ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Product>(productsEntity =>
+      {
+        productsEntity.Property(p => p.Id).HasColumnName("uuid").IsRequired();
+        productsEntity.HasKey(p => p.Id);
+        productsEntity
+          .HasMany(p => p.Options)
+          .WithOne(o => o.Product)
+          .HasForeignKey(o => o.ProductId);
+      });
+    }
+
     public static void ManagersConfigure(this ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Manager>(managerEntity =>
@@ -45,6 +58,8 @@ namespace PointSaleApi.Src.Infra.Database
 
   public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
   {
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<OptionsProduct> OptionsProducts { get; set; } = null!;
     public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Store> Stores { get; set; } = null!;
     public DbSet<StoreTable> Tables { get; set; } = null!;

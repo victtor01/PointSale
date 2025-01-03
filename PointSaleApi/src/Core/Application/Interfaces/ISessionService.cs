@@ -1,6 +1,6 @@
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces
 {
   public interface ISessionService
   {

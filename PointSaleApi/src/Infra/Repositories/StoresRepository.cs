@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
 

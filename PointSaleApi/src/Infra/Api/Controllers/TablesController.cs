@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.TablesDtos;
-using PointSaleApi.src.Core.Application.Interfaces.TablesInterfaces;
-using PointSaleApi.src.Core.Application.Mappers;
+using PointSaleApi.Src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
 
-namespace PointSaleApi.src.Infra.Api.Controllers
+namespace PointSaleApi.Src.Infra.Api.Controllers
 {
   [ApiController]
   [Route("tables")]

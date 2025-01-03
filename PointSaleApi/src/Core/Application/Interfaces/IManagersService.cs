@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
 using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces
 {
   public interface IManagersService
   {

@@ -1,7 +1,7 @@
 using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
 using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces
 {
   public interface IStoresService
   {
