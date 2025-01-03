@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net9.0": {
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -1264,12 +1264,12 @@
       "Serilog/4.2.0": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Serilog.dll": {
+          "lib/net9.0/Serilog.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/Serilog.dll": {
+          "lib/net9.0/Serilog.dll": {
             "related": ".xml"
           }
         }
@@ -4803,7 +4803,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net9.0": [
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.8",
       "Microsoft.AspNetCore.Cors >= 2.2.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
@@ -4820,31 +4820,29 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\josev\\.nuget\\packages\\": {}
+    "C:\\Users\\clara\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
+      "projectUniqueName": "C:\\projects\\PointSale\\PointSaleApi\\PointSale.csproj",
       "projectName": "PointSale",
-      "projectPath": "C:\\csharp\\delivery\\PointSaleApi\\PointSale.csproj",
-      "packagesPath": "C:\\Users\\josev\\.nuget\\packages\\",
-      "outputPath": "C:\\csharp\\delivery\\PointSaleApi\\obj\\",
+      "projectPath": "C:\\projects\\PointSale\\PointSaleApi\\PointSale.csproj",
+      "packagesPath": "C:\\Users\\clara\\.nuget\\packages\\",
+      "outputPath": "C:\\projects\\PointSale\\PointSaleApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\josev\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\clara\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {}
         }
       },
@@ -4857,11 +4855,12 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net9.0": {
+        "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -4937,7 +4936,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
