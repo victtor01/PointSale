@@ -1,8 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 

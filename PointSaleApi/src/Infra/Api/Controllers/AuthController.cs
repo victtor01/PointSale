@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
 using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
-using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Config;
 using PointSaleApi.Src.Infra.Extensions;

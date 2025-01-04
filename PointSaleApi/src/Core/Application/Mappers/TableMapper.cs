@@ -1,6 +1,6 @@
 using PointSaleApi.Src.Core.Domain;
 
-namespace PointSaleApi.src.Core.Application.Mappers
+namespace PointSaleApi.Src.Core.Application.Mappers
 {
   public static class TableMapper
   {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PointSaleApi.Src.Infra.Database;
@@ -11,9 +12,11 @@ using PointSaleApi.Src.Infra.Database;
 namespace PointSaleApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241231032901_CreateProduct")]
+    partial class CreateProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,67 +49,6 @@ namespace PointSaleApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Managers");
-                });
-
-            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.OptionsProduct", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<Guid?>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("productId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("OptionsProducts");
-                });
-
-            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Product", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ManagerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("StoreId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
-
-                    b.HasIndex("StoreId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Store", b =>
@@ -156,32 +98,54 @@ namespace PointSaleApi.Migrations
                     b.ToTable("Tables");
                 });
 
-            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.OptionsProduct", b =>
+            modelBuilder.Entity("PointSaleApi.src.Core.Domain.OptionsProduct", b =>
                 {
-                    b.HasOne("PointSaleApi.Src.Core.Domain.Product", "Product")
-                        .WithMany("Options")
-                        .HasForeignKey("productId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Navigation("Product");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("productId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("productId");
+
+                    b.ToTable("OptionsProducts");
                 });
 
-            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Product", b =>
+            modelBuilder.Entity("PointSaleApi.src.Core.Domain.Product", b =>
                 {
-                    b.HasOne("PointSaleApi.Src.Core.Domain.Manager", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.HasOne("PointSaleApi.Src.Core.Domain.Store", "Store")
-                        .WithMany("Products")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
-                    b.Navigation("Manager");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Navigation("Store");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Store", b =>
@@ -214,21 +178,28 @@ namespace PointSaleApi.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("PointSaleApi.src.Core.Domain.OptionsProduct", b =>
+                {
+                    b.HasOne("PointSaleApi.src.Core.Domain.Product", "Product")
+                        .WithMany("Options")
+                        .HasForeignKey("productId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Manager", b =>
                 {
                     b.Navigation("Stores");
                 });
 
-            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Product", b =>
-                {
-                    b.Navigation("Options");
-                });
-
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Store", b =>
                 {
-                    b.Navigation("Products");
-
                     b.Navigation("Tables");
+                });
+
+            modelBuilder.Entity("PointSaleApi.src.Core.Domain.Product", b =>
+                {
+                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }

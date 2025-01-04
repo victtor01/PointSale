@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
 
@@ -24,7 +24,7 @@ namespace PointSaleApi.Src.Infra.Repositories
       return manager;
     }
 
-    public async Task<Manager> Save(Manager manager)
+    public async Task<Manager> SaveAsync(Manager manager)
     {
       var savedManager = await _context.Managers.AddAsync(manager);
       await _context.SaveChangesAsync();

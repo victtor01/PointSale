@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.Src.Core.Application.Interfaces.TablesInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
 
-namespace PointSaleApi.src.Infra.Repositories;
+namespace PointSaleApi.Src.Infra.Repositories;
 
 public class TablesRepository(DatabaseContext databaseContext) : ITablesRepository
 {

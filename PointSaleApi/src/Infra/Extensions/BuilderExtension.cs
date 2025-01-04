@@ -3,21 +3,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PointSaleApi.Src.Core.Application.Interfaces.AuthInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.ManagersInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.SessionInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.StoresInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.TablesInterfaces;
-using PointSaleApi.src.Core.Application.Interfaces.TablesInterfaces;
+using PointSaleApi.src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Services;
-using PointSaleApi.src.Core.Application.Services;
 using PointSaleApi.Src.Infra.Config;
 using PointSaleApi.Src.Infra.Database;
 using PointSaleApi.src.Infra.Repositories;
 using PointSaleApi.Src.Infra.Repositories;
 
-namespace PointSaleApi.src.Infra.Extensions
+namespace PointSaleApi.Src.Infra.Extensions
 {
   public static class CorsConfig
   {
@@ -49,6 +43,7 @@ namespace PointSaleApi.src.Infra.Extensions
       services.AddScoped<IAuthService, AuthService>();
       services.AddScoped<IManagersService, ManagersService>();
       services.AddScoped<IStoresService, StoresService>();
+      services.AddScoped<IProductsRepository, ProductsRepository>();
       services.AddScoped<ITablesService, TablesService>();
       services.AddSingleton<ISessionService, SessionService>();
       services.AddSingleton<IJwtService, JwtService>();

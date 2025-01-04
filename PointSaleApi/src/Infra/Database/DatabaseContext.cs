@@ -5,6 +5,22 @@ namespace PointSaleApi.Src.Infra.Database
 {
   internal static class Extensions
   {
+    public static void ProductsConfigure(this ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Product>(productEntity =>
+      {
+        productEntity.Property(p => p.Id).HasColumnName("uuid").IsRequired();
+        productEntity.HasKey(p => p.Id);
+        productEntity.HasOne(p => p.Store).WithMany(s => s.Products).HasForeignKey(p => p.StoreId);
+        productEntity.HasOne(p => p.Store).WithMany().HasForeignKey(p => p.StoreId);
+
+        productEntity
+          .HasMany(p => p.Options)
+          .WithOne(o => o.Product)
+          .HasForeignKey(o => o.ProductId);
+      });
+    }
+
     public static void ManagersConfigure(this ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Manager>(managerEntity =>
@@ -25,6 +41,8 @@ namespace PointSaleApi.Src.Infra.Database
       {
         storeEntity.Property(e => e.Id).HasColumnType("uuid").IsRequired();
         storeEntity.HasKey(e => e.Id);
+        storeEntity.HasMany(s => s.Products);
+        storeEntity.HasMany(s => s.Tables);
         storeEntity
           .HasOne(e => e.Manager)
           .WithMany(manager => manager.Stores)
@@ -45,6 +63,8 @@ namespace PointSaleApi.Src.Infra.Database
 
   public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
   {
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<OptionsProduct> OptionsProducts { get; set; } = null!;
     public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Store> Stores { get; set; } = null!;
     public DbSet<StoreTable> Tables { get; set; } = null!;

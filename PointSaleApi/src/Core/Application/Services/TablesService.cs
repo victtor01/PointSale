@@ -1,11 +1,10 @@
 using PointSaleApi.Src.Core.Application.Dtos.TablesDtos;
-using PointSaleApi.src.Core.Application.Interfaces.TablesInterfaces;
-using PointSaleApi.Src.Core.Application.Interfaces.TablesInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.src.Core.Application.Services
+namespace PointSaleApi.Src.Core.Application.Services
 {
   public class TablesService(ITablesRepository tablesRepository) : ITablesService
   {

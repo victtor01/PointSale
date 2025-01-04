@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using PointSaleApi.Src.Core.Application.Interfaces.JwtInterfaces;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Infra.Config;
 

@@ -16,6 +16,7 @@ namespace PointSaleApi.Src.Core.Domain
 
     [ForeignKey("ManagerId")]
     public Manager? Manager { get; set; }
+    public Product[] Products { get; set; } = [];
 
     public void HashAndSetPassword(string storeId)
     {
