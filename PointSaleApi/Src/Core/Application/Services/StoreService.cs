@@ -5,29 +5,27 @@ using PointSaleApi.Src.Infra.Config;
 
 namespace PointSaleApi.Src.Core.Application.Services
 {
-  public class StoresService(IStoresRepository storesRepository) : IStoresService
+  public class StoresService(IStoresRepository _storesRepository) : IStoresService
   {
-    private readonly IStoresRepository _storesRepository = storesRepository;
-
     private static void IsValidStoreToCreate(List<Store> stores, string name)
     {
       if (stores.Count >= 4)
         throw new UnauthorizedException("count of stores!");
 
-      bool nameIsEqual = stores.Any(store => store.Name == name);
+      var nameIsEqual = stores.Any(store => store.Name == name);
       if (nameIsEqual)
-        throw new BadRequestException("you have a store with that name");
+        throw new BadRequestException("you have a tore with that name");
     }
 
     public async Task<Store?> FindOneByIdAsync(Guid storeId)
     {
-      Store? store = await this._storesRepository.FindOneById(storeId);
+      Store? store = await _storesRepository.FindOneById(storeId);
       return store;
     }
 
     public async Task<Store> FindOneByIdAndManagerOrThrowAsync(Guid storeId, Guid managerId)
     {
-      Store? store = await this._storesRepository.FindOneById(storeId);
+      Store? store = await _storesRepository.FindOneById(storeId);
 
       if (store == null || store?.ManagerId != managerId)
         throw new BadRequestException("store not found!");
@@ -37,7 +35,7 @@ namespace PointSaleApi.Src.Core.Application.Services
 
     public async Task<List<Store>> GetAllByManager(Guid managerId)
     {
-      List<Store> stores = await this._storesRepository.FindAllByManagerAsync(managerId);
+      List<Store> stores = await _storesRepository.FindAllByManagerAsync(managerId);
       return stores;
     }
 

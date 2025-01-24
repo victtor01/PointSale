@@ -41,8 +41,10 @@ namespace PointSaleApi.Src.Core.Domain
     [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
     public required float Price { get; set; }
     public required Guid ManagerId { get; set; }
-    [ForeignKey("ManagerId")]
+    
+    [ForeignKey(nameof(ManagerId))]
     public Manager? Manager { get; set; }
+    
     [ForeignKey("StoreId")]
     public Store? Store { get; set; }
     public Guid StoreId { get; set; }
@@ -51,6 +53,7 @@ namespace PointSaleApi.Src.Core.Domain
     public OptionsProduct[] Options { get; set; } = [];
   }
 
+  [Table("products_options")]
   public class OptionsProduct
   {
     [Key]
@@ -58,11 +61,11 @@ namespace PointSaleApi.Src.Core.Domain
 
     [MinLength(3)]
     public required string Name { get; set; }
-
+    
     [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
     public float Price { get; set; }
 
-    [ForeignKey("productId")]
+    [ForeignKey(nameof(ProductId))]
     public Product? Product { get; set; }
 
     [Required]

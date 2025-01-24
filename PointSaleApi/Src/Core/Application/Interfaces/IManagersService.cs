@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
 using PointSaleApi.Src.Core.Domain;
 

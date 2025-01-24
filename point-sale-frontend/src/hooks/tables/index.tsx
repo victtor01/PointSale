@@ -1,3 +1,4 @@
+import { ITable } from "@/interfaces/ITable";
 import { queryClient } from "@/providers/query-client-provider";
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +9,7 @@ type CreateTableProps = {
 };
 
 const useAllTables = () => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery<ITable[]>({
     queryKey: ["tables"],
     queryFn: async () => {
       return (await api.get("/tables")).data;

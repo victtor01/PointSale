@@ -22,7 +22,7 @@ namespace PointSaleApi.Src.Core.Application.Services
       {
         var handler = new JwtSecurityTokenHandler();
 
-        ClaimsPrincipal valid = handler.ValidateToken(
+        var valid = handler.ValidateToken(
           token,
           _validationParameters,
           out SecurityToken validatedToken

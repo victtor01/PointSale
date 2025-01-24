@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Moq;
 using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
-using PointSaleApi.Src.Core.Application.Interfaces
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Services;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
@@ -17,7 +17,7 @@ namespace Tests.ServicesTests
     public StoresServiceTests()
     {
       _mockStoresRepository = new Mock<IStoresRepository>();
-      _storesService = new StoresService(storesRepository: _mockStoresRepository.Object);
+      _storesService = new StoresService(_storesRepository: _mockStoresRepository.Object);
     }
 
     [TestMethod]

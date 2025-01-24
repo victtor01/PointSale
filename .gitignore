@@ -2,8 +2,10 @@
 /PointSaleApi/logs
 /PointSaleApi/bin
 /PointSaleApi/obj
-
+/PointSaleApi/Migrations/*
 /Tests/obj
 /Tests/bin
 
 .vs/
+.idea
+delivery.sln.DotSettings.user

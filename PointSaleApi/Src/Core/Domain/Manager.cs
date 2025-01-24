@@ -5,15 +5,15 @@ namespace PointSaleApi.Src.Core.Domain
 {
   public class Manager : User
   {
-    public List<Store> Stores { get; set; } = [];
-
+    public List<Store> Stores { get; init; } = [];
+    
     public override void HashAndSetPassword(string userId)
     {
       if (Password.Length < 6)
         throw new BadRequestException("Senha curta demais");
 
       var passwordHasher = new PasswordHasher<string>();
-      string newPassword = passwordHasher.HashPassword(userId, Password);
+      var newPassword = passwordHasher.HashPassword(userId, Password);
       Password = newPassword;
     }
   }

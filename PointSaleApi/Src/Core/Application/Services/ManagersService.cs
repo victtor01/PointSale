@@ -11,7 +11,7 @@ public class ManagersService(IManagersRepository managersRepository) : IManagers
 
   public async Task<Manager> FindByEmailOrThrowAsync(string email)
   {
-    Manager manager =
+    var manager =
       await _managersRepository.FindByEmailAsync(email)
       ?? throw new NotFoundException("user not found!");
 

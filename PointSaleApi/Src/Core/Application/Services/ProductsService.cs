@@ -4,13 +4,12 @@ using PointSaleApi.Src.Core.Domain;
 
 namespace PointSaleApi.src.Core.Application.Services
 {
-  public class ProductsService(IProductsRepository productsRepository) : IProductsService
+  public class ProductsService(IProductsRepository _productsRepository) : IProductsService
   {
-    private readonly IProductsRepository _productsRepository = productsRepository;
-
     public async Task<Product> SaveProduct(CreateProductDto createProductDto, Guid managerId, Guid storeId)
     {
-      Product productToCreate = new() {
+      var productToCreate = new Product
+      {
         Name = createProductDto.Name,
         Price = createProductDto.Price,
         Description = createProductDto.Description ?? null,
@@ -19,7 +18,7 @@ namespace PointSaleApi.src.Core.Application.Services
         ManagerId = managerId
       };
 
-      var created = await _productsRepository.SaveAsync(productToCreate);
+      Product created = await _productsRepository.SaveAsync(productToCreate);
 
       return created;
     }

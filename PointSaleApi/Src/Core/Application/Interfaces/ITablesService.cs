@@ -9,7 +9,9 @@ namespace PointSaleApi.Src.Core.Application.Interfaces
       Guid managerId,
       Guid storeId
     );
+
     public Task<StoreTable> SaveAsync(CreateTableDto createTableDto, Guid managerId, Guid storeId);
-    public Task<StoreTable> FindByNumberOrThrowAsync(int number);
+    public Task<StoreTable> FindByIdAndManagerOrThrowAsync(Guid tableId, Guid managerId);
+    public Task<bool> DeleteAsync(Guid tableId, Guid managerId);
   }
 }

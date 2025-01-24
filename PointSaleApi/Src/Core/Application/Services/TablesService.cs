@@ -6,24 +6,43 @@ using PointSaleApi.Src.Infra.Config;
 
 namespace PointSaleApi.Src.Core.Application.Services
 {
-  public class TablesService(ITablesRepository tablesRepository) : ITablesService
+  public class TablesService(ITablesRepository _tablesRepository) : ITablesService
   {
-    private readonly ITablesRepository _tablesRepository = tablesRepository;
-
-    public async Task<StoreTable> FindByNumberOrThrowAsync(int number)
+    private async Task<StoreTable> FindStoreTableByIdOrThrowAsync(Guid tableId)
+    {
+      var table = await _tablesRepository.FindByIdAsync(tableId);
+      if (table == null) throw new NotFoundException("table not found!");
+      return table;
+    }
+    private async Task<StoreTable> FindByNumberOrThrowAsync(int number)
     {
       var table =
         await _tablesRepository.FindByNumberAsync(number)
-        ?? throw new BadRequestException("Mesa não existe!");
+        ?? throw new BadRequestException("table not found!");
       return table;
     }
 
-    private async Task<StoreTable?> FindByNumberAsync(int number)
+    public async Task<bool> DeleteAsync(Guid tableId, Guid managerId)
     {
-      StoreTable? table = await _tablesRepository.FindByNumberAsync(number);
-      return table;
+      var table = await this.FindStoreTableByIdOrThrowAsync(tableId);
+      if (table.ManagerId != managerId) throw new UnauthorizedException("dont permit delete this product!");
+      
+      var deleted = await _tablesRepository.DeleteAsync(tableId);
+      if(deleted == 0) throw new NotFoundException("table not found to delete!"); 
+      
+      return true;
     }
 
+    public async Task<StoreTable> FindByIdAndManagerOrThrowAsync(Guid tableId, Guid managerId)
+    {
+      var table = await FindStoreTableByIdOrThrowAsync(tableId);
+      
+      if (table.ManagerId != managerId)
+        throw new BadRequestException("Mesa not exists!");
+      
+      return table;
+    }
+    
     public async Task<StoreTable> SaveAsync(
       CreateTableDto createTableDto,
       Guid ManagerId,
@@ -35,7 +54,7 @@ namespace PointSaleApi.Src.Core.Application.Services
       if (number > 1000)
         throw new BadRequestException("Número da mesa alto demais!");
 
-      var table = await this.FindByNumberAsync(number);
+      var table = await _tablesRepository.FindByNumberAsync(number);
       if (table != null)
         throw new BadRequestException("Mesa já existente.");
 
@@ -58,7 +77,7 @@ namespace PointSaleApi.Src.Core.Application.Services
     )
     {
       List<StoreTable> tables =
-        await this._tablesRepository.FindAllByStore(storeId)
+        await _tablesRepository.FindAllByStore(storeId)
         ?? throw new NotFoundException("loja não encontrada.");
 
       foreach (StoreTable table in tables)

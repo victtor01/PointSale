@@ -65,14 +65,63 @@ namespace PointSaleApi.Migrations
                         .IsRequired()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("productId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("products_options");
+                });
+
+            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<Guid>("ManagerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("managerId");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("storeId");
+
+                    b.Property<Guid>("TableId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tableId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("productId");
+                    b.HasIndex("ManagerId");
 
-                    b.ToTable("OptionsProducts");
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("TableId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.OrderProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("orderId");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("productId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("order_products");
                 });
 
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Product", b =>
@@ -160,7 +209,55 @@ namespace PointSaleApi.Migrations
                 {
                     b.HasOne("PointSaleApi.Src.Core.Domain.Product", "Product")
                         .WithMany("Options")
-                        .HasForeignKey("productId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Order", b =>
+                {
+                    b.HasOne("PointSaleApi.Src.Core.Domain.Manager", "manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PointSaleApi.Src.Core.Domain.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PointSaleApi.Src.Core.Domain.StoreTable", "Table")
+                        .WithMany()
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+
+                    b.Navigation("Table");
+
+                    b.Navigation("manager");
+                });
+
+            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.OrderProduct", b =>
+                {
+                    b.HasOne("PointSaleApi.Src.Core.Domain.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PointSaleApi.Src.Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -217,6 +314,11 @@ namespace PointSaleApi.Migrations
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Manager", b =>
                 {
                     b.Navigation("Stores");
+                });
+
+            modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("PointSaleApi.Src.Core.Domain.Product", b =>

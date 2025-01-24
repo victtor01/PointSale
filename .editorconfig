@@ -1,5 +1,5 @@
 [*.{cs,vb}]
 indent_style = space
-indent_size = 4
+indent_size = 2
 # IDE0003: Remover qualificação
 dotnet_diagnostic.IDE0003.severity = none

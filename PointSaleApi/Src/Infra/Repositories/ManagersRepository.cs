@@ -5,9 +5,12 @@ using PointSaleApi.Src.Infra.Database;
 
 namespace PointSaleApi.Src.Infra.Repositories
 {
-  public class ManagersRepository(DatabaseContext context) : IManagersRepository
+  public class ManagersRepository : IManagersRepository
   {
-    private readonly DatabaseContext _context = context;
+
+      private readonly DatabaseContext _context;
+      public ManagersRepository(DatabaseContext context) => _context = context;
+      
 
     public async Task<Manager?> FindByEmailAsync(string email)
     {

@@ -35,7 +35,7 @@ const useFormTable = () => {
   };
 };
 
-function FormCreateTable() {
+function ModalCreateTable() {
   const { form } = useFormTable();
   const router = useRouter();
 
@@ -111,7 +111,7 @@ function Tables() {
         </div>
 
         <AnimatePresence>
-          {action === "create" && <FormCreateTable />}
+          {action === "create" && <ModalCreateTable />}
         </AnimatePresence>
       </header>
 

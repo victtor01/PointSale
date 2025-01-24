@@ -59,12 +59,36 @@ namespace PointSaleApi.Src.Infra.Database
         table.HasOne(e => e.Store).WithMany(store => store.Tables).HasForeignKey(e => e.StoreId);
       });
     }
+
+    public static void OrdersConfigure(this ModelBuilder builder)
+    {
+      builder.Entity<Order>(table =>
+      {
+        table.Property(e => e.Id).HasColumnType("uuid");
+        table.HasKey(e => e.Id);
+        table.HasMany(e => e.OrderProducts).WithOne(o => o.Order).HasForeignKey(o => o.OrderId);
+      });
+    }
+
+    public static void OrderProductsConfigure(this ModelBuilder builder)
+    {
+      builder.Entity<OrderProduct>(table =>
+      {
+        table.HasKey(e => e.Id);
+        table.HasOne(e => e.Order).WithMany(o => o.OrderProducts).HasForeignKey(e => e.OrderId);
+      });
+    }
   }
 
   public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
   {
-    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<Product> Products { get; set; }
+    
     public DbSet<OptionsProduct> OptionsProducts { get; set; } = null!;
+
+    public DbSet<Order> Orders { get; set; } = null!;
+    
+    public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
     public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Store> Stores { get; set; } = null!;
     public DbSet<StoreTable> Tables { get; set; } = null!;
@@ -75,6 +99,8 @@ namespace PointSaleApi.Src.Infra.Database
       modelBuilder.ManagersConfigure();
       modelBuilder.StoresConfigure();
       modelBuilder.TablesConfigure();
+      modelBuilder.OrdersConfigure();
+      modelBuilder.OrderProductsConfigure();
     }
   }
 }
