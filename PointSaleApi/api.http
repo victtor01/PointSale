@@ -1,8 +1,11 @@
 @HOST = http://localhost:5039
 
+###########################################
+##                MANAGERS               ##
+###########################################
 ###
 # @name managers
-# manager create account
+#  CREATE ACCOUNT OF MANAGER
 POST {{HOST}}/managers/
 Content-Type: application/json
 
@@ -12,18 +15,16 @@ Content-Type: application/json
   "password":"example"
 }
 ###
+# GET INFORMATIONS OF MANAGER
 GET {{HOST}}/managers/i HTTP/1.1
 Content-Type: application/json
 
-###
-#
-#
-#
-#
-###
+###########################################
+##             AUTHENTICATION            ##
+###########################################
 
 # @name auth
-# manager login
+# LOGIN OF MANAGER
 POST {{HOST}}/auth HTTP/1.1
 Content-Type: application/json
 
@@ -32,23 +33,20 @@ Content-Type: application/json
   "password":"example"
 }
 ###
-# select store
-POST {{HOST}}/auth/select/7eb9a95d-a6e6-4165-9f7e-1e97b8d9166d HTTP/1.1
+# AUTH ON STORE
+POST {{HOST}}/auth/select/a2c5b340-6068-4cd4-b285-4c47a89ad583 HTTP/1.1
 Content-Type: application/json
 
 {
-  "password": "example"
+  "password": ""
 } 
 
-###
-#
-#
-#
-#
-###
+###########################################
+##                 STORES                ##
+###########################################
 
 # @name stores
-# manager create a new store
+# CREATE A NEW STORE
 POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
 
@@ -57,20 +55,19 @@ Content-Type: application/json
 }
 
 ###
-# find all my stores
+# GET ALL STORES
 GET {{HOST}}/stores/my HTTP/1.1
 
 ###
+# GET INFORMATIONS OF THE SPECIFIC STORE
 GET {{HOST}}/stores/7eb9a95d-a6e6-4165-9f7e-1e97b8d9166d HTTP/1.1
 
-###
-#
-#
-#
-#
-###
+###########################################
+##                 TABLES                ##
+###########################################
 
 # @name tables
+# CREATE A NEW STORE
 POST {{HOST}}/tables HTTP/1.1
 Content-Type: application/json
 
@@ -78,6 +75,25 @@ Content-Type: application/json
   "number": 1
 }
 ###
-GET {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d HTTP/1.1
+# GET ALL TABLES
+GET {{HOST}}/tables HTTP/1.1
 ###
+# DELETE STORE
 DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
+###
+###########################################
+##               PRODUCTS                ##
+###########################################
+# @name products
+POST {{HOST}}/products
+Content-Type: application/json
+
+{
+  "name": "PRODUTO1",
+  "description": "Descrição do produto",
+  "price": 20.00
+}
+###########################################
+##                ORDERS                 ##
+###########################################
+

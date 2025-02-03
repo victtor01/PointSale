@@ -1,11 +1,9 @@
-using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces;
+
+public interface IAuthService
 {
-  public interface IAuthService
-  {
-    public Task<JwtTokensDto> AuthManager(AuthDto authDto);
-    public Task<string> AuthSelectStore(SelectStoreDto selectStoreDto);
-  }
+  public Task<JwtTokensDTO> AuthManager(AuthDto authDto);
+  public Task<string> AuthSelectStore(SelectStoreDTO selectStoreDto);
 }

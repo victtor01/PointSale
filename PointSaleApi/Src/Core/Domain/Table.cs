@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PointSaleApi.Src.Core.Domain;
 
+[Table("storeTables")]
 public class StoreTable
 {
   [Key]

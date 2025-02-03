@@ -28,47 +28,31 @@ using System.ComponentModel.DataAnnotations.Schema;
   ]
  */
 
-namespace PointSaleApi.Src.Core.Domain
+namespace PointSaleApi.Src.Core.Domain;
+
+[Table("products")]
+public class Product
 {
-  public class Product
-  {
-    [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
+  [Key]
+  public Guid Id { get; init; } = Guid.NewGuid();
 
-    [MinLength(3)]
-    public required string Name { get; set; }
+  [MinLength(3)]
+  public string Name { get; set; }
 
-    [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-    public required float Price { get; set; }
-    public required Guid ManagerId { get; set; }
+  [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
+  public  float Price { get; set; }
     
-    [ForeignKey(nameof(ManagerId))]
-    public Manager? Manager { get; set; }
+  [ForeignKey("StoreId")]
+  public Store? Store { get; set; }
     
-    [ForeignKey("StoreId")]
-    public Store? Store { get; set; }
-    public Guid StoreId { get; set; }
-    public int? Quantity { get; set; } = null;
-    public string? Description { get; set; } = null;
-    public OptionsProduct[] Options { get; set; } = [];
-  }
-
-  [Table("products_options")]
-  public class OptionsProduct
-  {
-    [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
-
-    [MinLength(3)]
-    public required string Name { get; set; }
+  [Column("storeId")]
+  public Guid StoreId { get; set; }
     
-    [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-    public float Price { get; set; }
-
-    [ForeignKey(nameof(ProductId))]
-    public Product? Product { get; set; }
-
-    [Required]
-    public Guid? ProductId { get; set; }
-  }
+  [Column("quantity")]
+  public int? Quantity { get; set; } = null;
+    
+  [Column("description")]
+  public string? Description { get; set; } = null;
+    
+  public List<OptionsProduct> Options { get; set; } = [];
 }

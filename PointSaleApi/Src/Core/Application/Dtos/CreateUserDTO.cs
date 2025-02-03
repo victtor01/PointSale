@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PointSaleApi.Src.Core.Domain;
+namespace PointSaleApi.Src.Core.Application.Dtos;
 
-public abstract class User
+public class CreateUserDTO
 {
-  [Key]
-  public Guid Id { get; set; } = Guid.NewGuid();
+  [Required]
   public required string Name { get; set; }
+
+  [Required]
   public required string Email { get; set; }
+
+  [Required]
   public required string Password { get; set; }
-  public abstract void HashAndSetPassword(string userId);
 }

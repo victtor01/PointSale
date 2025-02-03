@@ -3,53 +3,52 @@ using System.Text.Json;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Infra.Config;
 
-namespace PointSaleApi.Src.Infra.Api.Middlewares
+namespace PointSaleApi.Src.Infra.Api.Middlewares;
+
+public class ErrorMiddleware(RequestDelegate next)
 {
-  public class ErrorMiddleware(RequestDelegate next)
+  private readonly RequestDelegate _next = next;
+
+  public async Task InvokeAsync(HttpContext context)
   {
-    private readonly RequestDelegate _next = next;
-
-    public async Task InvokeAsync(HttpContext context)
+    try
     {
-      try
-      {
-        await _next(context);
-      }
-      catch (Exception ex)
-      {
-        await HandleExceptionAsync(context, ex);
-      }
+      await _next(context);
     }
-
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    catch (Exception ex)
     {
-      var response = context.Response;
-      response.ContentType = "application/json";
+      await HandleExceptionAsync(context, ex);
+    }
+  }
 
-      if (exception is ErrorInstance errorInstance)
-      {
-        Logger.Error(exception.Message);
-        response.StatusCode = errorInstance.StatusCode;
-        string result = JsonSerializer.Serialize(
-          new
-          {
-            type = errorInstance.Type,
-            message = errorInstance.Message,
-            errors = errorInstance.Errors,
-          }
-        );
+  private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+  {
+    var response = context.Response;
+    response.ContentType = "application/json";
 
-        return response.WriteAsync(result);
-      }
-      else
-      {
-        Logger.Error(exception.Message);
-        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        var defaultResult = JsonSerializer.Serialize(
-          new { error = "Internal Server Error", message = "Houve um erro desconhecido!" }
-        );
-        return response.WriteAsync(defaultResult);
-      }
+    if (exception is ErrorInstance errorInstance)
+    {
+      Logger.Error(exception.Message);
+      response.StatusCode = errorInstance.StatusCode;
+      string result = JsonSerializer.Serialize(
+        new
+        {
+          type = errorInstance.Type,
+          message = errorInstance.Message,
+          errors = errorInstance.Errors,
+        }
+      );
+
+      return response.WriteAsync(result);
+    }
+    else
+    {
+      Logger.Error(exception.Message);
+      response.StatusCode = (int)HttpStatusCode.InternalServerError;
+      var defaultResult = JsonSerializer.Serialize(
+        new { error = "Internal Server Error", message = "Houve um erro desconhecido!" }
+      );
+      return response.WriteAsync(defaultResult);
     }
   }
 }

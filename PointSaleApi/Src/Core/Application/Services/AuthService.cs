@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using PointSaleApi.Src.Core.Application.Dtos.AuthDtos;
-using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
+using PointSaleApi.Core.Domain;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
@@ -11,18 +11,14 @@ using PointSaleApi.Src.Infra.Config;
 namespace PointSaleApi.Src.Core.Application.Services;
 
 public class AuthService(
-  IManagersService managersService,
-  IJwtService jwtService,
-  IStoresService storesService,
-  ISessionService sessionService
+  IManagersService _managersService,
+  IJwtService _jwtService,
+  IStoresService _storesService,
+  ISessionService _sessionService
 ) : IAuthService
 {
-  private readonly IManagersService _managersService = managersService;
-  private readonly ISessionService _sessionService = sessionService;
-  private readonly IJwtService _jwtService = jwtService;
-  private readonly IStoresService _storesService = storesService;
 
-  public bool VerifyPasswordOrThrowError(string userId, string password, string hash)
+  public static bool VerifyPasswordOrThrowError(string userId, string password, string hash)
   {
     var Indentity = new IdentityUser { Id = userId };
     var passwordHasher = new PasswordHasher<IdentityUser>();
@@ -34,7 +30,7 @@ public class AuthService(
     return true;
   }
 
-  public async Task<JwtTokensDto> AuthManager(AuthDto authDto)
+  public async Task<JwtTokensDTO> AuthManager(AuthDto authDto)
   {
     Manager manager = await _managersService.FindByEmailOrThrowAsync(authDto.Email);
 
@@ -52,7 +48,7 @@ public class AuthService(
       throw new UnauthorizedException("email or password is incorrect!");
     }
 
-    JwtTokensDto tokens = _sessionService.CreateSessionUser(
+    JwtTokensDTO tokens = _sessionService.CreateSessionUser(
       role: UserRole.ADMIN.ToString(),
       userId: manager.Id.ToString(),
       email: manager.Email
@@ -61,7 +57,7 @@ public class AuthService(
     return tokens;
   }
 
-  public async Task<string> AuthSelectStore(SelectStoreDto selectStoreDto)
+  public async Task<string> AuthSelectStore(SelectStoreDTO selectStoreDto)
   {
     var store = await _storesService.FindOneByIdAsync(selectStoreDto.StoreId);
 

@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
@@ -9,7 +9,7 @@ public class SessionService(IJwtService jwtService) : ISessionService
 {
   private readonly IJwtService _jwtService = jwtService;
 
-  public JwtTokensDto CreateSessionUser(string userId, string email, string role)
+  public JwtTokensDTO CreateSessionUser(string userId, string email, string role)
   {
     Claim[] claims =
     [
@@ -27,7 +27,7 @@ public class SessionService(IJwtService jwtService) : ISessionService
     string tokenString = _jwtService.ParseJwtTokenToString(token);
     string refreshTokenString = _jwtService.ParseJwtTokenToString(refreshToken);
 
-    JwtTokensDto jwtDto = new() { AccessToken = tokenString, RefreshToken = refreshTokenString };
+    JwtTokensDTO jwtDto = new() { AccessToken = tokenString, RefreshToken = refreshTokenString };
 
     return jwtDto;
   }

@@ -1,4 +1,4 @@
-using PointSaleApi.Src.Core.Application.Dtos.ManagersDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
@@ -27,7 +27,7 @@ public class ManagersService(IManagersRepository managersRepository) : IManagers
     return manager;
   }
 
-  public async Task<Manager> RegisterAsync(CreateUserDto createUserDto)
+  public async Task<Manager> RegisterAsync(CreateUserDTO createUserDto)
   {
     var row = await _managersRepository.FindByEmailAsync(createUserDto.Email);
     if (row != null)

@@ -1,9 +1,8 @@
-using PointSaleApi.Src.Core.Application.Dtos.JwtDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
 
-namespace PointSaleApi.Src.Core.Application.Interfaces
+namespace PointSaleApi.Src.Core.Application.Interfaces;
+
+public interface ISessionService
 {
-  public interface ISessionService
-  {
-    public JwtTokensDto CreateSessionUser(string userId, string email, string role);
-  }
+  public JwtTokensDTO CreateSessionUser(string userId, string email, string role);
 }
