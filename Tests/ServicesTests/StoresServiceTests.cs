@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Moq;
-using PointSaleApi.Src.Core.Application.Dtos.StoresDtos;
+using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Services;
 using PointSaleApi.Src.Core.Domain;
@@ -24,7 +24,7 @@ namespace Tests.ServicesTests
     [Description("should create a store success")]
     public async Task ShouldCreateStore()
     {
-      CreateStoreDto createStoreDto = new() { Name = "Example" };
+      CreateStoreDTO createStoreDto = new() { Name = "Example" };
       Guid managerId = Guid.NewGuid();
 
       Store storeMock = new() { Name = createStoreDto.Name, ManagerId = managerId, Password = "EXAMPLEPASSWORD" };
@@ -49,7 +49,7 @@ namespace Tests.ServicesTests
     [Description("it should throw error because the name is already used")]
     public async Task ShouldErrorWhenNameOfStore()
     {
-      CreateStoreDto createStoreDto = new() { Name = "Example" };
+      CreateStoreDTO createStoreDto = new() { Name = "Example" };
       Guid managerId = Guid.NewGuid();
 
       _mockStoresRepository
