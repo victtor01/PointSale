@@ -24,5 +24,4 @@ public class ProductsController(IProductsService _productsService) : ControllerB
     
     return Ok(product.toMapper());
   }
-  
 }
