@@ -35,17 +35,27 @@ public static class CorsConfig
 
 public static class DependencyInjection
 {
+  
   public static void AddApplicationServices(this IServiceCollection services)
   {
+    // --managers--
     services.AddScoped<IManagersRepository, ManagersRepository>();
-    services.AddScoped<IStoresRepository, StoresRepository>();
-    services.AddScoped<ITablesRepository, TablesRepository>();
-    services.AddScoped<IAuthService, AuthService>();
     services.AddScoped<IManagersService, ManagersService>();
+    // --stores--
+    services.AddScoped<IStoresRepository, StoresRepository>();
     services.AddScoped<IStoresService, StoresService>();
+    // --tables--
+    services.AddScoped<ITablesRepository, TablesRepository>();
+    services.AddScoped<ITablesService, TablesService>();
+    // --auth--
+    services.AddScoped<IAuthService, AuthService>();
+    // --products--
     services.AddScoped<IProductsRepository, ProductsRepository>();
     services.AddScoped<IProductsService, ProductsService>();
-    services.AddScoped<ITablesService, TablesService>();
+    // --orders--
+    services.AddScoped<IOrdersService, OrdersService>();
+    services.AddScoped<IOrdersRepository, OrdersRepository>();
+    // --outers--
     services.AddSingleton<ISessionService, SessionService>();
     services.AddSingleton<IJwtService, JwtService>();
   }

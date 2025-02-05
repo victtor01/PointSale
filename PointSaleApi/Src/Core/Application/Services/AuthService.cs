@@ -17,12 +17,11 @@ public class AuthService(
   ISessionService _sessionService
 ) : IAuthService
 {
-
   public static bool VerifyPasswordOrThrowError(string userId, string password, string hash)
   {
-    var Indentity = new IdentityUser { Id = userId };
+    var indentity = new IdentityUser { Id = userId };
     var passwordHasher = new PasswordHasher<IdentityUser>();
-    var hashed = passwordHasher.VerifyHashedPassword(Indentity, hash, password);
+    var hashed = passwordHasher.VerifyHashedPassword(indentity, hash, password);
 
     if (hashed == PasswordVerificationResult.Failed)
       throw new UnauthorizedException("incorrect password!");

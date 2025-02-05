@@ -97,3 +97,10 @@ Content-Type: application/json
 ##                ORDERS                 ##
 ###########################################
 
+POST {{HOST}}/orders
+Content-Type: application/json
+
+{ 
+  "tableId": "ee55939c-0c7b-4ff9-8023-74dd249744ec"
+}
+
