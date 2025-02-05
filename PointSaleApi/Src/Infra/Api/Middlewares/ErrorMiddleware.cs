@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Json;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.Api.Middlewares;
 
@@ -25,10 +26,9 @@ public class ErrorMiddleware(RequestDelegate next)
   {
     var response = context.Response;
     response.ContentType = "application/json";
-
+  
     if (exception is ErrorInstance errorInstance)
     {
-      Logger.Error(exception.Message);
       response.StatusCode = errorInstance.StatusCode;
       string result = JsonSerializer.Serialize(
         new

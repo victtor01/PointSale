@@ -12,17 +12,19 @@ public class Order
   
   [Required]
   [Column("tableId")]
-  public Guid TableId { get; set; }
+  public required Guid TableId { get; set; }
     
   [Required]
   [Column("managerId")]
-  public Guid ManagerId { get; set; }
+  public required Guid ManagerId { get; set; }
 
-  [Column("status")] public OrderStatus Status { get; set; } = OrderStatus.CURRENT;
+  [Required] 
+  [Column("status")]
+  public OrderStatus Status { get; set; } = OrderStatus.CURRENT;
   
   [Required]
   [Column("storeId")]
-  public Guid StoreId { get; set; }
+  public required Guid StoreId { get; set; }
   
   [Column("order_products")]
   public List<OrderProduct?> OrderProducts { get; set; } = [];

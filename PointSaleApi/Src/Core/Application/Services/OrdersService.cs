@@ -9,23 +9,36 @@ namespace PointSaleApi.Src.Core.Application.Services;
 
 public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
 {
-  public async Task<Order> CreateAsync(OrderDTO orderDTO, Guid managerId, Guid storeId, string tableIdString)
-  { 
-    var tableId = Guid.Parse(tableIdString);
-    
+  private const int QUANTITY_OF_ORDERS_THAT_CAN = 2;
+
+  private List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) =>
+    orders.Where(o => o.Status == status).ToList();
+
+  public async Task<Order> CreateAsync(OrderDTO orderDTO, Guid managerId, Guid storeId)
+  {
+    List<Order> ordersInDatabase = await ordersRepository.FindAllByManagerAndTableAsync(managerId, orderDTO.TableId);
+    List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
+
+    bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
+    if (limitOrders) throw new UnauthorizedException("limit reached on the number of orders on the table");
+
     Order order = new Order
     {
       Id = Guid.NewGuid(),
       ManagerId = managerId,
-      TableId = tableId,
+      TableId = orderDTO.TableId,
       Status = OrderStatus.CURRENT,
       StoreId = storeId
     };
 
-    order.LoggerJson();
-
     Order created = await ordersRepository.SaveAsync(order);
-    
+
     return created;
+  }
+
+  public async Task<List<Order>> FindAllByTableIdAndManagerAsync(Guid managerId, Guid tableId)
+  {
+    List<Order> orders = await ordersRepository.FindAllByManagerAndTableAsync(managerId, tableId);
+    return orders;
   }
 }

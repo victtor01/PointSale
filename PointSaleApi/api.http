@@ -73,12 +73,12 @@ Content-Type: application/json
 
 {
   "number": 1
-}
+} 
 ###
 # GET ALL TABLES
 GET {{HOST}}/tables HTTP/1.1
 ###
-# DELETE STORE
+# DELETE TABLE
 DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 ###
 ###########################################
@@ -101,6 +101,8 @@ POST {{HOST}}/orders
 Content-Type: application/json
 
 { 
-  "tableId": "ee55939c-0c7b-4ff9-8023-74dd249744ec"
+  "tableId": "7856cd15-01bb-4344-a6e1-f83850761285"
 }
-
+###
+# GET ALL ORDERS
+GET {{HOST}}/orders/ee55939c-0c7b-4ff9-8023-74dd249744ec

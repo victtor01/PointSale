@@ -4,6 +4,7 @@ public class ErrorInstance(string message, int statusCode = 500) : Exception(mes
 {
   public int StatusCode { get; } = statusCode;
   public string Type { get; set; } = "Internal Server Error"; // Mensagem padrão
+  
   public Dictionary<string, string[]?>? Errors;
 }
 

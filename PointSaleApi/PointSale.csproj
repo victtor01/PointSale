@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Src\Infra\Api\filters\" />
   </ItemGroup>
 
 </Project>

@@ -5,5 +5,6 @@ namespace PointSaleApi.Src.Core.Application.Interfaces;
 
 public interface IOrdersService
 {
-  public Task<Order> CreateAsync(OrderDTO orderDto, Guid managerId, Guid storeId, string tableId);
+  public Task<Order> CreateAsync(OrderDTO orderDto, Guid managerId, Guid storeId);
+  public Task<List<Order>> FindAllByTableIdAndManagerAsync(Guid managerId, Guid tableId);
 }
