@@ -89,7 +89,7 @@ POST {{HOST}}/products
 Content-Type: application/json
 
 {
-  "name": "PRODUTO 2",
+  "name": "PRODUTO 3",
   "description": "Descrição do produto",
   "price": 20.00
 }
