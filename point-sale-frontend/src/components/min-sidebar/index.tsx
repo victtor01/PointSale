@@ -2,33 +2,19 @@
 
 import { fontSaira } from "@/fonts";
 import { usePathname, useRouter } from "next/navigation";
-import { IconType } from "react-icons";
-import { FaPlay } from "react-icons/fa";
-import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { motion } from "framer-motion";
-import { BiSolidFoodMenu } from "react-icons/bi";
+import { pages } from "@/utils/pages";
 
 type ButtonToLinkProps = {
   children: React.ReactNode;
   link: string;
 };
 
-type Page = {
-  name: string;
-  icon: IconType;
-  link: string;
-};
-
-const pages = [
-  { name: "Dashboard", icon: TbLayoutDashboardFilled, link: "/home" },
-  { name: "Minhas mesas", icon: FaPlay, link: "/tables" },
-  { name: "Produtos", icon: BiSolidFoodMenu, link: "#" },
-] satisfies Page[];
-
 function ButtonToLink({ children, link }: ButtonToLinkProps) {
   const currentLink = usePathname();
   const selected = !!currentLink?.startsWith(link);
   const router = useRouter();
+
   return (
     <motion.button
       data-selected={selected}
@@ -45,7 +31,7 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
 
 function MinSidebar() {
   return (
-    <div className="h-screen flex">
+    <div className="h-screen lg:flex hidden">
       <motion.div className="w-auto overflow-auto bg-gray-100 p-3 flex flex-col gap-2 shadow-gray-300 z-30">
         <header className="flex">
           <button
@@ -60,10 +46,6 @@ function MinSidebar() {
           {pages?.map(({ icon: Icon, link }, index) => (
             <ButtonToLink key={index} link={link}>
               <Icon />
-
-              <div className="hidden group-hover:">
-
-              </div>
             </ButtonToLink>
           ))}
         </section>

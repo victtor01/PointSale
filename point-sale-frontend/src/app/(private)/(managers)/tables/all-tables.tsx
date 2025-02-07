@@ -11,7 +11,7 @@ function AllTables() {
   if (isLoading) return "loading...";
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 flex-1">
       <section
         className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
       >
@@ -29,7 +29,7 @@ function AllTables() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 gap-5 w-full">
+      <section className="grid sm:grid-cols-2 gap-5 w-full">
         {tables?.map((table: ITable) => (
           <Table key={table.number} table={table} />
         ))}

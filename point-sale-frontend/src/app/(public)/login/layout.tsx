@@ -25,7 +25,16 @@ export default function LayoutLogin({ children }: LayoutLoginProps) {
         </button>
       </header>
 
+      <div className="flex fixed top-[40%] right-[10%] rotate-12 bg-gradient-45 from-indigo-500 to-purple-600 w-[60vh] h-[60vh] rounded-[20%]">
+      </div>
+
+      <div className="flex fixed top-[-20%] left-[20%] rotate-[30deg] bg-gradient-45 from-purple-500 to-indigo-600 w-[60vh] h-[60vh] rounded-[20%]">
+      </div>
+
+      <section className="flex w-full h-screen overflow-auto px-5">
+
       {children}
+      </section>
     </div>
   );
 }

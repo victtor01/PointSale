@@ -14,15 +14,15 @@ export default function Login() {
 
   return (
     <div
-      className={`${fontOpenSans} z-20 flex flex-col gap-2 m-auto w-full max-w-md bg-white dark:bg-zinc-950 rounded-xl dark:shadow-black p-8 shadow-lg`}
+      className={`${fontOpenSans} z-20 flex flex-col gap-2 m-auto w-full max-w-md bg-white dark:bg-zinc-950 rounded-3xl shadow dark:shadow-black p-8`}
     >
       <header className={`${fontSaira} grid gap-2`}>
-        <h1 className="text-[1.4rem] text-gray-700 dark:text-white font-semibold text-center">
+        <h1 className="text-[1.4rem] text-indigo-600 dark:text-white font-semibold text-center">
           Entre com o google ou faça login para continuar!
         </h1>
       </header>
 
-      <section className="flex gap-2 w-full mt-1">
+      <section className="flex gap-2 w-full mt-10">
         <button className="border text-gray-600 bg-gray-50 rounded-md p-3 px-4 flex items-center gap-2 w-full opacity-80 hover:opacity-100">
           <FaGoogle size={20} />
           <span>Entrar com o Google</span>
