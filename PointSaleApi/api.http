@@ -80,11 +80,13 @@ GET {{HOST}}/tables HTTP/1.1
 ###
 # DELETE TABLE
 DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
-###
+
 ###########################################
 ##               PRODUCTS                ##
 ###########################################
+
 # @name products
+
 POST {{HOST}}/products
 Content-Type: application/json
 
@@ -93,6 +95,7 @@ Content-Type: application/json
   "description": "Descrição do produto",
   "price": 20.00
 }
+
 ###########################################
 ##                ORDERS                 ##
 ###########################################
@@ -106,3 +109,4 @@ Content-Type: application/json
 ###
 # GET ALL ORDERS
 GET {{HOST}}/orders/ee55939c-0c7b-4ff9-8023-74dd249744ec
+###

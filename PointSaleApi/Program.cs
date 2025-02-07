@@ -16,6 +16,7 @@ builder.Services.AddCorsPolicy();
 builder.Services.ConfigureValidationBehavior();
 builder.ConfigureDatabase();
 builder.ConfigureAuthentication();
+builder.Services.ConfigureToResponseJson();
 
 Log.Logger = new LoggerConfiguration()
   .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code)

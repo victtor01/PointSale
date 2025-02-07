@@ -15,14 +15,14 @@ public class OrderController(IOrdersService ordersService) : ControllerBase
 {
   [IsStoreSelectedRoute]
   [HttpPost]
-  public async Task<IActionResult> Create([FromBody] OrderDTO orderDto)
+  public async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
   {
     Session session = HttpContext.GetSession();
     Guid storeId = HttpContext.GetStoreOrthrow();
     Guid managerId = session.UserId;
 
     Order order =
-      await ordersService.CreateAsync(orderDto, storeId: storeId, managerId: managerId);
+      await ordersService.CreateAsync(createOrderDto, storeId: storeId, managerId: managerId);
 
     return Ok(order);
   }
@@ -31,6 +31,7 @@ public class OrderController(IOrdersService ordersService) : ControllerBase
   public async Task<IActionResult> FindAllByTableIdAsync(Guid tableId)
   {
     Session session = HttpContext.GetSession();
+    
     List<Order> orders =
       await ordersService.FindAllByTableIdAndManagerAsync(tableId: tableId, managerId: session.UserId);
     

@@ -12,6 +12,8 @@ public class StoreTable
   public required Guid StoreId { get; set; }
   public required Guid ManagerId { get; set; }
 
+  public List<Order> Orders { get; set; } = new List<Order>();
+  
   [ForeignKey("StoreId")]
   public Store? Store { get; set; }
 

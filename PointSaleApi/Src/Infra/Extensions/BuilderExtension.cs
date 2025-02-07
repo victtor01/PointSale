@@ -35,7 +35,6 @@ public static class CorsConfig
 
 public static class DependencyInjection
 {
-  
   public static void AddApplicationServices(this IServiceCollection services)
   {
     // --managers--
@@ -60,6 +59,18 @@ public static class DependencyInjection
     services.AddSingleton<IJwtService, JwtService>();
   }
 };
+
+public static class ConfigureToResponseJsonExtension
+{
+  public static void ConfigureToResponseJson(this IServiceCollection services)
+  {
+    services.AddMvc()
+      .AddJsonOptions(
+        options => options.JsonSerializerOptions.ReferenceHandler =
+          System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+      );
+  }
+}
 
 public static class ApiBehaviorExtensions
 {
@@ -120,9 +131,6 @@ public static class Authentication
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
       })
-      .AddJwtBearer(options =>
-      {
-        options.TokenValidationParameters = validationParameters;
-      });
+      .AddJwtBearer(options => { options.TokenValidationParameters = validationParameters; });
   }
 }

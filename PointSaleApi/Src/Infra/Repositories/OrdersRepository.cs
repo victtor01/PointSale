@@ -19,7 +19,8 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
   public async Task<List<Order>> FindAllByStatusAsync(OrderStatus status)
   {
     List<Order> orders =
-      await databaseContext.Orders.AsNoTracking().Where(order => order.Status == status).ToListAsync();
+      await databaseContext.Orders.AsNoTracking().Where(order => order.Status == status)
+        .ToListAsync();
 
     return orders;
   }
@@ -28,6 +29,7 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
   {
     List<Order> orders =
       await databaseContext.Orders.AsNoTracking()
+        .Include(order => order.Table)
         .Where(order => order.TableId == tableId && order.ManagerId == managerId)
         .ToListAsync();
     return orders;

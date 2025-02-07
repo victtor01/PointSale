@@ -1,25 +1,19 @@
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Domain;
 
 namespace PointSaleApi.Src.Core.Application.Mappers;
 
 public static class OrderMapper
 {
-  public static OrderMapperDTO ToMapper(this Order order)
+  public static OrderDTO ToMapper(this Order order)
   {
-    return new OrderMapperDTO()
+    return new OrderDTO()
     {
       Id = order.Id,
       TableId = order.TableId,
-      OrderStatus = order.Status
+      OrderStatus = order.Status,
+      Table = order.Table.ToMapper()
     };
   }
-}
-
-public class OrderMapperDTO
-{
-  public required Guid Id { get; set; }
-  public required Guid TableId { get; set; }
-  public required OrderStatus OrderStatus { get; set; }
+  
 }

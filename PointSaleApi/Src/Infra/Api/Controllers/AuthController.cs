@@ -56,9 +56,14 @@ public class AuthController(IAuthService authService) : ControllerBase
     );
 
     CookieOptions cookieOptions = new() { HttpOnly = true };
-
     HttpContext.Response.Cookies.Append("_store", token, cookieOptions);
 
-    return Ok("login store success");
+    AuthSelectStoreDTO authSelectStoreDto = new AuthSelectStoreDTO()
+    {
+      Error = false,
+      Message = "login selected successfully.",
+    };
+
+    return Ok(authSelectStoreDto);
   }
 }

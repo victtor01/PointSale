@@ -14,9 +14,9 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
   private List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) =>
     orders.Where(o => o.Status == status).ToList();
 
-  public async Task<Order> CreateAsync(OrderDTO orderDTO, Guid managerId, Guid storeId)
+  public async Task<Order> CreateAsync(CreateOrderDTO createOrderDto, Guid managerId, Guid storeId)
   {
-    List<Order> ordersInDatabase = await ordersRepository.FindAllByManagerAndTableAsync(managerId, orderDTO.TableId);
+    List<Order> ordersInDatabase = await ordersRepository.FindAllByManagerAndTableAsync(managerId, createOrderDto.TableId);
     List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
 
     bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
@@ -26,7 +26,7 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
     {
       Id = Guid.NewGuid(),
       ManagerId = managerId,
-      TableId = orderDTO.TableId,
+      TableId = createOrderDto.TableId,
       Status = OrderStatus.CURRENT,
       StoreId = storeId
     };
