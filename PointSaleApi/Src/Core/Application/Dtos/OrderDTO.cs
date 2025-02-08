@@ -8,5 +8,6 @@ public class OrderDTO
   public required Guid Id { get; set; }
   public required Guid TableId { get; set; }
   public required OrderStatus OrderStatus { get; set; }
-  public required TableDTO? Table { get; set; }
+  public TableDTO? Table { get; set; } = null;
+  public List<OrderProductDTO?> Products { get; set; } = null;
 }

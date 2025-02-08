@@ -34,4 +34,16 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
         .ToListAsync();
     return orders;
   }
+
+  public async Task<Order?> FindByIdAsync(Guid orderId)
+  {
+    Order order = await databaseContext.Orders.AsNoTracking()
+                    .Include(o => o.Table)
+                    .Include(o => o.OrderProducts)
+                    .ThenInclude(o => o.Product)
+                    .ThenInclude(o => o.Options)
+                    .FirstOrDefaultAsync(order => order.Id == orderId)
+                  ?? null;
+    return order;
+  }
 }

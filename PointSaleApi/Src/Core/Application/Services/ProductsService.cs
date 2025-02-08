@@ -6,14 +6,14 @@ namespace PointSaleApi.Src.Core.Application.Services;
 
 public class ProductsService(IProductsRepository _productsRepository) : IProductsService
 {
-  public async Task<Product> SaveProduct(ProductDTO productDto, Guid managerId, Guid storeId)
+  public async Task<Product> SaveProduct(CreateProductDTO createProductDto, Guid managerId, Guid storeId)
   {
     var productToCreate = new Product
     {
-      Name = productDto.Name,
-      Price = productDto.Price,
-      Description = productDto.Description ?? null,
-      Quantity = productDto.Quantity ?? null,
+      Name = createProductDto.Name,
+      Price = createProductDto.Price,
+      Description = createProductDto.Description ?? null,
+      Quantity = createProductDto.Quantity ?? null,
       StoreId = storeId,
     };
 
@@ -21,5 +21,4 @@ public class ProductsService(IProductsRepository _productsRepository) : IProduct
 
     return created;
   } 
-  
 }

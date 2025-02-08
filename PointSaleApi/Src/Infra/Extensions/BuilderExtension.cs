@@ -24,6 +24,8 @@ public static class CorsConfig
         {
           policy
             .WithOrigins("http://localhost:3000")
+            .WithOrigins("http://10.0.2.2")
+            .WithOrigins("http://10.220.0.8:5039")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -54,6 +56,11 @@ public static class DependencyInjection
     // --orders--
     services.AddScoped<IOrdersService, OrdersService>();
     services.AddScoped<IOrdersRepository, OrdersRepository>();
+    // --orders-products--
+    services.AddScoped<IOrdersProductsService, OrdersProductsService>();
+    services.AddScoped<IOrdersProductsRepository, OrdersProductsRepository>();
+    // -- products-options--
+    services.AddScoped<IOptionsProductsRepository, OptionsProductsRepository>();
     // --outers--
     services.AddSingleton<ISessionService, SessionService>();
     services.AddSingleton<IJwtService, JwtService>();

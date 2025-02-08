@@ -16,11 +16,11 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   [HttpPost]
   [IsAdminRoute]
   [IsStoreSelectedRoute]
-  public async Task<IActionResult> Create([FromBody] ProductDTO productDto)
+  public async Task<IActionResult> Create([FromBody] CreateProductDTO createProductDto)
   {
     Session session = HttpContext.GetSession();
     Guid storeId = HttpContext.GetStoreOrthrow();
-    Product product = await _productsService.SaveProduct(productDto, managerId: session.UserId, storeId: storeId);
+    Product product = await _productsService.SaveProduct(createProductDto, managerId: session.UserId, storeId: storeId);
     
     return Ok(product.toMapper());
   }

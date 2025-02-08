@@ -1,4 +1,4 @@
-@HOST = http://localhost:5039
+@HOST = http://10.220.0.8:5039
 
 ###########################################
 ##                MANAGERS               ##
@@ -59,7 +59,7 @@ Content-Type: application/json
 GET {{HOST}}/stores/my HTTP/1.1
 
 ###
-# GET INFORMATIONS OF THE SPECIFIC STORE
+# GET INFORMATIONS OF THE SPECIFIC STORE {STOREID}
 GET {{HOST}}/stores/7eb9a95d-a6e6-4165-9f7e-1e97b8d9166d HTTP/1.1
 
 ###########################################
@@ -78,7 +78,7 @@ Content-Type: application/json
 # GET ALL TABLES
 GET {{HOST}}/tables HTTP/1.1
 ###
-# DELETE TABLE
+# DELETE TABLE                      {TABLEID}
 DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 
 ###########################################
@@ -86,12 +86,12 @@ DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 ###########################################
 
 # @name products
-
+# GET ALL PRODUCTS
 POST {{HOST}}/products
 Content-Type: application/json
 
 {
-  "name": "PRODUTO 5",
+  "name": "PRODUTO 1",
   "description": "Descrição do produto",
   "price": 20.00
 }
@@ -107,6 +107,22 @@ Content-Type: application/json
   "tableId": "7856cd15-01bb-4344-a6e1-f83850761285"
 }
 ###
-# GET ALL ORDERS
-GET {{HOST}}/orders/ee55939c-0c7b-4ff9-8023-74dd249744ec
+# GET ALL ORDERS BY TABLEID          {TABLEID}
+GET {{HOST}}/orders/table/ee55939c-0c7b-4ff9-8023-74dd249744ec
 ###
+# GET ALL INFORMATIONS OF TABLE
+GET {{HOST}}/orders/e4580179-7eb6-4d14-94d4-059f7caeb5d1
+
+###########################################
+##            ORDERS-PRODUCTS            ##
+###########################################
+
+POST {{HOST}}/orders-products
+Content-Type: application/json
+
+{
+  "quantity": 2,
+  "orderId": "e4580179-7eb6-4d14-94d4-059f7caeb5d1",
+  "productId": "c62c2b54-a97f-4059-9ecc-34d936ee06e7",
+  "options": []
+}

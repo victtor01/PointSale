@@ -1,8 +1,7 @@
 namespace PointSaleApi.Src.Core.Application.Dtos;
 
-public class ProductDTO
+public class CreateProductDTO
 {
-  public required Guid Id { get; set; }
   public required string Name { get; set; }
   public required float Price { get; set; }
   public int? Quantity { get; set; } = null;

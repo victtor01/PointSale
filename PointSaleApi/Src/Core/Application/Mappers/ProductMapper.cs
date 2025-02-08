@@ -7,8 +7,9 @@ public static class ProductMapper
 {
   public static ProductDTO toMapper(this Product product)
   {
-    return new ProductDTO
+    return new ProductDTO()
     {
+      Id = product.Id,
       Name = product.Name,
       Price = product.Price,
       Description = product.Description ?? null,

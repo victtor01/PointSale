@@ -8,4 +8,5 @@ public interface IOrdersRepository
   public Task<Order> SaveAsync(Order order);
   public Task<List<Order>> FindAllByStatusAsync(OrderStatus status);
   public Task<List<Order>> FindAllByManagerAndTableAsync(Guid managerId, Guid tableId);
+  public Task<Order?> FindByIdAsync(Guid orderId);
 }

@@ -5,5 +5,5 @@ namespace PointSaleApi.src.Core.Application.Interfaces;
 
 public interface IProductsService
 {
-  public Task<Product> SaveProduct(ProductDTO productDto, Guid managerId, Guid storeId);
+  public Task<Product> SaveProduct(CreateProductDTO createProductDto, Guid managerId, Guid storeId);
 }

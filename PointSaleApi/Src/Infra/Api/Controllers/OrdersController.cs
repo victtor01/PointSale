@@ -11,7 +11,7 @@ namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [ApiController]
 [Route("orders")]
-public class OrderController(IOrdersService ordersService) : ControllerBase
+public class OrdersController(IOrdersService ordersService) : ControllerBase
 {
   [IsStoreSelectedRoute]
   [HttpPost]
@@ -27,14 +27,29 @@ public class OrderController(IOrdersService ordersService) : ControllerBase
     return Ok(order);
   }
 
-  [HttpGet("{tableId}")]
+  [HttpGet("table/{tableId}")]
   public async Task<IActionResult> FindAllByTableIdAsync(Guid tableId)
   {
     Session session = HttpContext.GetSession();
-    
+
     List<Order> orders =
       await ordersService.FindAllByTableIdAndManagerAsync(tableId: tableId, managerId: session.UserId);
-    
+
     return Ok(orders.Select(orders => orders.ToMapper()));
+  }
+
+  [HttpGet("{orderId}")]
+  public async Task<IActionResult> FindAsync(Guid orderId)
+  {
+    Session session = HttpContext.GetSession();
+    Guid userId = session.UserId;
+    Order order = await ordersService.FindByIdAndManagerAsync(orderId, userId);
+    float totalPrice = ordersService.GetTotalPriceOfOrder(order);
+
+    return Ok(new ResponseOrderDTO
+    {
+      Orders = order.ToMapper(),
+      TotalPrice = totalPrice
+    });
   }
 }
