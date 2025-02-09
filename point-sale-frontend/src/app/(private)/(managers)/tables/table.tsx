@@ -27,7 +27,7 @@ function Table(props: TableProps) {
         <span
           className={`text-lg flex font-semibold text-white w-10 h-10 items-center justify-center bg-gradient-45 from-gray-900 to-gray-800 border-4 border-gray-300 rounded-xl ${fontSaira}`}
         >
-          {table?.quantityOfOrders || 0}
+          {table?.orders.length || 0}
         </span>
       </div>
 

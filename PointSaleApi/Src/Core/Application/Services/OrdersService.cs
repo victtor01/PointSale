@@ -56,20 +56,16 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
 
   public float GetTotalPriceOfOrder(Order order)
   {
-    List<OrderProduct> ordersProducts = order?.OrderProducts ?? null;
-
+    var ordersProducts = order?.OrderProducts ?? null;
     if (ordersProducts == null) return 0;
 
     float totalPrice = 0;
-
     foreach (OrderProduct currentOrder in ordersProducts)
     {
-      
-      Console.WriteLine(currentOrder.Quantity);
       if (currentOrder?.Product != null ) totalPrice += currentOrder.Quantity * currentOrder.Product.Price;
       
       float priceOfOptions = currentOrder?.OptionsProducts?.Where(op => op.Product != null)
-        .Select(op => op.Product.Price)
+        .Select(op => op.Product!.Price)
         .Sum() ?? 0;
       
       totalPrice += priceOfOptions;

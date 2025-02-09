@@ -112,6 +112,8 @@ GET {{HOST}}/orders/table/ee55939c-0c7b-4ff9-8023-74dd249744ec
 ###
 # GET ALL INFORMATIONS OF TABLE
 GET {{HOST}}/orders/e4580179-7eb6-4d14-94d4-059f7caeb5d1
+###
+# GET ALL ORDERS
 
 ###########################################
 ##            ORDERS-PRODUCTS            ##
@@ -121,7 +123,7 @@ POST {{HOST}}/orders-products
 Content-Type: application/json
 
 {
-  "quantity": 2,
+  "quantity": 1,
   "orderId": "e4580179-7eb6-4d14-94d4-059f7caeb5d1",
   "productId": "c62c2b54-a97f-4059-9ecc-34d936ee06e7",
   "options": []

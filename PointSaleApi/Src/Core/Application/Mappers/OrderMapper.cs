@@ -12,8 +12,7 @@ public static class OrderMapper
       Id = order.Id,
       TableId = order.TableId,
       OrderStatus = order.Status,
-      Table = order.Table.ToMapper(),
-      Products = order.OrderProducts.Select(op => op.ToMapper()).ToList()
+      Products = order?.OrderProducts.Select(op => op.ToMapper()).ToList() ?? null
     };
   }
 }

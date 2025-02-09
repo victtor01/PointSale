@@ -12,7 +12,9 @@ public class TablesRepository(DatabaseContext databaseContext) : ITablesReposito
 
   public async Task<List<StoreTable>?> FindAllByStore(Guid storeId)
   {
-    var storeTables = await _context.Tables.Where(table => table.StoreId == storeId).ToListAsync();
+    var storeTables = await _context.Tables.AsNoTracking()
+      .Where(table => table.StoreId == storeId).Include(table => table.Orders).ToListAsync();
+
     return storeTables;
   }
 
@@ -44,6 +46,7 @@ public class TablesRepository(DatabaseContext databaseContext) : ITablesReposito
 
     return storeTable;
   }
+
   public async Task<StoreTable> SaveAsync(StoreTable storeTable)
   {
     var saved = await _context.Tables.AddAsync(storeTable);

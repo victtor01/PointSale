@@ -1,5 +1,7 @@
+import { IOrder } from "./IOrder";
+
 export interface ITable {
   id: string,
   number: string,
-  quantityOfOrders: number | null;
+  orders: IOrder[];
 }
