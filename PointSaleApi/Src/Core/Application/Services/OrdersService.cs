@@ -18,6 +18,7 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
   {
     List<Order> ordersInDatabase =
       await ordersRepository.FindAllByManagerAndTableAsync(managerId, createOrderDto.TableId);
+
     List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
 
     bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
@@ -37,9 +38,9 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
     return created;
   }
 
-  public async Task<List<Order>> FindAllByTableIdAndManagerAsync(Guid managerId, Guid tableId)
+  public async Task<List<Order>> GetAllAsync(Guid managerId)
   {
-    List<Order> orders = await ordersRepository.FindAllByManagerAndTableAsync(managerId, tableId);
+    var orders = await ordersRepository.FindAllByCreatedDateAsync(managerId);
     return orders;
   }
 
@@ -47,9 +48,8 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
   {
     Order? order = await ordersRepository.FindByIdAsync(orderId);
 
-    if (order == null) throw new NotFoundException("Order not found");
-
-    if (order.ManagerId != managerId) throw new UnauthorizedException("Invalid manager id");
+    if (order == null || order.ManagerId != managerId)
+      throw new NotFoundException("Order not found");
 
     return order;
   }
@@ -62,12 +62,12 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
     float totalPrice = 0;
     foreach (OrderProduct currentOrder in ordersProducts)
     {
-      if (currentOrder?.Product != null ) totalPrice += currentOrder.Quantity * currentOrder.Product.Price;
-      
+      if (currentOrder?.Product != null) totalPrice += currentOrder.Quantity * currentOrder.Product.Price;
+
       float priceOfOptions = currentOrder?.OptionsProducts?.Where(op => op.Product != null)
         .Select(op => op.Product!.Price)
         .Sum() ?? 0;
-      
+
       totalPrice += priceOfOptions;
     }
 

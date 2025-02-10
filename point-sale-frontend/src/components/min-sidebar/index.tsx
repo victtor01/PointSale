@@ -35,7 +35,7 @@ function MinSidebar() {
       <motion.div className="w-auto overflow-auto bg-gray-100 p-3 flex flex-col gap-2 shadow-gray-300 z-30">
         <header className="flex">
           <button
-            className="w-[2.5rem] h-[2.5rem] bg-indigo-600 rounded-xl text-white hover:rounded-[100%] transition-all
+            className="w-[2.5rem] h-[2.5rem] bg-indigo-600 rounded-full border-4 border-indigo-400 text-white hover:rounded-[100%] transition-all
             grid place-items-center opacity-80 hover:opacity-100"
           >
             <h1 className={fontSaira}>JV</h1>

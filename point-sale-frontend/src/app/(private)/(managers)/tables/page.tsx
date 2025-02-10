@@ -51,7 +51,7 @@ function ModalCreateTable() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="flex rounded-2xl top-[100%] right-0 max-w-[20rem] bg-white shadow-xl p-8 w-full ml-auto mt-2 flex-col 
+      className="flex rounded-2xl top-[100%] right-0 max-w-[20rem] bg-white shadow-xl p-8 w-full ml-auto mt-2 flex-col
       before:content-[''] before:w-1 before:h-[5rem] before:border-l-4 before:border-dotted before:absolute
       before:bottom-[100%] before:right-2 before:translate-y-[3rem] before:shadow-xl absolute"
     >
@@ -83,6 +83,8 @@ function ModalCreateTable() {
           Fechar
         </Link>
       </footer>
+
+
     </motion.form>
   );
 }

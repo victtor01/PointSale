@@ -24,18 +24,21 @@ public class OrdersController(IOrdersService ordersService) : ControllerBase
     Order order =
       await ordersService.CreateAsync(createOrderDto, storeId: storeId, managerId: managerId);
 
-    return Ok(order);
+    return Ok(order.ToMapper());
   }
 
-  [HttpGet("table/{tableId}")]
-  public async Task<IActionResult> FindAllByTableIdAsync(Guid tableId)
+  [HttpGet]
+  [IsAdminRoute]
+  public async Task<IActionResult> GetAllByCreatedAt()
   {
     Session session = HttpContext.GetSession();
+    Guid managerId = session.UserId;
 
-    List<Order> orders =
-      await ordersService.FindAllByTableIdAndManagerAsync(tableId: tableId, managerId: session.UserId);
-
-    return Ok(orders.Select(orders => orders.ToMapper()));
+    List<Order> orders = await ordersService.GetAllAsync(managerId);
+    
+    List<OrderDTO> ordersDto = orders.Select(order => order.ToMapper()).ToList();
+    
+    return Ok(ordersDto);
   }
 
   [HttpGet("{orderId}")]

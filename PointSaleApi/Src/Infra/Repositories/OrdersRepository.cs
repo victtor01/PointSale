@@ -32,18 +32,31 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
         .Include(order => order.Table)
         .Where(order => order.TableId == tableId && order.ManagerId == managerId)
         .ToListAsync();
+    
     return orders;
   }
 
   public async Task<Order?> FindByIdAsync(Guid orderId)
   {
     Order order = await databaseContext.Orders.AsNoTracking()
-                    .Include(o => o.Table)
-                    .Include(o => o.OrderProducts)
-                    .ThenInclude(o => o.Product)
-                    .ThenInclude(o => o.Options)
-                    .FirstOrDefaultAsync(order => order.Id == orderId)
-                  ?? null;
+      .Include(o => o.Table)
+      .Include(o => o.OrderProducts)
+      .ThenInclude(o => o.Product)
+      .ThenInclude(o => o.Options)
+      .FirstOrDefaultAsync(order => order.Id == orderId) ?? null;
+    
     return order;
+  }
+
+  public async Task<List<Order>> FindAllByCreatedDateAsync(Guid managerId)
+  {
+    List<Order> orders = await databaseContext.Orders.AsNoTracking()
+      .Where(order => order.ManagerId == managerId)
+      .OrderBy(order => order.CreatedAt)
+      .Include(order => order.OrderProducts)
+      .Include(order => order.Table)
+      .ToListAsync();
+
+    return orders;
   }
 }

@@ -21,6 +21,12 @@ public class OrderProduct
   [Column("productId")]
   public required Guid ProductId { get; set; }
   
+  [Required]
+  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+  
+  [Required]
+  public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+  
   [ForeignKey(nameof(OrderId))]
   public Order? Order { get; set; }
   

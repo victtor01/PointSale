@@ -10,9 +10,17 @@ public static class TableMapper
     return new TableDTO
     {
       Number = table.Number, Id = table.Id,
-      orders = table?.Orders?.Select(order => (OrderDTO?) order.ToMapper()).ToList() 
+      Orders = table?.Orders?.Select(order => (OrderDTO?) order.ToMapper()).ToList() 
                ?? new List<OrderDTO?>()
     };
-    
+  }
+
+  public static TableDTO ToSimpleDTO(this StoreTable table)
+  {
+    return new TableDTO()
+    {
+      Number = table.Number, Id = table.Id,
+      Orders = null
+    };
   }
 }

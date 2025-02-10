@@ -66,7 +66,7 @@ public class SessionMiddleware(
   }
 
   public Dictionary<string, string> VerifyAndRenewTokenAsync(
-    JwtTokensDTO tokens,
+    TokensDTO tokens,
     HttpResponse response
   )
   {
@@ -79,6 +79,7 @@ public class SessionMiddleware(
     {
       string refreshToken = tokens.RefreshToken;
       var refreshTokenClaims = _jwtService.VerifyTokenAndGetClaims(refreshToken);
+      
       JwtTokensDTO newTokens = _sessionService.CreateSessionUser(
         userId: refreshTokenClaims[ClaimKeysSession.UserId],
         email: refreshTokenClaims[ClaimKeysSession.Email],
@@ -102,7 +103,7 @@ public class SessionMiddleware(
     }
   }
 
-  public JwtTokensDTO GetCookieToken(HttpContext context)
+  public TokensDTO GetCookieToken(HttpContext context)
   {
     var cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
     var cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
@@ -111,7 +112,7 @@ public class SessionMiddleware(
     if (string.IsNullOrEmpty(cookiesAccessToken) || string.IsNullOrEmpty(cookiesRefreshToken))
       throw new BadRequestException("Faça o login!");
 
-    return new JwtTokensDTO
+    return new TokensDTO
     {
       AccessToken = cookiesAccessToken,
       RefreshToken = cookiesRefreshToken,
@@ -127,7 +128,7 @@ public class SessionMiddleware(
       return;
     }
 
-    JwtTokensDTO cookiesSession = GetCookieToken(httpContext);
+    TokensDTO cookiesSession = GetCookieToken(httpContext);
     var payload = this.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
     Session payloadSession = ParseDictionaryToSession(payload);
 

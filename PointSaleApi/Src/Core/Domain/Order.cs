@@ -29,6 +29,12 @@ public class Order
   [Column("order_products")]
   public List<OrderProduct?> OrderProducts { get; set; } = [];
   
+  [Required]
+  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+  
+  [Required]
+  public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+  
   [ForeignKey(nameof(ManagerId))]
   public Manager? manager { get; set; }
   

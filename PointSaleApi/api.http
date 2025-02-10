@@ -75,9 +75,11 @@ Content-Type: application/json
   "number": 1
 } 
 ###
+
 # GET ALL TABLES
 GET {{HOST}}/tables HTTP/1.1
 ###
+
 # DELETE TABLE                      {TABLEID}
 DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 
@@ -107,13 +109,13 @@ Content-Type: application/json
   "tableId": "7856cd15-01bb-4344-a6e1-f83850761285"
 }
 ###
-# GET ALL ORDERS BY TABLEID          {TABLEID}
-GET {{HOST}}/orders/table/ee55939c-0c7b-4ff9-8023-74dd249744ec
-###
+
 # GET ALL INFORMATIONS OF TABLE
 GET {{HOST}}/orders/e4580179-7eb6-4d14-94d4-059f7caeb5d1
 ###
+
 # GET ALL ORDERS
+GET {{HOST}}/orders
 
 ###########################################
 ##            ORDERS-PRODUCTS            ##
@@ -124,7 +126,7 @@ Content-Type: application/json
 
 {
   "quantity": 1,
-  "orderId": "e4580179-7eb6-4d14-94d4-059f7caeb5d1",
+  "orderId": "8f66d700-d857-4ce4-b6af-e54b61c3748e",
   "productId": "c62c2b54-a97f-4059-9ecc-34d936ee06e7",
   "options": []
 }

@@ -12,6 +12,8 @@ public static class OrderMapper
       Id = order.Id,
       TableId = order.TableId,
       OrderStatus = order.Status,
+      CreatedAt = order?.CreatedAt ?? null,
+      Table = order?.Table?.ToSimpleDTO() ?? null,
       Products = order?.OrderProducts.Select(op => op.ToMapper()).ToList() ?? null
     };
   }

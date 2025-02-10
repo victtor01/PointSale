@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PointSaleApi.Src.Core.Domain;
 
@@ -12,6 +13,7 @@ public class StoreTable
   public required Guid StoreId { get; set; }
   public required Guid ManagerId { get; set; }
 
+  [JsonIgnore]
   public List<Order> Orders { get; set; } = new List<Order>();
   
   [ForeignKey("StoreId")]
