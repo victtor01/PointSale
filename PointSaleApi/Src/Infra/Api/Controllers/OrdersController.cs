@@ -29,12 +29,14 @@ public class OrdersController(IOrdersService ordersService) : ControllerBase
 
   [HttpGet]
   [IsAdminRoute]
+  [IsStoreSelectedRoute]
   public async Task<IActionResult> GetAllByCreatedAt()
   {
     Session session = HttpContext.GetSession();
+    Guid storeId = HttpContext.GetStoreOrthrow();
     Guid managerId = session.UserId;
 
-    List<Order> orders = await ordersService.GetAllAsync(managerId);
+    List<Order> orders = await ordersService.GetAllAsync(managerId, storeId);
     
     List<OrderDTO> ordersDto = orders.Select(order => order.ToMapper()).ToList();
     

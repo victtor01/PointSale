@@ -48,12 +48,13 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
     return order;
   }
 
-  public async Task<List<Order>> FindAllByCreatedDateAsync(Guid managerId)
+  public async Task<List<Order>> FindAllByCreatedDateAsync(Guid managerId, Guid storeId)
   {
     List<Order> orders = await databaseContext.Orders.AsNoTracking()
-      .Where(order => order.ManagerId == managerId)
+      .Where(order => order.ManagerId == managerId && order.StoreId == storeId)
       .OrderBy(order => order.CreatedAt)
       .Include(order => order.OrderProducts)
+      .ThenInclude(order => order.Product)
       .Include(order => order.Table)
       .ToListAsync();
 

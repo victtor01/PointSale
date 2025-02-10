@@ -51,7 +51,8 @@ POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
 
 {
-  "name" : "example"
+  "name" : "hamburgueria",
+  "password": "example"
 }
 
 ###
@@ -125,7 +126,7 @@ POST {{HOST}}/orders-products
 Content-Type: application/json
 
 {
-  "quantity": 1,
+  "quantity": 2,
   "orderId": "8f66d700-d857-4ce4-b6af-e54b61c3748e",
   "productId": "c62c2b54-a97f-4059-9ecc-34d936ee06e7",
   "options": []

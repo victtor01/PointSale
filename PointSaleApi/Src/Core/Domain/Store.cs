@@ -21,7 +21,7 @@ public class Store
 
   public void HashAndSetPassword(string storeId)
   {
-    if (Password != null || Password.Length < 4)
+    if (Password == null || Password.Length < 4)
       throw new BadRequestException("Senha curta demais");
 
     var passwordHasher = new PasswordHasher<string>();

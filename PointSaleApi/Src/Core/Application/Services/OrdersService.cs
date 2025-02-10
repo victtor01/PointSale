@@ -38,9 +38,9 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
     return created;
   }
 
-  public async Task<List<Order>> GetAllAsync(Guid managerId)
+  public async Task<List<Order>> GetAllAsync(Guid managerId, Guid storeId)
   {
-    var orders = await ordersRepository.FindAllByCreatedDateAsync(managerId);
+    var orders = await ordersRepository.FindAllByCreatedDateAsync(managerId, storeId);
     return orders;
   }
 

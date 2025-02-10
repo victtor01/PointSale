@@ -9,5 +9,5 @@ public interface IOrdersRepository
   public Task<List<Order>> FindAllByStatusAsync(OrderStatus status);
   public Task<List<Order>> FindAllByManagerAndTableAsync(Guid managerId, Guid tableId);
   public Task<Order?> FindByIdAsync(Guid orderId);
-  public Task<List<Order>> FindAllByCreatedDateAsync(Guid managerId);
+  public Task<List<Order>> FindAllByCreatedDateAsync(Guid managerId, Guid storeId);
 }

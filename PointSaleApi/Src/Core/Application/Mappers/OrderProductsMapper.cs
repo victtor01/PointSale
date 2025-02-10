@@ -14,7 +14,8 @@ public static class OrderProductsMapper
       OrderId = orderProduct.OrderId,
       CreatedAt = orderProduct?.CreatedAt ?? null,
       UpdatedAt = orderProduct?.UpdatedAt ?? null,
-      OptionsProducts = orderProduct.OptionsProducts.Select(option => option.ToMapper()).ToList()
+      Product = orderProduct.Product.toMapper() ?? null,
+      Options = orderProduct.OptionsProducts.Select(option => option.ToMapper()).ToList()
     };
   }
 }

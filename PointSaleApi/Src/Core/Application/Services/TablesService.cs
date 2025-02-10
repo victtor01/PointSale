@@ -14,6 +14,7 @@ public class TablesService(ITablesRepository _tablesRepository) : ITablesService
     if (table == null) throw new NotFoundException("table not found!");
     return table;
   }
+  
   private async Task<StoreTable> FindByNumberOrThrowAsync(int number)
   {
     var table =
@@ -55,7 +56,8 @@ public class TablesService(ITablesRepository _tablesRepository) : ITablesService
       throw new BadRequestException("Número da mesa alto demais!");
 
     var table = await _tablesRepository.FindByNumberAsync(number);
-    if (table != null)
+    
+    if (table != null && table.StoreId == storeId)
       throw new BadRequestException("Mesa já existente.");
 
     StoreTable tableToCreate =
