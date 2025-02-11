@@ -6,4 +6,5 @@ namespace PointSaleApi.src.Core.Application.Interfaces;
 public interface IProductsRepository
 {
   public Task<Product> SaveAsync(Product product);
+  public Task<Product?> FindByIdAsync(Guid id);
 }

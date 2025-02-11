@@ -10,9 +10,13 @@ public class Store
 {
   [Key]
   public Guid Id { get; set; } = Guid.NewGuid();
+  
   public required string Name { get; set; }
+  
   public required Guid ManagerId { get; set; }
+  
   public required string? Password { get; set; }
+  
   public List<StoreTable> Tables { get; set; } = [];
 
   [ForeignKey("ManagerId")]

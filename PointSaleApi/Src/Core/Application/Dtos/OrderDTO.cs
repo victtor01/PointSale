@@ -9,5 +9,6 @@ public class OrderDTO
   public required OrderStatus OrderStatus { get; set; }
   public List<OrderProductDTO?> orderProducts { get; set; }
   public DateTime? CreatedAt { get; set; }
+  public DateTime? UpdatedAt { get; set; }
   public TableDTO? Table { get; set; }
 }

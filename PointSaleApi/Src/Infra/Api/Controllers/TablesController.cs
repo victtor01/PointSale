@@ -20,7 +20,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   public async Task<IActionResult> SaveAsync([FromBody] CreateTableDTO createTableDto)
   {
     Session context = HttpContext.GetSession();
-    Guid storeId = HttpContext.GetStoreOrthrow();
+    Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = context.UserId;
 
     StoreTable saved = await tablesService.SaveAsync(
@@ -38,7 +38,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   public async Task<IActionResult> FindByStoreSelected()
   {
     Session context = HttpContext.GetSession();
-    Guid storeId = HttpContext.GetStoreOrthrow();
+    Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = context.UserId;
 
     var tables = await tablesService.FindAllByStoreIdAndManagerOrThrowAsync(

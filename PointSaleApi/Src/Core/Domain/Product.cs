@@ -1,33 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-/*
-  order => varios produtos respectivamente com seus ExtraProduct
- */
-
-/*
-  order [
-    {
-      quantity: 4
-      productId: "PRODUCTID"
-      extras: [
-        { EXTRA }
-        { EXTRA }
-        { EXTRA }
-      ]
-    }
-    {
-      quantity: 2
-      productId: "PRODUCTID"
-      extras: [
-        { EXTRA }
-        { EXTRA }
-        { EXTRA }
-      ]
-    }
-  ]
- */
-
 namespace PointSaleApi.Src.Core.Domain;
 
 [Table("products")]

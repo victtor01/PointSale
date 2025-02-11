@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PointSaleApi.src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
@@ -13,5 +14,13 @@ public class ProductsRepository(DatabaseContext databaseContext) : IProductsRepo
     var saved = await this._databaseContext.Products.AddAsync(product);
     await _databaseContext.SaveChangesAsync();
     return saved.Entity;
+  }
+
+  public async Task<Product?> FindByIdAsync(Guid id)
+  {
+    var product = await this._databaseContext.Products.AsNoTracking()
+      .FirstOrDefaultAsync(product => product.Id == id) ?? null;
+    
+    return product;
   }
 }

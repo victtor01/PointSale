@@ -18,7 +18,7 @@ public class OrdersController(IOrdersService ordersService) : ControllerBase
   public async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
   {
     Session session = HttpContext.GetSession();
-    Guid storeId = HttpContext.GetStoreOrthrow();
+    Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = session.UserId;
 
     Order order =
@@ -33,7 +33,7 @@ public class OrdersController(IOrdersService ordersService) : ControllerBase
   public async Task<IActionResult> GetAllByCreatedAt()
   {
     Session session = HttpContext.GetSession();
-    Guid storeId = HttpContext.GetStoreOrthrow();
+    Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = session.UserId;
 
     List<Order> orders = await ordersService.GetAllAsync(managerId, storeId);

@@ -7,5 +7,6 @@ export interface IOrder {
   orderStatus: string | number;
   orderProducts: IOrderProduct[];
   createdAt: string;
+  updatedAt: string;
   table?: ITable | null;
 }

@@ -38,7 +38,7 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
 
   public async Task<Order?> FindByIdAsync(Guid orderId)
   {
-    Order order = await databaseContext.Orders.AsNoTracking()
+    Order order = await databaseContext.Orders
       .Include(o => o.Table)
       .Include(o => o.OrderProducts)
       .ThenInclude(o => o.Product)

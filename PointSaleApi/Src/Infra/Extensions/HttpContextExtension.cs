@@ -18,7 +18,7 @@ public static class GetStoreSessionOrThrow
     );
   }
 
-  public static Guid GetStoreOrthrow(this HttpContext context)
+  public static Guid GetStoreOrThrow(this HttpContext context)
   {
     var contextSession =
       (context.Items[SessionKey] ?? null) as Session

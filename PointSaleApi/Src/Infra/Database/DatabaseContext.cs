@@ -93,6 +93,22 @@ public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contex
   public DbSet<Store> Stores { get; set; } = null!;
   public DbSet<StoreTable> Tables { get; set; } = null!;
 
+  public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+  {
+    foreach (var entry in ChangeTracker.Entries())
+    {
+      if (entry.State == EntityState.Modified) 
+      {
+        if (entry.Entity is BaseEntity entity)
+        {
+          entity.UpdatedAt = DateTime.UtcNow;
+        }
+      }
+    }
+    
+    return await base.SaveChangesAsync(cancellationToken);
+  }
+
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     base.OnModelCreating(modelBuilder);

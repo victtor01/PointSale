@@ -5,7 +5,7 @@ using PointSaleApi.Src.Core.Application.Enums;
 namespace PointSaleApi.Src.Core.Domain;
 
 [Table("orders")]
-public class Order
+public class Order : BaseEntity
 {
   [Key]
   public Guid Id { get; set; } = Guid.NewGuid();
@@ -28,12 +28,6 @@ public class Order
   
   [Column("order_products")]
   public List<OrderProduct?> OrderProducts { get; set; } = [];
-  
-  [Required]
-  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-  
-  [Required]
-  public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
   
   [ForeignKey(nameof(ManagerId))]
   public Manager? manager { get; set; }

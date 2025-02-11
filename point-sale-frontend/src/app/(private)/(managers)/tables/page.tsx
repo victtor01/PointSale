@@ -95,7 +95,7 @@ function Tables() {
 
   return (
     <CenterSection className="p-0 px-4 overflow-x-hidden flex-1 h-full">
-      <header className="flex relative w-full pt-5 px-0 z-30 rounded-b-xl justify-between text-gray-600 dark:text-gray-200">
+      <header className="flex relative w-full bg-white items-center border p-2 px-3 z-30 rounded-b-md justify-between text-gray-600 dark:text-gray-200">
         <div className="font-semibold text-lg">
           <div className="flex gap-2 items-center drop-shadow-lg">
             <FaPlay size={10} />
@@ -105,10 +105,10 @@ function Tables() {
         <div className={`${fontSaira} relative`}>
           <Link
             href="?action=create"
-            className="text-md z-30 relative flex gap-1 items-center bg-white shadow px-2 p-1 font-semibold rounded-md opacity-90 hover:opacity-100"
+            className="flex gap-2 items-center bg-gray-200 px-4 p-1 rounded font-semibold opacity-90 hover:opacity-100"
           >
             <BsPlus size={20} />
-            Criar
+            Mesa
           </Link>
         </div>
 
@@ -129,6 +129,7 @@ function Tables() {
       </section>
 
       <AllTables key="5" />
+
     </CenterSection>
   );
 }

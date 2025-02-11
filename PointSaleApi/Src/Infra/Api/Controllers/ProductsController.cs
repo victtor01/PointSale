@@ -19,7 +19,7 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   public async Task<IActionResult> Create([FromBody] CreateProductDTO createProductDto)
   {
     Session session = HttpContext.GetSession();
-    Guid storeId = HttpContext.GetStoreOrthrow();
+    Guid storeId = HttpContext.GetStoreOrThrow();
     Product product = await _productsService.SaveProduct(createProductDto, managerId: session.UserId, storeId: storeId);
     
     return Ok(product.toMapper());

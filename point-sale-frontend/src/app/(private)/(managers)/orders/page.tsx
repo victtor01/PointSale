@@ -29,12 +29,12 @@ export default function Orders() {
   return (
     <section className="flex w-full flex-col mt-4">
       {orders?.map((order: IOrder) => {
-        const { createdAt, table, orderStatus } = order;
+        const { updatedAt, table, orderStatus } = order;
         return (
           <OrderComponent.Container
             orderStatus={orderStatus.toString()}
             tableNumber={table?.number || 0}
-            createdAt={createdAt}
+            updatedAt={updatedAt}
             key={order.id}
           >
             <OrderComponent.Informations order={order} />

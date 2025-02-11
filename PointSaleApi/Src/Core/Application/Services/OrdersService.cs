@@ -41,6 +41,7 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
   public async Task<List<Order>> GetAllAsync(Guid managerId, Guid storeId)
   {
     var orders = await ordersRepository.FindAllByCreatedDateAsync(managerId, storeId);
+    orders.ForEach(order => order.OrderProducts = order.OrderProducts.OrderBy(op => op?.CreatedAt).ToList());
     return orders;
   }
 
@@ -57,10 +58,10 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
   public float GetTotalPriceOfOrder(Order order)
   {
     var ordersProducts = order?.OrderProducts ?? null;
-    if (ordersProducts == null) return 0;
+    if (ordersProducts == null || ordersProducts.Count == 0) return 0;
 
     float totalPrice = 0;
-    foreach (OrderProduct currentOrder in ordersProducts)
+    foreach (var currentOrder in ordersProducts)
     {
       if (currentOrder?.Product != null) totalPrice += currentOrder.Quantity * currentOrder.Product.Price;
 
