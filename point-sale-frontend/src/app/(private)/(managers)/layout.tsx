@@ -8,11 +8,11 @@ interface LayoutManagerProps {
 
 export default function LayoutManagers({ children }: LayoutManagerProps) {
   return (
-    <main className="flex h-screen w-full overflow-auto">
+    <main className="flex h-auto w-full">
       <MinSidebar />
       <BottomSidebar/>
 
-      <section className="flex flex-1 bg-gradient-radial from-violet-50 to-white overflow-auto">
+      <section className="flex w-full mb-[4rem] h-auto bg-gradient-radial from-purple-50 to-white">
         {children}
       </section>
     </main>

@@ -65,7 +65,7 @@ function SelectStore() {
   return (
     <div className="bg-gradient-radial from-blue-50 to-white dark:bg-neutral-950 w-full h-screen overflow-auto flex">
       <div className="text-gray-700 dark:text-gray-200 flex flex-col m-auto items-center">
-        <header className="text-2xl font-semibold bg-red-200 text-center">
+        <header className="text-2xl font-semibold text-center">
           <h1 className={fontSaira}>
             Selecione a loja que você deseja continuar!
           </h1>

@@ -19,7 +19,8 @@ export default function LayoutLogin({ children }: LayoutLoginProps) {
           <div className="flex items-center justify-center w-6 h-6 bg-indigo-500 rounded-full "></div>
           <h2 className="text-indigo-500 font-semibold">Organizze</h2>
         </div>
-        <button className=" shadow shadow-indigo-500/50 text-white bg-gradient-to-r from-indigo-500 to-blue-600 dark:border-zinc-500 opacity-80 px-4 text-sm font-semibold hover:opacity-100 flex items-center gap-2 justify-center p-2 rounded">
+        <button className="border-2 border-white text-white bg-gradient-to-r from-indigo-500 to-blue-600 dark:border-zinc-500 
+        opacity-80 px-4 text-sm font-semibold hover:opacity-100 flex items-center gap-2 justify-center p-2 rounded">
           Crie sua conta!
           <FaArrowRight size={15} />
         </button>

@@ -10,7 +10,7 @@ function BottomSidebar() {
 
   return (
     <div className="fixed bottom-0 left-0 w-full bg-gray-100 lg:hidden z-40 flex justify-between">
-      <div className="flex w-full max-w-[15rem] mx-auto justify-between py-2">
+      <div className="flex w-full max-w-[15rem] mx-auto justify-between pb-3">
         {pages?.map((page) => {
           const Icon = page.icon;
           const selected = page.link === pathName;

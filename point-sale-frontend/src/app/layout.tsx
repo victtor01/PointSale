@@ -27,10 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning>
+    <html lang="pt-br" className="light" suppressHydrationWarning>
       <body
         cz-shortcut-listen="false"
-        className={`${geistSans.variable} ${geistMono.variable} text-gray-600 dark:text-neutral-200 bg-white dark:bg-neutral-950 antialiased`}
+        className={`text-gray-600 dark:text-neutral-200 bg-white dark:bg-neutral-950`}
       >
         <QueryProvider>{children}</QueryProvider>
         <ToastContainer position="bottom-right" />

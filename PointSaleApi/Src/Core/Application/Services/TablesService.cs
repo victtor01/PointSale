@@ -84,7 +84,6 @@ public class TablesService(ITablesRepository _tablesRepository) : ITablesService
 
     foreach (StoreTable table in tables)
     {
-      Logger.Error(table.Number.ToString());
       if (table.ManagerId != managerId)
         throw new BadRequestException("Algo deu errado ao tentar pegar as mesas da sua loja!");
     }

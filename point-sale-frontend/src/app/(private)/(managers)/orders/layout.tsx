@@ -18,14 +18,13 @@ export default function LayoutOrders(props: LayoutOrdersProps) {
           <div className="relative group/link">
             <Link
               href="/orders/create"
-              as={"create"}
               className="bg-gray-200 p-1 px-2 text-gray-500 text-md rounded-md flex gap-2 items-center"
             >
               <BsPlus size={20} />
               Pedido
             </Link>
 
-            <div className="bg-white items-center gap-2 hidden group-hover/link:flex border rounded px-2 w-[14rem] p-1 h-xl absolute mt-1 z-30 text-sm">
+            <div className="right-0 bg-white items-center gap-2 hidden group-hover/link:flex border rounded px-2 w-[14rem] p-1 h-xl absolute mt-1 z-30 text-sm">
               <div>
                 <IoMdAlert size={20} />
               </div>
