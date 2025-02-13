@@ -7,6 +7,8 @@ public static class OrderProductsMapper
 {
   public static OrderProductDTO ToMapper(this OrderProduct orderProduct)
   {
+    var order = orderProduct.Order == null ? null : orderProduct.Order.ToSimpleMapper();
+
     return new OrderProductDTO
     {
       Id = orderProduct.Id,
@@ -19,7 +21,8 @@ public static class OrderProductsMapper
       Product = orderProduct?.Product?.toMapper() ?? null,
       Options = orderProduct?.OptionsProducts != null
         ? orderProduct.OptionsProducts.Select(option => (OptionsProductDTO?)option.ToMapper()).ToList()
-        : []
+        : [],
+      Order = order,
     };
   }
 }

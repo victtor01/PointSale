@@ -18,4 +18,18 @@ public static class OrderMapper
       orderProducts = order?.OrderProducts.Select(op => op.ToMapper()).ToList() ?? null
     };
   }
+  
+  public static OrderDTO ToSimpleMapper(this Order order)
+  {
+    return new OrderDTO()
+    {
+      Id = order.Id,
+      TableId = order.TableId,
+      OrderStatus = order.Status,
+      CreatedAt = order?.CreatedAt ?? null,
+      Table = order?.Table?.ToSimpleDTO() ?? null,
+      UpdatedAt = order?.UpdatedAt ?? null,
+      orderProducts = null
+    };
+  }
 }

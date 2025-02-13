@@ -10,7 +10,7 @@ function Table(props: TableProps) {
   const { table } = props;
 
   return (
-    <div className="flex group relative items-center justify-between select-none gap-4 p-2 px-3 bg-white shadow transition-all rounded-lg opacity-90 hover:opacity-100">
+    <div className="flex group relative items-center justify-between select-none gap-4 p-2 px-3 bg-white border transition-all rounded-lg opacity-90 hover:opacity-100">
       <div
         className={`pointer-events-none flex-1 flex flex-col font-semibold p-2 bg-gray-200/70 rounded-md ${fontSaira}`}
       >

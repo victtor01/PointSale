@@ -12,7 +12,7 @@ type ButtonToLinkProps = {
 
 function ButtonToLink({ children, link }: ButtonToLinkProps) {
   const currentLink = usePathname();
-  const selected = !!currentLink?.startsWith(link);
+  const selected = currentLink === link;
   const router = useRouter();
 
   return (

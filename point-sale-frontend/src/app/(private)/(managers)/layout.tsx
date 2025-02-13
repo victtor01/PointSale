@@ -1,5 +1,4 @@
 import { BottomSidebar } from "@/components/bottom-sidebar";
-import { FloatingSidebar } from "@/components/floating-sidebar";
 import { MinSidebar } from "@/components/min-sidebar";
 
 interface LayoutManagerProps {
@@ -8,11 +7,10 @@ interface LayoutManagerProps {
 
 export default function LayoutManagers({ children }: LayoutManagerProps) {
   return (
-    <main className="flex h-auto w-full">
+    <main className="flex h-[100vh] w-full overflow-hidden">
       <MinSidebar />
-      <BottomSidebar/>
-
-      <section className="flex w-full mb-[4rem] h-auto bg-gradient-radial from-purple-50 to-white">
+      <BottomSidebar />
+      <section className="flex w-full relative h-[100vh] overflow-auto flex-col pb-[5rem] px-[1rem] bg-gradient-radial from-blue-100 to-white">
         {children}
       </section>
     </main>

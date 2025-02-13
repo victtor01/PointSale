@@ -94,7 +94,7 @@ function Tables() {
   const action = actionModalOption.get("action") || null;
 
   return (
-    <CenterSection className="p-0 px-4 pb-[5rem] h-auto">
+    <CenterSection className="p-0 px-4 pb-[1rem] h-auto bg-white border-b-4 rounded-b-xl shadow-xl">
       <header className="flex relative w-full bg-white items-center border p-2 px-3 z-30 rounded-b-md justify-between text-gray-600 dark:text-gray-200">
         <div className="font-semibold text-lg">
           <div className="flex gap-2 items-center drop-shadow-lg">
