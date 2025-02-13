@@ -87,7 +87,11 @@ DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 ###########################################
 
 # GET ALL PRODUCTS
-POST {{HOST}}/products
+GET {{HOST}}/products HTTP/1.1
+
+###
+# GET ALL PRODUCTS
+POST {{HOST}}/products HTTP/1.1
 Content-Type: application/json
 
 {
@@ -123,8 +127,8 @@ POST {{HOST}}/orders-products
 Content-Type: application/json
 
 {
-  "quantity": 2,
-  "orderId": "fba1bf91-317d-4861-8723-ee864a162d18",
+  "quantity": 1,
+  "orderId": "3e2b113b-2584-45e3-8b0e-592bf0f3076d",
   "productId": "1032900f-ae6e-4c00-b2cf-b04322f842f2",
   "options": []
 }

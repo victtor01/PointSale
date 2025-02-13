@@ -21,7 +21,8 @@ public class Store
 
   [ForeignKey("ManagerId")]
   public Manager? Manager { get; set; }
-  public Product[] Products { get; set; } = [];
+  
+  public List<Product> Products { get; set; } = [];
 
   public void HashAndSetPassword(string storeId)
   {

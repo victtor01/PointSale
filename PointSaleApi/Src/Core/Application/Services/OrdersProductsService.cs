@@ -54,10 +54,6 @@ public class OrdersProductsService(
 
   public async Task<bool> UpdateStatusAsync(string statusString, Guid orderProductId)
   {
-    OrderProductStatus status = Enum.TryParse<OrderProductStatus>(statusString, out var STATUS)
-      ? STATUS
-      : throw new BadRequestException("Status is not valid");
-
     var orderProduct = await _ordersProductsRepository.FindByIdAsync(orderProductId);
     if (orderProduct == null)
       throw new NotFoundException("OrderProduct not found");

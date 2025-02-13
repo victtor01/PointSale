@@ -13,6 +13,8 @@ namespace PointSaleApi.Src.Infra.Api.Controllers;
 [Route("products")]
 public class ProductsController(IProductsService _productsService) : ControllerBase
 {
+  private Guid userId => HttpContext.GetSession().UserId;
+
   [HttpPost]
   [IsAdminRoute]
   [IsStoreSelectedRoute]
@@ -21,7 +23,21 @@ public class ProductsController(IProductsService _productsService) : ControllerB
     Session session = HttpContext.GetSession();
     Guid storeId = HttpContext.GetStoreOrThrow();
     Product product = await _productsService.SaveProduct(createProductDto, managerId: session.UserId, storeId: storeId);
-    
+
     return Ok(product.toMapper());
+  }
+
+  [HttpGet]
+  [IsStoreSelectedRoute]
+  [IsAdminRoute]
+  public async Task<IActionResult> GetAll()
+  {
+    var storeId = HttpContext.GetStoreOrThrow();
+
+    List<Product> products = await _productsService.GetAllProducts(
+      storeId: storeId, managerId: userId
+    );
+
+    return Ok(new { products = products.Select(product => product.toMapper()).ToList() });
   }
 }

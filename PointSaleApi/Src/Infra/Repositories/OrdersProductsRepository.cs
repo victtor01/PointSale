@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
@@ -13,7 +14,7 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
   {
     var updated = _dbContext.OrderProducts.Update(orderProduct);
     await _dbContext.SaveChangesAsync();
-    
+
     return updated.Entity;
   }
 
@@ -21,11 +22,11 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
   {
     var created = await _dbContext.OrderProducts.AddAsync(orderProduct);
     await _dbContext.SaveChangesAsync();
-    
+
     return created.Entity;
   }
 
-  public async Task<OrderProduct> FindByIdAsync(Guid id)
+  public async Task<OrderProduct?> FindByIdAsync(Guid id)
   {
     var orderProduct = await _dbContext.OrderProducts.FindAsync(id);
     return orderProduct;
@@ -33,7 +34,10 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
 
   public async Task<List<OrderProduct>> FindByStoreAsync(Guid storeId)
   {
-    var orderProducts = await _dbContext.OrderProducts.Where(x => x.StoreId == storeId).ToListAsync();
+    var orderProducts = await _dbContext.OrderProducts
+      .Where(x => x.StoreId == storeId)
+      .OrderBy(x => x.CreatedAt)
+      .ToListAsync();
     return orderProducts;
   }
 }

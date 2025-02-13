@@ -23,4 +23,13 @@ public class ProductsRepository(DatabaseContext databaseContext) : IProductsRepo
     
     return product;
   }
+
+  public async Task<List<Product>> FindAllByStoreAndManager(Guid storeId)
+  {
+    var products = await this._databaseContext.Products.AsQueryable()
+      .Where(product => product.StoreId == storeId)
+      .ToListAsync();
+
+    return products;
+  }
 }

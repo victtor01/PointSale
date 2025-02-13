@@ -10,10 +10,11 @@ public class Product
   public Guid Id { get; init; } = Guid.NewGuid();
 
   [MinLength(3)]
-  public string Name { get; set; }
+  [MaxLength(50)]
+  public required string Name { get; set; }
 
   [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-  public  float Price { get; set; }
+  public required float Price { get; set; }
     
   [ForeignKey("StoreId")]
   public Store? Store { get; set; }
@@ -25,6 +26,7 @@ public class Product
   public int? Quantity { get; set; } = null;
     
   [Column("description")]
+  [MaxLength(500)]
   public string? Description { get; set; } = null;
     
   public List<OptionsProduct> Options { get; set; } = [];

@@ -25,7 +25,7 @@ public class AuthService(
 
     if (hashed == PasswordVerificationResult.Failed)
       throw new UnauthorizedException("incorrect password!");
-
+  
     return true;
   }
 
