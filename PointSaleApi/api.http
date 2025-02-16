@@ -71,7 +71,7 @@ POST {{HOST}}/tables HTTP/1.1
 Content-Type: application/json
 
 {
-  "number": 1
+  "number": 2
 } 
 
 ###

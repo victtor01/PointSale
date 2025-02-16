@@ -36,7 +36,7 @@ public class StoresController(IStoresService storesService) : ControllerBase
 
     List<Store> stores = await _storesService.GetAllByManager(managerId);
 
-    return Ok(stores.Select(store => store.ToStoreMapper()));
+    return Ok(stores.Select(store => store.ToStoreMapperWithResume()));
   }
 
   [IsAdminRoute()]

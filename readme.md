@@ -68,4 +68,3 @@ Sinta-se à vontade para contribuir com o projeto, enviando sugestões ou pull r
 
 ## 📜 Licença
 Este projeto está sob a licença MIT.
-

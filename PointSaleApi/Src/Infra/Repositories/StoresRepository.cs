@@ -11,7 +11,11 @@ public class StoresRepository(DatabaseContext context) : IStoresRepository
 
   public async Task<List<Store>> FindAllByManagerAsync(Guid managerId)
   {
-    var stores = await _context.Stores.Where(s => s.ManagerId == managerId).ToListAsync() ?? [];
+    var stores = await _context.Stores
+      .AsNoTracking()
+      .Where(s => s.ManagerId == managerId)
+      .Include(S => S.Tables)
+      .ToListAsync() ?? [];
 
     return stores;
   }

@@ -26,6 +26,7 @@ public static class CorsConfig
           policy
             .WithOrigins("http://localhost:3000")
             .WithOrigins("http://10.220.0.8:3000")
+            .WithOrigins("http://10.220.0.8:8000")
             .WithOrigins("http://10.0.2.2")
             .WithOrigins("http://10.220.0.8:5039")
             .AllowAnyHeader()
