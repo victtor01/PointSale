@@ -44,6 +44,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [FromRoute] Guid storeId
   )
   {
+    Console.WriteLine("PASSOU AQUI");
     Session session = HttpContext.GetSession();
 
     string token = await _authService.AuthSelectStore(

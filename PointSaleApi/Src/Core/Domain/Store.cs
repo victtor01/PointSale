@@ -33,4 +33,12 @@ public class Store
     var newPassword = passwordHasher.HashPassword(storeId, Password);
     Password = newPassword;
   }
+
+  public void isValidManager(Guid managerId)
+  {
+    if (ManagerId != managerId)
+    {
+      throw new UnauthorizedException("manager not have this store!");
+    }
+  }
 }

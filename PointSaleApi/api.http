@@ -34,11 +34,10 @@ Content-Type: application/json
 
 ###
 # AUTH ON STORE
-POST {{HOST}}/auth/select/040e7abb-4c2c-45f2-a433-883eea9dff8d HTTP/1.1
+POST {{HOST}}/auth/select/a2c5b340-6068-4cd4-b285-4c47a89ad583 HTTP/1.1
 Content-Type: application/json
 
 {
-  "password": "example"
 } 
 
 ###########################################
@@ -50,8 +49,7 @@ POST {{HOST}}/stores HTTP/1.1
 Content-Type: application/json
 
 {
-  "name" : "hamburgueria",
-  "password": "example"
+  "name" : "Esfirraria"
 }
 
 ###
@@ -61,6 +59,9 @@ GET {{HOST}}/stores/my HTTP/1.1
 ###
 # GET INFORMATIONS OF THE SPECIFIC STORE {STOREID}
 GET {{HOST}}/stores/040e7abb-4c2c-45f2-a433-883eea9dff8d HTTP/1.1
+
+###
+GET {{HOST}}/stores/informations HTTP/1.1
 
 ###########################################
 ##                 TABLES                ##

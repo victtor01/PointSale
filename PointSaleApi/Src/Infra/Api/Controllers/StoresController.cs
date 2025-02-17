@@ -53,4 +53,18 @@ public class StoresController(IStoresService storesService) : ControllerBase
 
     return Ok(store.ToStoreMapper());
   }
+
+  [IsAdminRoute()]
+  [IsStoreSelectedRoute]
+  [HttpGet("informations")]
+  public async Task<IActionResult> GetInformations()
+  {
+    Guid userId = HttpContext.GetSession().UserId;
+    Guid storeId = HttpContext.GetStoreOrThrow();
+    
+    Store store = await _storesService.FindOneByIdOrThrowAsync(storeId);
+    store.isValidManager(userId);
+
+    return Ok(store.ToStoreMapper());
+  }
 }

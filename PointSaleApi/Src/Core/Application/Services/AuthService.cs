@@ -58,7 +58,8 @@ public class AuthService(
 
   public async Task<string> AuthSelectStore(SelectStoreDTO selectStoreDto)
   {
-    var store = await _storesService.FindOneByIdAsync(selectStoreDto.StoreId);
+    
+    var store = await _storesService.FindOneByIdOrThrowAsync(selectStoreDto.StoreId);
 
     if (store == null || store.ManagerId != selectStoreDto.ManagerId)
       throw new UnauthorizedException("store not found!");

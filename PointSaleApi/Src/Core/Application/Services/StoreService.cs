@@ -17,9 +17,11 @@ public class StoresService(IStoresRepository _storesRepository) : IStoresService
       throw new BadRequestException("you have a tore with that name");
   }
 
-  public async Task<Store?> FindOneByIdAsync(Guid storeId)
+  public async Task<Store> FindOneByIdOrThrowAsync(Guid storeId)
   {
-    Store? store = await _storesRepository.FindOneById(storeId);
+    var store = await _storesRepository.FindOneById(storeId) ?? throw new NotFoundException("store not found!");
+
+
     return store;
   }
 

@@ -7,6 +7,6 @@ public interface IStoresService
 {
   public Task<List<Store>> GetAllByManager(Guid userId);
   public Task<Store> SaveAsync(CreateStoreDTO createStoreDto, Guid managerId);
-  public Task<Store?> FindOneByIdAsync(Guid storeId);
+  public Task<Store> FindOneByIdOrThrowAsync(Guid storeId);
   public Task<Store> FindOneByIdAndManagerOrThrowAsync(Guid storeId, Guid managerId);
 }
