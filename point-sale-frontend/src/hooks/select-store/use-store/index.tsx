@@ -4,14 +4,19 @@ import { IStore } from "@/interfaces/IStore"
 import { api } from "@/utils/api"
 import { useQuery } from "@tanstack/react-query"
 
+interface ResponseGetAllStores {
+  store: IStore,
+  revenue: number;
+}
+
 const useStore = () => {
-  const { data: stores, isLoading } = useQuery<IStore[]>({
+  const { data: storesResponse, isLoading } = useQuery<ResponseGetAllStores[]>({
     queryKey: ["stores", "my"],
     queryFn: async () => (await api.get("/stores/my")).data
   })
 
   return {
-    stores,
+    storesResponse,
     isLoading,
   }
 }

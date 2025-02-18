@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Core.Domain;
+using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Domain;
@@ -11,9 +12,10 @@ namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [ApiController()]
 [Route("/stores")]
-public class StoresController(IStoresService storesService) : ControllerBase
+public class StoresController(IStoresService storesService, IOrdersService ordersService) : ControllerBase
 {
   private readonly IStoresService _storesService = storesService;
+  private readonly IOrdersService _ordersService = ordersService;
 
   [IsAdminRoute()]
   [HttpPost()]
@@ -29,14 +31,29 @@ public class StoresController(IStoresService storesService) : ControllerBase
 
   [IsAdminRoute()]
   [HttpGet("my")]
-  public async Task<ActionResult<List<Store>>> FindMyStores()
+  public async Task<IActionResult> FindMyStores()
   {
     Session session = HttpContext.GetSession();
     Guid managerId = session.UserId;
 
-    List<Store> stores = await _storesService.GetAllByManager(managerId);
+    List<Store> stores = await _storesService.GetAllByManagerWithRelations(managerId);
+    var result = stores.Select(store =>
+    {
+      var orders = store.Orders
+        .Where(order => order.Status == OrderStatus.PAID)
+        .ToList();
 
-    return Ok(stores.Select(store => store.ToStoreMapperWithResume()));
+      float totalPrice = orders
+        .Sum(order => _ordersService.GetTotalPriceOfOrder(order));
+
+      return new
+      {
+        Store = store.ToStoreMapperWithResume(),
+        Revenue = totalPrice
+      };
+    });
+    
+    return Ok(result);
   }
 
   [IsAdminRoute()]
@@ -61,10 +78,22 @@ public class StoresController(IStoresService storesService) : ControllerBase
   {
     Guid userId = HttpContext.GetSession().UserId;
     Guid storeId = HttpContext.GetStoreOrThrow();
-    
-    Store store = await _storesService.FindOneByIdOrThrowAsync(storeId);
+
+    Store store = await _storesService.FindOneByIdWithRelations(storeId);
     store.isValidManager(userId);
 
-    return Ok(store.ToStoreMapper());
+    List<Order> orders = store.Orders
+      .Where(order => order.Status == OrderStatus.PAID)
+      .ToList();
+
+    float totalPrice = orders
+      .Sum(order => _ordersService
+        .GetTotalPriceOfOrder(order));
+
+    return Ok(new
+    {
+      store = store.ToStoreMapperWithResume(),
+      Revenue = totalPrice
+    });
   }
 }

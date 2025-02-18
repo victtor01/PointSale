@@ -35,9 +35,24 @@ public class StoresService(IStoresRepository _storesRepository) : IStoresService
     return store;
   }
 
+  public async Task<Store> FindOneByIdWithRelations(Guid storeId)
+  {
+    var stores = await _storesRepository.FindByIdWithTablesWithOrdersAndProductsAsync(storeId);
+    if(stores == null) throw new NotFoundException("store not found!");
+    
+    return stores;
+  }
+  
   public async Task<List<Store>> GetAllByManager(Guid managerId)
   {
     List<Store> stores = await _storesRepository.FindAllByManagerAsync(managerId);
+    return stores;
+  }
+
+  public async Task<List<Store>> GetAllByManagerWithRelations(Guid managerId)
+  {
+    List<Store> stores = await _storesRepository.FindAllByManagerIdWithOrdersAsync(managerId);
+    
     return stores;
   }
 
@@ -50,6 +65,7 @@ public class StoresService(IStoresRepository _storesRepository) : IStoresService
     {
       Name = createStoreDto.Name,
       Password = createStoreDto.Password,
+      RevenueGoal = createStoreDto.Revenue,
       ManagerId = managerId,
     };
 

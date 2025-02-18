@@ -94,8 +94,8 @@ function Tables() {
   const action = actionModalOption.get("action") || null;
 
   return (
-    <CenterSection className="p-0 px-4 pb-[1rem] h-auto bg-white border-b-4 rounded-b-xl shadow-xl">
-      <header className="flex relative w-full bg-white items-center border p-2 px-3 z-30 rounded-b-md justify-between text-gray-600 dark:text-gray-200">
+    <CenterSection className="p-0 pb-[1rem] h-auto bg-white border-b-4 rounded-b-xl shadow-xl">
+      <header className="flex relative w-full bg-white items-center border-b p-2 px-3 z-30 justify-between text-gray-600 dark:text-gray-200">
         <div className="font-semibold text-lg">
           <div className="flex gap-2 items-center drop-shadow-lg">
             <FaPlay size={10} />
@@ -118,7 +118,7 @@ function Tables() {
       </header>
 
       <section
-        className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
+        className={`flex w-full gap-5 px-3 ${fontSaira} mt-5 items-center select-none`}
       >
         <div className="flex flex-col gap-1">
           <span className="font-semibold opacity-80">Modo de exibição</span>

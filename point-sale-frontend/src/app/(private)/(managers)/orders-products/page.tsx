@@ -1,7 +1,6 @@
 "use client";
 
 import { CenterSection } from "@/components/center-section";
-import { OrderComponent } from "@/components/order-component";
 import { fontSaira } from "@/fonts";
 import { IOrderProduct } from "@/interfaces/IOrderProducts";
 import { api } from "@/utils/api";

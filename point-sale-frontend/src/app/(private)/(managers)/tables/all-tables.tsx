@@ -11,7 +11,7 @@ function AllTables() {
   if (isLoading) return "loading...";
 
   return (
-    <div className="flex flex-col gap-1 flex-1">
+    <div className="flex flex-col gap-1 flex-1 px-3">
       <section
         className={`flex w-full gap-5 ${fontSaira} mt-5 items-center select-none`}
       >

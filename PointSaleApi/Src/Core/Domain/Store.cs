@@ -11,18 +11,28 @@ public class Store
   [Key]
   public Guid Id { get; set; } = Guid.NewGuid();
   
+  [Column("name")]
+  [Required]  
   public required string Name { get; set; }
   
+  [Column("description")]
+  [Required]
   public required Guid ManagerId { get; set; }
-  
-  public required string? Password { get; set; }
-  
-  public List<StoreTable> Tables { get; set; } = [];
+
+  [Column("password")] 
+  public string? Password { get; set; } = null;
+
+  [Column("revenue")] 
+  public float? RevenueGoal { get; set; } = null;
 
   [ForeignKey("ManagerId")]
   public Manager? Manager { get; set; }
-  
+
+  public List<StoreTable> Tables { get; set; } = [];
+
   public List<Product> Products { get; set; } = [];
+  
+  public List<Order> Orders { get; set; } = [];
 
   public void HashAndSetPassword(string storeId)
   {

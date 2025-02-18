@@ -7,7 +7,7 @@ using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 
-public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
+public class OrdersService(IOrdersRepository ordersRepository, ITablesRepository tablesRepository) : IOrdersService
 {
   private const int QUANTITY_OF_ORDERS_THAT_CAN = 2;
 
@@ -16,6 +16,9 @@ public class OrdersService(IOrdersRepository ordersRepository) : IOrdersService
 
   public async Task<Order> CreateAsync(CreateOrderDTO createOrderDto, Guid managerId, Guid storeId)
   {
+    var tableInDB = await tablesRepository.FindByIdAsync(createOrderDto.TableId);
+    if (tableInDB == null) throw new Exception($"Table {createOrderDto.TableId} not found");
+
     List<Order> ordersInDatabase =
       await ordersRepository.FindAllByManagerAndTableAsync(managerId, createOrderDto.TableId);
 

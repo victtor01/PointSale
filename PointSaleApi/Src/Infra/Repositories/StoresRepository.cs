@@ -20,10 +20,34 @@ public class StoresRepository(DatabaseContext context) : IStoresRepository
     return stores;
   }
 
+
   public async Task<Store?> FindOneById(Guid storeId)
   {
     var store = await _context.Stores.FirstOrDefaultAsync(s => s.Id == storeId) ?? null;
     return store;
+  }
+
+  public async Task<Store?> FindByIdWithTablesWithOrdersAndProductsAsync(Guid storeId)
+  {
+    return await _context.Stores
+      .AsNoTracking()
+      .Include(store => store.Tables)
+      .Include(store => store.Orders)
+      .ThenInclude(order => order.OrderProducts)
+      .ThenInclude(orderProduct => orderProduct.Product)
+      .FirstOrDefaultAsync(s => s.Id == storeId) ?? null;
+  }
+
+  public async Task<List<Store>> FindAllByManagerIdWithOrdersAsync(Guid managerId)
+  {
+    return await _context.Stores
+      .AsNoTracking()
+      .Include(store => store.Tables)
+      .Include(store => store.Orders)
+      .ThenInclude(order => order.OrderProducts)
+      .ThenInclude(orderProduct => orderProduct.Product)
+      .ToListAsync();
+    
   }
 
   public async Task<Store> SaveAsync(Store store)
