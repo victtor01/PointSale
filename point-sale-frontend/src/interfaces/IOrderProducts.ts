@@ -1,3 +1,6 @@
+import { IOrder } from "./IOrder";
+import { IProduct } from "./IProduct";
+
 export interface IOrderProduct {
   id: string;
   quantity: string;
@@ -6,6 +9,8 @@ export interface IOrderProduct {
   updatedAt: string;
   status: string;
   createdAt: string;
+  product?: IProduct;
+  order?: IOrder
 }
 
 export type OrderProductStatus = "READY" | "CANCELED" | "DELIVERED" | "IN_PROGRESS" | "PENDING"

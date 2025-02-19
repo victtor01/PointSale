@@ -27,7 +27,7 @@ export default function Orders() {
   const { orders } = getAllOrders();
 
   return (
-    <section className="flex w-full flex-col mt-4">
+    <section className="flex w-full flex-col ">
       {orders?.map((order: IOrder) => {
         const { updatedAt, table, orderStatus } = order;
         return (

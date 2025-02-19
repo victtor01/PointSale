@@ -35,8 +35,8 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
 
 function MinSidebar() {
   return (
-    <div className="h-screen lg:flex hidden ">
-      <motion.div className="w-auto overflow-auto bg-gray-100 p-3 flex flex-col gap-2 shadow-gray-300 z-30 items-center">
+    <div className="h-screen lg:flex hidden">
+      <motion.div className="w-auto overflow-auto bg-white p-3 border-r flex flex-col gap-2 shadow-gray-300 z-30 items-center">
         <header className="flex">
           <button
             className="w-[2.5rem] h-[2.5rem] bg-gray-900 rounded-full border-4 border-gray-800 text-white hover:rounded-[100%] transition-all
