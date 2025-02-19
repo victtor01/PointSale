@@ -19,10 +19,7 @@ public class StoresService(IStoresRepository _storesRepository) : IStoresService
 
   public async Task<Store> FindOneByIdOrThrowAsync(Guid storeId)
   {
-    var store = await _storesRepository.FindOneById(storeId) ?? throw new NotFoundException("store not found!");
-
-
-    return store;
+    return await _storesRepository.FindOneById(storeId) ?? throw new NotFoundException("store not found!");
   }
 
   public async Task<Store> FindOneByIdAndManagerOrThrowAsync(Guid storeId, Guid managerId)

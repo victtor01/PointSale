@@ -12,5 +12,4 @@ public class Session(Guid userId, string email, UserRole role, Guid? storeId)
   public string Email { get; set; } = email;
   public Guid? StoreId { get; set; } = storeId;
   public UserRole Role { get; set; } = role;
-    
 }

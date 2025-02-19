@@ -48,7 +48,9 @@ public class OrdersProductsService(
 
   public async Task<List<OrderProduct>> GetAllByStoreAsync(Guid storeId)
   {
-    List<OrderProduct> orderProducts = await _ordersProductsRepository.FindByStoreWithOrderAndWithTableAsync(storeId);
+    List<OrderProduct> orderProducts = await _ordersProductsRepository
+      .FindByStoreWithOrderAndWithTableAsync(storeId);
+
     return orderProducts;
   }
 

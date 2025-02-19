@@ -142,7 +142,7 @@ GET {{HOST}}/orders-products
 
 ###
 # UPDATE STATUS OF ORDER PRODUCT
-PUT {{HOST}}/orders-products/status/f7027806-12db-444d-a776-a23d60060507
+PUT {{HOST}}/orders-products/status/6249eb5c-b086-4522-83e5-cd33619bde88
 Content-Type: application/json
 
 { 

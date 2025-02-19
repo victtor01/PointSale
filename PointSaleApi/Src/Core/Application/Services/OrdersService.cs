@@ -11,21 +11,23 @@ public class OrdersService(IOrdersRepository ordersRepository, ITablesRepository
 {
   private const int QUANTITY_OF_ORDERS_THAT_CAN = 2;
 
-  private List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) =>
+  private List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) => 
     orders.Where(o => o.Status == status).ToList();
 
   public async Task<Order> CreateAsync(CreateOrderDTO createOrderDto, Guid managerId, Guid storeId)
   {
     var tableInDB = await tablesRepository.FindByIdAsync(createOrderDto.TableId);
-    if (tableInDB == null) throw new Exception($"Table {createOrderDto.TableId} not found");
+    if (tableInDB == null) throw new NotFoundException($"Table not found");
 
     List<Order> ordersInDatabase =
       await ordersRepository.FindAllByManagerAndTableAsync(managerId, createOrderDto.TableId);
 
-    List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
-
-    bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
-    if (limitOrders) throw new UnauthorizedException("limit reached on the number of orders on the table");
+    if (ordersInDatabase?.Count > 0)
+    {
+      List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
+      bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
+      if (limitOrders) throw new UnauthorizedException("limit reached on the number of orders on the table");
+    }
 
     Order order = new Order
     {

@@ -35,10 +35,11 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
   public async Task<List<OrderProduct>> FindByStoreWithOrderAndWithTableAsync(Guid storeId)
   {
     var orderProducts = await _dbContext.OrderProducts
-      .Where(x => x.StoreId == storeId)
-      .OrderBy(x => x.CreatedAt)
-      .Include(x => x.Order)
+      .Where(OP => OP.StoreId == storeId)
+      .OrderBy(OP => OP.CreatedAt)
+      .Include(OP => OP.Order)
       .ThenInclude(order => order.Table)
+      .Include(OP => OP.Product)
       .ToListAsync();
     return orderProducts;
   }

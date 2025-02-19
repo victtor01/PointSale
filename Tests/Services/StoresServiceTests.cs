@@ -30,8 +30,7 @@ namespace Tests.ServicesTests
       Store storeMock = new() { Name = createStoreDto.Name, ManagerId = managerId, Password = "EXAMPLEPASSWORD" };
 
       _mockStoresRepository
-        .
-        Setup(repo => repo.FindAllByManagerAsync(managerId))
+        .Setup(repo => repo.FindAllByManagerAsync(managerId))
         .ReturnsAsync([new Store { Name = "outher store", ManagerId = managerId, Password = "EXAMPLEPASSWORD" }]);
 
       _mockStoresRepository
@@ -54,13 +53,13 @@ namespace Tests.ServicesTests
 
       _mockStoresRepository
         .Setup(repo => repo.FindAllByManagerAsync(managerId))
-        .ReturnsAsync([new Store { Name = createStoreDto.Name, ManagerId = managerId, Password = "EXAMPLEPASSWORD"}]);
+        .ReturnsAsync([new Store { Name = createStoreDto.Name, ManagerId = managerId, Password = "EXAMPLEPASSWORD" }]);
 
       BadRequestException exception = await Assert.ThrowsExceptionAsync<BadRequestException>(
         () => _storesService.SaveAsync(createStoreDto, managerId)
       );
-
-      Assert.AreEqual("you have a store with that name", exception.Message);
+      
+      Assert.AreEqual(exception.Message, "you have a tore with that name");
     }
   }
 }
