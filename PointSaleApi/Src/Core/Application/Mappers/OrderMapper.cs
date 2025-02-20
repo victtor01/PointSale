@@ -15,10 +15,12 @@ public static class OrderMapper
       CreatedAt = order?.CreatedAt ?? null,
       Table = order?.Table?.ToSimpleDTO() ?? null,
       UpdatedAt = order?.UpdatedAt ?? null,
-      orderProducts = order?.OrderProducts.Select(op => op.ToMapper()).ToList() ?? null
+
+      orderProducts = order?.OrderProducts
+        .Select(op => op.ToMapper()).ToList() ?? null
     };
   }
-  
+
   public static OrderDTO ToSimpleMapper(this Order order)
   {
     return new OrderDTO()

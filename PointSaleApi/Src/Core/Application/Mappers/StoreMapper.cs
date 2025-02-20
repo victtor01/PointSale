@@ -16,7 +16,7 @@ public static class StoreMapper
       Id = store.Id,
       Name = store.Name,
       Password = string.IsNullOrEmpty(store.Password) ? null : "loked",
-      Revenue = store.RevenueGoal ?? null,
+      RevenueGoal = store.RevenueGoal ?? null,
       Tables = tables
     };
   }
@@ -29,7 +29,7 @@ public static class StoreMapper
       Name = store.Name,
       Password = string.IsNullOrEmpty(store.Password) ? null : "loked",
       QuantityOfTables = store.Tables.Count,
-      Revenue = store.RevenueGoal
+      RevenueGoal = store.RevenueGoal
     };
   }
 }
@@ -39,7 +39,7 @@ public class StoreResumeDTO
   public required Guid Id { get; set; }
   public required string Name { get; set; }
   public required string? Password { get; set; }
-  public required float? Revenue { get; set; }
+  public required float? RevenueGoal { get; set; }
   public int QuantityOfTables { get; set; }
 }
 
@@ -49,6 +49,6 @@ public class StoreDTO
   public required string Name { get; set; }
   public required string? Password { get; set; }
   
-  public required float? Revenue { get; set; }
+  public required float? RevenueGoal { get; set; }
   public List<TableDTO>? Tables { get; set; }
 }
