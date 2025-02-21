@@ -36,7 +36,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
     Session session = HttpContext.GetSession();
     Guid managerId = session.UserId;
 
-    List<Store> stores = await _storesService.GetAllByManagerWithRelations(managerId);
+    List<Store> stores = await _storesService.GetAllByManagerWithRelationsAsync(managerId);
     var result = stores.Select(store =>
     {
       var orders = store.Orders

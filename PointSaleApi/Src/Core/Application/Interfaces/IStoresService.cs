@@ -5,8 +5,8 @@ namespace PointSaleApi.Src.Core.Application.Interfaces;
 
 public interface IStoresService
 {
-  public Task<List<Store>> GetAllByManager(Guid userId);
-  public Task<List<Store>> GetAllByManagerWithRelations(Guid managerId);
+  public Task<List<Store>> GetAllByManagerAsync(Guid userId);
+  public Task<List<Store>> GetAllByManagerWithRelationsAsync(Guid managerId);
   public Task<Store> SaveAsync(CreateStoreDTO createStoreDto, Guid managerId);
   public Task<Store> FindOneByIdOrThrowAsync(Guid storeId);
   public Task<Store> FindOneByIdWithRelations(Guid storeId);
