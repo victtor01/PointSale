@@ -12,6 +12,7 @@ import { BsPlus } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { z } from "zod";
 import { AllTables } from "./all-tables";
+import { BiSearch } from "react-icons/bi";
 
 const animationBase = {
   initial: { opacity: 0, scale: 0.6 },
@@ -83,8 +84,6 @@ function ModalCreateTable() {
           Fechar
         </Link>
       </footer>
-
-
     </motion.form>
   );
 }
@@ -94,43 +93,53 @@ function Tables() {
   const action = actionModalOption.get("action") || null;
 
   return (
-    <CenterSection className="p-0 pb-[1rem] h-auto bg-white border-b-4 rounded-b-xl shadow">
-      <header className="flex relative w-full bg-white items-center border-b p-2 px-3 z-30 justify-between text-gray-600 dark:text-gray-200">
-        <div className="font-semibold text-lg">
-          <div className="flex gap-2 items-center drop-shadow-lg">
-            <FaPlay size={10} />
-            <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
+    <>
+      <div className="w-full bg-gradient-45 from-purple-600 to-indigo-600 min-h-[8rem]">
+        <CenterSection>
+          <span className={`${fontSaira} flex text-xl opacity-90 text-white font-semibold p-1 pt-4`}>
+            José Victor
+          </span>
+        </CenterSection>
+      </div>
+
+      <CenterSection className="p-0 pb-[1rem] mt-[-4rem] px-4 relative">
+        <header className="flex flex-col gap-4 relative w-full bg-white p-6 rounded-xl items-center border z-30 justify-between text-gray-600 dark:text-gray-200">
+          <AnimatePresence>
+            {action === "create" && <ModalCreateTable />}
+          </AnimatePresence>
+          <div className="flex w-full justify-between">
+            <div className="font-semibold text-lg">
+              <div className="flex gap-2 items-center drop-shadow-lg">
+                <FaPlay size={10} />
+                <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
+              </div>
+            </div>
+            <div className={`${fontSaira} relative`}>
+              <Link
+                href="?action=create"
+                className="flex gap-2 text-gray-500 items-center border px-2 p-1 rounded font-semibold opacity-90 hover:opacity-100"
+              >
+                <BsPlus size={20} />
+                Mesa
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className={`${fontSaira} relative`}>
-          <Link
-            href="?action=create"
-            className="flex gap-2 items-center bg-gray-200 px-4 p-1 rounded font-semibold opacity-90 hover:opacity-100"
-          >
-            <BsPlus size={20} />
-            Mesa
-          </Link>
-        </div>
+          <div className="flex w-full gap-2 items-center z-20">
+            <input
+              type="text"
+              className="border p-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent rounded-md w-full"
+              placeholder="Pesquise aqui..."
+            />
 
-        <AnimatePresence>
-          {action === "create" && <ModalCreateTable />}
-        </AnimatePresence>
-      </header>
-
-      <section
-        className={`flex w-full gap-5 px-3 ${fontSaira} mt-5 items-center select-none`}
-      >
-        <div className="flex flex-col gap-1">
-          <span className="font-semibold opacity-80">Modo de exibição</span>
-          <div className="flex p-2 rounded-md bg-gray-200 text-sm opacity-60">
-            Nenhum selecionado
+            <button className="px-6 p-2 bg-indigo-500 text-gray-200 rounded-md h-full">
+              <BiSearch size={20} />
+            </button>
           </div>
-        </div>
-      </section>
+        </header>
 
-      <AllTables key="5" />
-
-    </CenterSection>
+        <AllTables key="5" />
+      </CenterSection>
+    </>
   );
 }
 

@@ -129,13 +129,16 @@ public class SessionMiddleware(
     }
 
     TokensDTO cookiesSession = GetCookieToken(httpContext);
+    
     var payload = this.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
+    
     Session payloadSession = ParseDictionaryToSession(payload);
 
     if (IsAdminRoute(httpContext) && payloadSession.Role != UserRole.ADMIN)
       throw new BadRequestException("usuário não tem permissão!");
 
     var isStoreSelectedRoute = IsStoreSelectedRoute(httpContext);
+    
     var sessionStoreToken = cookiesSession.StoreToken ?? null;
     if (isStoreSelectedRoute && string.IsNullOrEmpty(sessionStoreToken))
       throw new BadRequestException("selecione a loja primeiro!");

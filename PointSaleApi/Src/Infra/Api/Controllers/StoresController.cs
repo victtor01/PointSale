@@ -10,14 +10,14 @@ using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
-[ApiController()]
+[ApiController]
 [Route("/stores")]
 public class StoresController(IStoresService storesService, IOrdersService ordersService) : ControllerBase
 {
   private readonly IStoresService _storesService = storesService;
   private readonly IOrdersService _ordersService = ordersService;
 
-  [IsAdminRoute()]
+  [IsAdminRoute]
   [HttpPost()]
   public async Task<Store> Save([FromBody] CreateStoreDTO createStoreDto)
   {
@@ -29,7 +29,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
     return saved;
   }
 
-  [IsAdminRoute()]
+  [IsAdminRoute]
   [HttpGet("my")]
   public async Task<IActionResult> FindMyStores()
   {
@@ -56,7 +56,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
     return Ok(result);
   }
 
-  [IsAdminRoute()]
+  [IsAdminRoute]
   [HttpGet("{storeId}")]
   public async Task<IActionResult> FindStoreByIdAndManager(string storeId)
   {
@@ -71,7 +71,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
     return Ok(store.ToStoreMapper());
   }
 
-  [IsAdminRoute()]
+  [IsAdminRoute]
   [IsStoreSelectedRoute]
   [HttpGet("informations")]
   public async Task<IActionResult> GetInformations()

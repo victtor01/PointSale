@@ -1,5 +1,6 @@
 export function formatToBRL(value: number): string {
-	return value.toLocaleString("pt-BR", {
+	const valueNumber = value || 0;
+	return valueNumber.toLocaleString("pt-BR", {
 			style: "currency",
 			currency: "BRL",
 	});

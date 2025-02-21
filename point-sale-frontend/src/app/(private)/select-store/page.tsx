@@ -84,8 +84,8 @@ function SelectStore() {
         </header>
         <section className="flex flex-col gap-4 mt-8 justify-center w-full max-w-[30rem] flex-wrap px-5 mx-auto z-30">
           {storesResponse?.map(({ store, revenue }) => {
-            const porcetage = store?.revenue
-              ? calculatePercentage(revenue, store?.revenue)
+            const porcetage = store?.revenueGoal
+              ? calculatePercentage(revenue, store?.revenueGoal)
               : 0;
 
             return (
@@ -109,7 +109,7 @@ function SelectStore() {
                   <span className="flex gap-2 items-center text-sm font-semibold text-gray-400">
                     {formatToBRL(revenue)}
                     <b>-</b>
-                    {formatToBRL(store?.revenue)}
+                    {formatToBRL(store?.revenueGoal ?? 0)}
                   </span>
                 </div>
               </Button>

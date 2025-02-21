@@ -31,10 +31,10 @@ function Table(props: TableProps) {
         </span>
       </div>
 
-      <div className="flex items-center absolute right-2 top-[50%] translate-y-[-50%]">
+      <div className="flex items-center absolute right-5 top-[50%] translate-y-[-50%]">
         <button
-          className="flex w-9 items-center justify-center text-violet-200 h-9 translate-x-[2rem]
-          rounded-xl bg-gray-800 to-gray-800 opacity-0 hover:opacity-100 group-hover:translate-x-[1.5rem]
+          className="flex w-9 items-center justify-center text-violet-200 h-9 scale-75
+          rounded-xl bg-gray-800 to-gray-800 opacity-10 hover:opacity-100 group-hover:scale-100
           group-hover:opacity-100 transition-all z-20 "
         >
           <FaArrowRight />
@@ -44,4 +44,4 @@ function Table(props: TableProps) {
   );
 }
 
-export { Table }
+export { Table };
