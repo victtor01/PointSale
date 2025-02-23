@@ -13,7 +13,7 @@ public static class StoreMapper
 
     return new StoreDTO
     {
-      Id = store.Id,
+      Id = store!.Id,
       Name = store.Name,
       Password = string.IsNullOrEmpty(store.Password) ? null : "loked",
       RevenueGoal = store.RevenueGoal ?? null,

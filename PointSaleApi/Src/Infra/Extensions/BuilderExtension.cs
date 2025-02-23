@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using PointSaleApi.src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Services;
+using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
 using PointSaleApi.Src.Infra.Database;
 using PointSaleApi.src.Infra.Repositories;
@@ -62,6 +63,9 @@ public static class DependencyInjection
     // --orders-products--
     services.AddScoped<IOrdersProductsService, OrdersProductsService>();
     services.AddScoped<IOrdersProductsRepository, OrdersProductsRepository>();
+    // --employees--
+    services.AddScoped<IEmployeesService, EmployeesService>();
+    services.AddScoped<IEmployeeRepository, EmployeesRepository>();
     // -- products-options--
     services.AddScoped<IOptionsProductsRepository, OptionsProductsRepository>();
     // --outers--

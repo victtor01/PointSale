@@ -148,3 +148,14 @@ Content-Type: application/json
 { 
   "status": "DELIVERED"
 }
+
+###########################################
+##               EMPLOYEE                ##
+###########################################
+# CREATE A NEW EMPLOYEE
+POST {{HOST}}/employee
+Content-Type: application/json
+
+{
+  "salary": 2000
+}

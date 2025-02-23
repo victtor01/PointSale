@@ -13,6 +13,7 @@ public class Store
   
   [Column("name")]
   [Required]  
+  [StringLength(100)]
   public required string Name { get; set; }
   
   [Column("description")]
@@ -20,6 +21,7 @@ public class Store
   public required Guid ManagerId { get; set; }
 
   [Column("password")] 
+  [StringLength(100)]
   public string? Password { get; set; } = null;
 
   [Column("revenue")] 

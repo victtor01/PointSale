@@ -82,22 +82,20 @@ internal static class Extensions
 
 public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
 {
-  public DbSet<Product> Products { get; set; }
-    
+  public DbSet<Product> Products { get; set; } = null!;
   public DbSet<OptionsProduct> OptionsProducts { get; set; } = null!;
-
   public DbSet<Order> Orders { get; set; } = null!;
-    
   public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
   public DbSet<Manager> Managers { get; set; } = null!;
   public DbSet<Store> Stores { get; set; } = null!;
   public DbSet<StoreTable> Tables { get; set; } = null!;
-
+  public DbSet<Employee> Employees { get; set; } = null!;
+  
   public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
   {
     foreach (var entry in ChangeTracker.Entries())
     {
-      if (entry.State == EntityState.Modified) 
+      if (entry.State == EntityState.Modified)
       {
         if (entry.Entity is BaseEntity entity)
         {
@@ -105,7 +103,7 @@ public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contex
         }
       }
     }
-    
+
     return await base.SaveChangesAsync(cancellationToken);
   }
 

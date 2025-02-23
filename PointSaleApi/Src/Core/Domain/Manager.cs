@@ -7,7 +7,7 @@ namespace PointSaleApi.Src.Core.Domain;
 [Table("managers")]
 public class Manager : User
 {
-  public List<Store> Stores { get; init; } = [];
+  public List<Store> Stores { get; set; } = [];
     
   public override void HashAndSetPassword(string userId)
   {

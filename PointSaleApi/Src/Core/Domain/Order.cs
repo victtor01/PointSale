@@ -27,7 +27,7 @@ public class Order : BaseEntity
   public required Guid StoreId { get; set; }
   
   [Column("order_products")]
-  public List<OrderProduct?> OrderProducts { get; set; } = [];
+  public List<OrderProduct> OrderProducts { get; set; } = [];
   
   [ForeignKey(nameof(ManagerId))]
   public Manager? manager { get; set; }

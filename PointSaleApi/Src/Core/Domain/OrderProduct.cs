@@ -33,7 +33,7 @@ public class OrderProduct : BaseEntity
 
   [Required]
   [ForeignKey(nameof(StoreId))]
-  public Store Store { get; set; }
+  public Store? Store { get; set; }
 
   [ForeignKey(nameof(OrderId))]
   public Order? Order { get; set; }

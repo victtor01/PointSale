@@ -58,7 +58,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
 
   [IsAdminRoute]
   [HttpGet("{storeId}")]
-  public async Task<IActionResult> FindStoreByIdAndManager(string storeId)
+  public async Task<ActionResult<StoreDTO>> FindStoreByIdAndManager(string storeId)
   {
     Session session = HttpContext.GetSession();
     Guid managerId = session.UserId;

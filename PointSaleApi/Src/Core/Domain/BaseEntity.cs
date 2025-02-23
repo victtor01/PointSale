@@ -4,7 +4,6 @@ namespace PointSaleApi.Src.Core.Domain;
 
 public abstract class BaseEntity
 {
-  
   [Required]
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   

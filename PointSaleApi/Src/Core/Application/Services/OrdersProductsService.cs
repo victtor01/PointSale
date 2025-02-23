@@ -1,11 +1,8 @@
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Interfaces;
-using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
-using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 
@@ -28,8 +25,8 @@ public class OrdersProductsService(
     var product = await _productsRepository.FindByIdAsync(createOrderProductDto.ProductId);
     if (product == null || product.StoreId != storeId) throw new NotFoundException("Product not found");
 
-    var order = await _ordersRepository.FindByIdAsync(createOrderProductDto.OrderId);
-    if (order == null) throw new NotFoundException("Order not found");
+    var order = await _ordersRepository.FindByIdAsync(createOrderProductDto.OrderId)
+      ?? throw new NotFoundException("Order not found");
     order.UpdateAtToNow();
 
     var orderProduct = new OrderProduct()
@@ -56,9 +53,8 @@ public class OrdersProductsService(
 
   public async Task<bool> UpdateStatusAsync(string statusString, Guid orderProductId)
   {
-    var orderProduct = await _ordersProductsRepository.FindByIdAsync(orderProductId);
-    if (orderProduct == null)
-      throw new NotFoundException("OrderProduct not found");
+    var orderProduct = await _ordersProductsRepository.FindByIdAsync(orderProductId)
+      ?? throw new NotFoundException("OrderProduct not found");
 
     orderProduct.setStatusWithString(statusString);
 
@@ -75,10 +71,8 @@ public class OrdersProductsService(
 
   public async Task<OrderProduct> FindByIdAsync(Guid id)
   {
-    var orderProduct = await _ordersProductsRepository.FindByIdAsync(id);
-    if (orderProduct == null)
-      throw new NotFoundException("OrderProduct not found");
-
+    var orderProduct = await _ordersProductsRepository.FindByIdAsync(id)
+      ?? throw new NotFoundException("OrderProduct not found");
     return orderProduct;
   }
 }
