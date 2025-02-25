@@ -204,33 +204,6 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     }
 
     /// <summary>
-    /// Método principal do middleware, que lida com a sessão e a autorização.
-    /// </summary>
-    public async Task InvokeAsync(HttpContext httpContext)
-    {
-      if (IsPublicRoute(httpContext))
-      {
-        await _next(httpContext);
-        return;
-      }
-
-      TokensDTO cookiesSession = GetCookieToken(httpContext);
-      Dictionary<string, string> payload = VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
-      
-      Session payloadSession = ParseDictionaryToSession(payload);
-
-      ValidateUserRole(httpContext, payloadSession);
-
-      if (payloadSession is SessionManager)
-      {
-        HandleStoreSelection(httpContext, cookiesSession, payloadSession);
-      }
-
-      httpContext.SetSession(payloadSession);
-      await _next(httpContext);
-    }
-
-    /// <summary>
     /// Valida o papel do usuário (role) para garantir que ele tenha permissão.
     /// </summary>
     private void ValidateUserRole(HttpContext httpContext, Session payloadSession)
@@ -247,7 +220,8 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     /// </summary>
     private void HandleStoreSelection(HttpContext httpContext, TokensDTO cookiesSession, Session payloadSession)
     {
-      var sessionStoreToken = cookiesSession.StoreToken ?? null;
+      var sessionStoreToken = cookiesSession.StoreToken;
+
       bool isStoreSelectedRoute = IsStoreSelectedRoute(httpContext);
 
       if (isStoreSelectedRoute && string.IsNullOrEmpty(sessionStoreToken))
@@ -255,10 +229,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         throw new BadRequestException("Selecione a loja primeiro!");
       }
 
-      if (isStoreSelectedRoute)
-      {
-        ValidateStoreToken(sessionStoreToken, payloadSession);
-      }
+      ValidateStoreToken(sessionStoreToken, payloadSession);
     }
 
     /// <summary>
