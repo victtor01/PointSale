@@ -15,6 +15,13 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     private readonly RequestDelegate _next;
     private readonly IJwtService _jwtService;
 
+    public SessionMiddleware(RequestDelegate next, IJwtService jwtService, ISessionService sessionService)
+    {
+      _sessionService = sessionService;
+      _next = next;
+      _jwtService = jwtService;
+    }
+
     /// <summary>
     /// Método principal do middleware, que lida com a sessão e a autorização.
     /// </summary>
@@ -42,13 +49,6 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
       httpContext.SetSession(payloadSession);
       await _next(httpContext);
-    }
-
-    public SessionMiddleware(RequestDelegate next, IJwtService jwtService, ISessionService sessionService)
-    {
-      _sessionService = sessionService;
-      _next = next;
-      _jwtService = jwtService;
     }
 
     /// <summary>
