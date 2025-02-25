@@ -15,6 +15,35 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
     private readonly RequestDelegate _next;
     private readonly IJwtService _jwtService;
 
+    /// <summary>
+    /// Método principal do middleware, que lida com a sessão e a autorização.
+    /// </summary>
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+      if (IsPublicRoute(httpContext))
+      {
+        await _next(httpContext);
+        return;
+      }
+
+      TokensDTO cookiesSession = GetCookieToken(context: httpContext);
+
+      Dictionary<string, string> payload =
+        VerifyAndRenewTokenAsync(tokens: cookiesSession, response: httpContext.Response);
+
+      Session payloadSession = ParseDictionaryToSession(payload);
+
+      ValidateUserRole(httpContext, payloadSession);
+
+      if (payloadSession is SessionManager)
+      {
+        HandleStoreSelection(httpContext, cookiesSession, payloadSession);
+      }
+
+      httpContext.SetSession(payloadSession);
+      await _next(httpContext);
+    }
+
     public SessionMiddleware(RequestDelegate next, IJwtService jwtService, ISessionService sessionService)
     {
       _sessionService = sessionService;
