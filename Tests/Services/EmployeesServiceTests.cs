@@ -23,7 +23,7 @@ public class EmployeesServiceTests
   [Description("it should error because salary is invalid")]
   public async Task ItShouldReturnErrorBecauseSalaryIsInvalid()
   {
-    var createEmployeeDTO = new CreateEmployeeDTO(Salary: 1000 * 1000);
+    var createEmployeeDTO = new CreateEmployeeDTO(Salary: 1000 * 1000, Password: "EXAMPLE");
 
     _employeeRepository.Setup(repo => repo.GetAllByManagerAndStoreAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
       .ReturnsAsync([]);
@@ -60,7 +60,7 @@ public class EmployeesServiceTests
 
     decimal salaryOfEmployee = 900;
     BadRequestException exception = await Assert.ThrowsExceptionAsync<BadRequestException>(
-      () => _employeesService.CreateAsync(new CreateEmployeeDTO(Salary: salaryOfEmployee), managerId, storeId));
+      () => _employeesService.CreateAsync(new CreateEmployeeDTO(Salary: salaryOfEmployee, Password: "EXAMPLE"), managerId, storeId));
     
     _employeeRepository.Verify(repo => repo.AddAsync(It.IsAny<Employee>()), Times.Never);
     
