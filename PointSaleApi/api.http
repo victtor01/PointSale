@@ -39,6 +39,15 @@ Content-Type: application/json
 
 {
 } 
+###
+# AUTH EMPLOYEE
+POST {{HOST}}/auth/employee
+Content-Type: application/json
+
+{
+  "username": "714982",
+  "password": "123456"
+}
 
 ###########################################
 ##                 STORES                ##
@@ -115,8 +124,12 @@ Content-Type: application/json
 }
 
 ###
+# CREATE A NEW ORDER
+GET {{HOST}}/orders/employee/13017437-f561-49c6-a804-ba7e56c6c736
+
+###
 # GET ALL INFORMATIONS OF TABLE
-GET {{HOST}}/orders/e4580179-7eb6-4d14-94d4-059f7caeb5d1
+GET {{HOST}}/orders/13017437-f561-49c6-a804-ba7e56c6c736
 
 ###
 # GET ALL ORDERS
@@ -157,5 +170,6 @@ POST {{HOST}}/employee
 Content-Type: application/json
 
 {
-  "salary": 2000
+  "salary": 2000,
+  "password": "123456"
 }

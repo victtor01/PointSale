@@ -5,4 +5,5 @@ namespace PointSaleApi.Src.Core.Application.Interfaces;
 public interface ISessionService
 {
   public JwtTokensDTO CreateSessionUser(string userId, string email, string role);
+  public JwtTokensDTO CreateSessionEmployee(int username, string role, Guid storeId);
 }

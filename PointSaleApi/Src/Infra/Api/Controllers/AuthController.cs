@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Core.Domain;
+using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Config;
@@ -16,10 +16,10 @@ public class AuthController(IAuthService authService) : ControllerBase
 
   [HttpPost]
   [IsPublicRoute]
-  public async Task<IActionResult> Auth([FromBody] AuthDto authDto)
+  public async Task<IActionResult> Auth([FromBody] AuthDTO authDto)
   {
     JwtTokensDTO logged = await _authService.AuthManager(authDto);
-
+    
     CookieOptions cookieOptions = new() { HttpOnly = true };
 
     HttpContext.Response.Cookies.Append(
@@ -36,20 +36,20 @@ public class AuthController(IAuthService authService) : ControllerBase
 
     return Ok(logged);
   }
-
-  [IsAdminRoute()]
+  
+  [IsAdminRoute]
   [HttpPost("select/{storeId}")]
   public async Task<IActionResult> Select(
     [FromBody] AuthStoreDTO authStoreDto,
     [FromRoute] Guid storeId
   )
   {
-    Session session = HttpContext.GetSession();
+    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
 
     string token = await _authService.AuthSelectStore(
       new SelectStoreDTO
       {
-        ManagerId = session.UserId,
+        ManagerId = sessionManager.UserId,
         Password = authStoreDto.Password,
         StoreId = storeId,
       }
@@ -66,4 +66,28 @@ public class AuthController(IAuthService authService) : ControllerBase
 
     return Ok(authSelectStoreDto);
   }
+
+  [IsPublicRoute]
+  [HttpPost("employee")]
+  public async Task<IActionResult> AuthEmployee([FromBody] AuthEmployeeDTO authEmployeeDto)
+  {
+    JwtTokensDTO logged = await _authService.AuthEmployee(authEmployeeDto);
+    
+    CookieOptions cookieOptions = new() { HttpOnly = true };
+
+    HttpContext.Response.Cookies.Append(
+      CookiesSessionKeys.AccessToken,
+      logged.AccessToken,
+      cookieOptions
+    );
+
+    HttpContext.Response.Cookies.Append(
+      CookiesSessionKeys.RefreshToken,
+      logged.RefreshToken,
+      cookieOptions
+    );
+
+    return Ok(logged);
+  }
+  
 }

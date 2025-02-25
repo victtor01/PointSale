@@ -14,6 +14,23 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
     return created.Entity;
   }
 
+  public async Task<List<Employee>> GetAllByManagerAndStoreAsync(Guid managerId, Guid storeId)
+  {
+    List<Employee> employees = await context.Employees
+      .Where(emp => emp.ManagerId == managerId && emp.StoreId == storeId)
+      .ToListAsync();
+
+    return employees;
+  }
+
+  public async Task<Employee?> FindByUsernameAsync(int username)
+  {
+    var employee = await context.Employees
+      .FirstOrDefaultAsync(emp => emp.Username == username) ?? null;
+
+    return employee;
+  }
+
   public async Task<Employee?> FindByIdAsync(Guid id)
   {
     return await context.Employees.FirstOrDefaultAsync(e => e.Id == id) ?? null;

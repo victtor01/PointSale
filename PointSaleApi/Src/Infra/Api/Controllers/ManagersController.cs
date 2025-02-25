@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Core.Domain;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Domain;
@@ -28,8 +27,8 @@ public class ManagersController(IManagersService managersService) : ControllerBa
   [HttpGet("i")]
   public async Task<IActionResult> IManager()
   {
-    Session session = HttpContext.GetSession();
-    Manager informations = await this._managersService.FindByIdOrThrowAsync(session.UserId);
+    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
+    Manager informations = await this._managersService.FindByIdOrThrowAsync(sessionManager.UserId);
 
     return Ok(informations.ToManagerMapper());
   }

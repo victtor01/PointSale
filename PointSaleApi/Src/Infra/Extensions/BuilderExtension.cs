@@ -60,6 +60,8 @@ public static class DependencyInjection
     // --orders--
     services.AddScoped<IOrdersService, OrdersService>();
     services.AddScoped<IOrdersRepository, OrdersRepository>();
+    services.AddScoped<IFindOrdersService, FindOrdersService>();
+    services.AddScoped<IOrdersCauculator, OrdersCauculator>();
     // --orders-products--
     services.AddScoped<IOrdersProductsService, OrdersProductsService>();
     services.AddScoped<IOrdersProductsRepository, OrdersProductsRepository>();

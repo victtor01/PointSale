@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Core.Domain;
 using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Mappers;
@@ -12,17 +11,20 @@ namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [ApiController]
 [Route("/stores")]
-public class StoresController(IStoresService storesService, IOrdersService ordersService) : ControllerBase
+public class StoresController(
+  IStoresService storesService,
+  IOrdersCauculator ordersCauculator
+) : ControllerBase
 {
+  private readonly IOrdersCauculator _ordersCauculator = ordersCauculator;
   private readonly IStoresService _storesService = storesService;
-  private readonly IOrdersService _ordersService = ordersService;
 
   [IsAdminRoute]
   [HttpPost()]
   public async Task<Store> Save([FromBody] CreateStoreDTO createStoreDto)
   {
-    Session session = HttpContext.GetSession();
-    Guid managerId = session.UserId;
+    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
+    Guid managerId = sessionManager.UserId;
 
     var saved = await _storesService.SaveAsync(createStoreDto, managerId);
 
@@ -33,26 +35,19 @@ public class StoresController(IStoresService storesService, IOrdersService order
   [HttpGet("my")]
   public async Task<IActionResult> FindMyStores()
   {
-    Session session = HttpContext.GetSession();
-    Guid managerId = session.UserId;
+    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
+    Guid managerId = sessionManager.UserId;
 
     List<Store> stores = await _storesService.GetAllByManagerWithRelationsAsync(managerId);
-    var result = stores.Select(store =>
-    {
-      var orders = store.Orders
-        .Where(order => order.Status == OrderStatus.PAID)
-        .ToList();
-
-      float totalPrice = orders
-        .Sum(order => _ordersService.GetTotalPriceOfOrder(order));
-
-      return new
-      {
-        Store = store.ToStoreMapperWithResume(),
-        Revenue = totalPrice
-      };
-    });
     
+    var result = stores.Select(store => new
+    {
+      Store = store.ToStoreMapperWithResume(),
+      Revenue = store.Orders
+        .Where(order => order.Status == OrderStatus.PAID)
+        .Sum(order => _ordersCauculator.TotalPriceOfOrder(order))
+    });
+
     return Ok(result);
   }
 
@@ -60,8 +55,8 @@ public class StoresController(IStoresService storesService, IOrdersService order
   [HttpGet("{storeId}")]
   public async Task<ActionResult<StoreDTO>> FindStoreByIdAndManager(string storeId)
   {
-    Session session = HttpContext.GetSession();
-    Guid managerId = session.UserId;
+    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
+    Guid managerId = sessionManager.UserId;
 
     Store store = await _storesService.FindOneByIdAndManagerOrThrowAsync(
       storeId: Guid.Parse(storeId),
@@ -76,7 +71,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
   [HttpGet("informations")]
   public async Task<IActionResult> GetInformations()
   {
-    Guid userId = HttpContext.GetSession().UserId;
+    Guid userId = HttpContext.GetManagerSessionOrThrow().UserId;
     Guid storeId = HttpContext.GetStoreOrThrow();
 
     Store store = await _storesService.FindOneByIdWithRelations(storeId);
@@ -87,8 +82,7 @@ public class StoresController(IStoresService storesService, IOrdersService order
       .ToList();
 
     float totalPrice = orders
-      .Sum(order => _ordersService
-        .GetTotalPriceOfOrder(order));
+      .Sum(order => _ordersCauculator.TotalPriceOfOrder(order));
 
     return Ok(new
     {

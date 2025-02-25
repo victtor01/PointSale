@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Utils;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 
@@ -13,22 +14,40 @@ public class SessionService(IJwtService jwtService) : ISessionService
   {
     Claim[] claims =
     [
-      new("userId", userId),
-      new("_email", email),
-      new("_role", role),
-      new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+      new(ClaimsKeySession.UserId, userId),
+      new(ClaimsKeySession.Email, email),
+      new(ClaimsKeySession.Role, role)
     ];
+
+    return GenerateTokens(claims);
+  }
+
+  public JwtTokensDTO CreateSessionEmployee(int username, string role, Guid storeId)
+  {
+    Claim[] claims =
+    [
+      new(ClaimsKeySessionEmployee.Username, username.ToString()),
+      new(ClaimsKeySessionEmployee.Store, storeId.ToString()),
+      new(ClaimsKeySessionEmployee.Role, role),
+    ];
+
+    return GenerateTokens(claims);
+  }
+
+  private JwtTokensDTO GenerateTokens(Claim[] claims)
+  {
+    claims = claims.Append(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())).ToArray();
 
     DateTime expiration = DateTime.UtcNow.AddMinutes(1);
     DateTime longerExpiration = DateTime.UtcNow.AddMinutes(20);
 
     var token = _jwtService.GenerateToken(claims, expiration);
     var refreshToken = _jwtService.GenerateToken(claims, longerExpiration);
-    string tokenString = _jwtService.ParseJwtTokenToString(token);
-    string refreshTokenString = _jwtService.ParseJwtTokenToString(refreshToken);
 
-    JwtTokensDTO jwtDto = new() { AccessToken = tokenString, RefreshToken = refreshTokenString };
-
-    return jwtDto;
+    return new JwtTokensDTO
+    {
+      AccessToken = _jwtService.ParseJwtTokenToString(token),
+      RefreshToken = _jwtService.ParseJwtTokenToString(refreshToken)
+    };
   }
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Core.Domain;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Domain;
@@ -19,7 +18,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   [IsStoreSelectedRoute]
   public async Task<IActionResult> SaveAsync([FromBody] CreateTableDTO createTableDto)
   {
-    Session context = HttpContext.GetSession();
+    SessionManager context = HttpContext.GetManagerSessionOrThrow();
     Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = context.UserId;
 
@@ -37,7 +36,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   [IsStoreSelectedRoute]
   public async Task<IActionResult> FindByStoreSelected()
   {
-    Session context = HttpContext.GetSession();
+    SessionManager context = HttpContext.GetManagerSessionOrThrow();
     Guid storeId = HttpContext.GetStoreOrThrow();
     Guid managerId = context.UserId;
 
@@ -54,7 +53,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   public async Task<IActionResult> FindByIdAndManager(string idString)
   {
     var id = Guid.TryParse(idString, out var tableId) ? tableId : throw new BadRequestException("Not a valid id");
-    var context = HttpContext.GetSession();
+    var context = HttpContext.GetManagerSessionOrThrow();
     var managerId = context.UserId;
 
     var table = await tablesService.FindByIdAndManagerOrThrowAsync(
@@ -71,7 +70,7 @@ public class TablesController(ITablesService tablesService) : ControllerBase
   {
     var tableId = Guid.TryParse(idString, out var id) ? id : throw new BadRequestException("Not a valid id");
       
-    var managerId = HttpContext.GetSession().UserId;
+    var managerId = HttpContext.GetManagerSessionOrThrow().UserId;
     var deleted = await tablesService.DeleteAsync(
       managerId:managerId, tableId: tableId);
 
