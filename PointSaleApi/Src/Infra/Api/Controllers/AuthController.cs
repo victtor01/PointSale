@@ -19,7 +19,7 @@ public class AuthController(IAuthService authService) : ControllerBase
   public async Task<IActionResult> Auth([FromBody] AuthDTO authDto)
   {
     JwtTokensDTO logged = await _authService.AuthManager(authDto);
-    
+
     CookieOptions cookieOptions = new() { HttpOnly = true };
 
     HttpContext.Response.Cookies.Append(
@@ -36,7 +36,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
     return Ok(logged);
   }
-  
+
   [IsAdminRoute]
   [HttpPost("select/{storeId}")]
   public async Task<IActionResult> Select(
@@ -56,7 +56,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     );
 
     CookieOptions cookieOptions = new() { HttpOnly = true };
-    HttpContext.Response.Cookies.Append("_store", token, cookieOptions);
+    HttpContext.Response.Cookies.Append(CookiesSessionKeys.StoreToken, token, cookieOptions);
 
     AuthSelectStoreDTO authSelectStoreDto = new AuthSelectStoreDTO()
     {
@@ -72,7 +72,7 @@ public class AuthController(IAuthService authService) : ControllerBase
   public async Task<IActionResult> AuthEmployee([FromBody] AuthEmployeeDTO authEmployeeDto)
   {
     JwtTokensDTO logged = await _authService.AuthEmployee(authEmployeeDto);
-    
+
     CookieOptions cookieOptions = new() { HttpOnly = true };
 
     HttpContext.Response.Cookies.Append(
@@ -89,5 +89,4 @@ public class AuthController(IAuthService authService) : ControllerBase
 
     return Ok(logged);
   }
-  
 }

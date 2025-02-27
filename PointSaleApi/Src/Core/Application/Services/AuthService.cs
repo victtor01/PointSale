@@ -125,7 +125,7 @@ public class AuthService(
 
     Claim[] claims =
     [
-      new("storeId", store.Id.ToString()),
+      new(ClaimsKeySession.Store, store.Id.ToString()),
       new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
     ];
 

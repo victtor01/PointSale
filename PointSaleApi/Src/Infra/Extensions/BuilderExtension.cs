@@ -7,11 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 using PointSaleApi.src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Services;
-using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
 using PointSaleApi.Src.Infra.Database;
+using PointSaleApi.Src.Infra.Interfaces;
 using PointSaleApi.src.Infra.Repositories;
 using PointSaleApi.Src.Infra.Repositories;
+using PointSaleApi.Src.Infra.utils;
 
 namespace PointSaleApi.Src.Infra.Extensions;
 
@@ -73,6 +74,7 @@ public static class DependencyInjection
     // --outers--
     services.AddSingleton<ISessionService, SessionService>();
     services.AddSingleton<IJwtService, JwtService>();
+    services.AddSingleton<ITokenValidator, TokenValidator>();
   }
 };
 

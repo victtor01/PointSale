@@ -11,11 +11,10 @@ public class SessionManager : Session
   public Guid UserId { get; }
   public string Email { get; }
     
-  public SessionManager(Guid userId, string email, UserRole role, Guid? storeId)
+  public SessionManager(Guid userId, string email, UserRole role)
   {
     UserId = userId;
     Email = email;
     Role = role;
-    StoreId = storeId;
   }
 }

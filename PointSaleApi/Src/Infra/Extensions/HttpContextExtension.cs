@@ -30,15 +30,15 @@ public static class GetStoreSessionOrThrow
   public static Guid GetStoreOrThrow(this HttpContext context)
   {
     var contextSession =
-      (context.Items[SessionKey] ?? null) as SessionManager
+      (context.Items[SessionKey] ?? null) as Session
       ?? throw new BadRequestException("Sessão inválida na requisição");
 
     return contextSession.StoreId
            ?? throw new UnauthorizedException("Formato da sessão inválida");
   }
 
-  public static void SetSession(this HttpContext context, Session sessionManager)
+  public static void SetSession(this HttpContext context, Session session)
   {
-    context.Items[SessionKey] = sessionManager;
+    context.Items[SessionKey] = session;
   }
 }

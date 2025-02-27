@@ -13,8 +13,8 @@ public class OrdersService(
 {
   private const int QUANTITY_OF_ORDERS_THAT_CAN = 2;
 
-  private List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) =>
-    orders.Where(o => o.Status == status).ToList();
+  private static List<Order> FindAllByStatus(List<Order> orders, OrderStatus status) =>
+    [.. orders.Where(o => o.Status == status)];
 
   public async Task<Order> CreateAsync(CreateOrderDTO createOrderDto, Guid managerId, Guid storeId)
   {
@@ -26,7 +26,7 @@ public class OrdersService(
 
     if (ordersInDatabase?.Count > 0)
     {
-      List<Order> ordersWhereStatusIsCurrent = this.FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
+      List<Order> ordersWhereStatusIsCurrent = FindAllByStatus(ordersInDatabase, OrderStatus.CURRENT);
       bool limitOrders = ordersWhereStatusIsCurrent.Count >= QUANTITY_OF_ORDERS_THAT_CAN;
       if (limitOrders) throw new UnauthorizedException("limit reached on the number of orders on the table");
     }

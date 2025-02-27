@@ -6,12 +6,11 @@ public class SessionEmployee : Session
 {
   public int Username { get; set; }
 
-  public SessionEmployee(string username, UserRole role, Guid? storeId)
+  public SessionEmployee(string username, UserRole role)
   {
     Username = int.TryParse(username, out int userId)
       ? userId
       : throw new BadRequestException("username of session is invalid");
     Role = role;
-    StoreId = storeId;
   }
 }

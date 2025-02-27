@@ -33,8 +33,9 @@ public class StoresService(IStoresRepository _storesRepository) : IStoresService
 
     public async Task<Store> FindOneByIdWithRelations(Guid storeId)
     {
-        var stores = await _storesRepository.FindByIdWithTablesWithOrdersAndProductsAsync(storeId);
-        if (stores == null) throw new NotFoundException("store not found!");
+        var stores = await _storesRepository
+            .FindByIdWithTablesWithOrdersAndProductsAsync(storeId)
+        ?? throw new NotFoundException("store not found!");
 
         return stores;
     }

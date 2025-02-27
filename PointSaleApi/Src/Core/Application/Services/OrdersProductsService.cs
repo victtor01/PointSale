@@ -63,7 +63,7 @@ public class OrdersProductsService(
       await _ordersProductsRepository.UpdateAsync(orderProduct);
       return true;
     }
-    catch (Exception e)
+    catch (Exception)
     {
       throw new BadRequestException("there was error updating the status of order product");
     }

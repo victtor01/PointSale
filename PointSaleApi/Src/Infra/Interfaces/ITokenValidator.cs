@@ -1,0 +1,10 @@
+using PointSaleApi.Src.Core.Application.Dtos;
+using PointSaleApi.Src.Core.Domain;
+
+namespace PointSaleApi.Src.Infra.Interfaces;
+
+public interface ITokenValidator
+{
+  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensDTO tokens, HttpResponse response);
+  public Guid StoreToken(string sessionStoreToken);
+}
