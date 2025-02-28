@@ -129,6 +129,9 @@ Content-Type: application/json
 GET {{HOST}}/orders/employee/13017437-f561-49c6-a804-ba7e56c6c736
 
 ###
+GET {{HOST}}/orders/employee HTTP/1.1
+
+###
 # GET ALL INFORMATIONS OF TABLE
 GET {{HOST}}/orders/managers/13017437-f561-49c6-a804-ba7e56c6c736
 

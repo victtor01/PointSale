@@ -1,6 +1,6 @@
 namespace PointSaleApi.Src.Core.Application.Utils;
 
-public static class ClaimsKeySession
+public static class ClaimsKeySessionManager
 {
   public const string UserId = "userId";
   public const string Email = "_email";

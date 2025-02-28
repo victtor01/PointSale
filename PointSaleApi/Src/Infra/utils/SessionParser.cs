@@ -2,6 +2,7 @@ using Microsoft.IdentityModel.Tokens;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.utils;
 
@@ -11,19 +12,20 @@ public static class SessionParser
   {
     try
     {
-      UserRole role = Enum.Parse<UserRole>(payload[ClaimsKeySession.Role]);
-      
+      UserRole role = Enum.Parse<UserRole>(payload[ClaimsKeySessionManager.Role]);
+
       if (role == UserRole.EMPLOYEE)
       {
+        var username = payload[ClaimsKeySessionEmployee.Username];
         return new SessionEmployee(
-          username: payload[ClaimsKeySessionEmployee.Username],
+          username: username.ToIntOrThrow(),
           role: role
         );
       }
 
       return new SessionManager(
-        userId: Guid.Parse(payload[ClaimsKeySession.UserId]),
-        email: payload[ClaimsKeySession.Email],
+        userId: Guid.Parse(payload[ClaimsKeySessionManager.UserId]),
+        email: payload[ClaimsKeySessionManager.Email],
         role: role
       );
     }

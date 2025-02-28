@@ -13,4 +13,14 @@ public static class StringExtension
 
     throw new BadRequestException(errorMessage);
   }
+
+  public static int ToIntOrThrow(this string value, string errorMessage = "INT is not valid")
+  {
+    if (int.TryParse(value, out int result))
+    {
+      return result;
+    }
+    
+    throw new BadRequestException(errorMessage);
+  }
 }

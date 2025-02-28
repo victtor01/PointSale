@@ -54,7 +54,7 @@ public class AuthService(
 
     try
     {
-      JwtTokensDTO tokens = _sessionService.CreateSessionEmployee(
+      JwtTokensDTO tokens = _sessionService.CreateTokensEmployee(
         role: UserRole.EMPLOYEE.ToString(),
         username: employee.Username,
         storeId: employee.StoreId
@@ -87,7 +87,7 @@ public class AuthService(
       throw new UnauthorizedException("email or password is incorrect!");
     }
 
-    JwtTokensDTO tokens = _sessionService.CreateSessionUser(
+    JwtTokensDTO tokens = _sessionService.CreateTokensManager(
       role: UserRole.ADMIN.ToString(),
       userId: manager.Id.ToString(),
       email: manager.Email
@@ -125,7 +125,7 @@ public class AuthService(
 
     Claim[] claims =
     [
-      new(ClaimsKeySession.Store, store.Id.ToString()),
+      new(ClaimsKeySessionManager.Store, store.Id.ToString()),
       new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
     ];
 

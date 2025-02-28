@@ -21,7 +21,7 @@ public class OrdersManagersController(
   private readonly IOrdersCauculator _ordersCauculator = ordersCauculator;
 
   private SessionManager _sessionManager => HttpContext.GetManagerSessionOrThrow();
-  
+
   [HttpPost]
   [IsStoreSelectedRoute]
   public override async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
@@ -34,7 +34,7 @@ public class OrdersManagersController(
 
     return Ok(order.ToMapper());
   }
-  
+
   [HttpGet]
   [IsStoreSelectedRoute]
   public override async Task<IActionResult> FindAll()
@@ -48,12 +48,19 @@ public class OrdersManagersController(
 
     return Ok(ordersDto);
   }
-  
+
+  [HttpGet("test")]
+  public async Task Testt()
+  {
+    SessionManager session = HttpContext.GetManagerSessionOrThrow();
+    session.LoggerJson();
+  }
+
   [HttpGet("{orderId}")]
   public async Task<IActionResult> FindAsync(Guid orderId)
   {
     Guid managerId = _sessionManager.UserId;
-    
+
     Order order = await findOrdersService.ByIdAndManagerAsync(orderId, managerId);
 
     float totalPrice = ordersCauculator.TotalPriceOfOrder(order);

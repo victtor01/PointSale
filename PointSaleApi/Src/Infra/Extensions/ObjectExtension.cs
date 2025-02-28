@@ -9,4 +9,5 @@ public static class ObjectExtension
     string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
     Console.WriteLine(json);
   }
+  
 }

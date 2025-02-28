@@ -5,6 +5,6 @@ namespace PointSaleApi.Src.Infra.Interfaces;
 
 public interface ITokenValidator
 {
-  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensDTO tokens, HttpResponse response);
-  public Guid StoreToken(string sessionStoreToken);
+  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensManagerDTO tokens, HttpResponse response);
+  public Guid GetStoreInToken(string sessionStoreToken);
 }

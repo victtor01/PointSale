@@ -13,7 +13,7 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
   private readonly IJwtService _jwtService = jwtService;
   private readonly ISessionService _sessionService = sessionService;
 
-  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensDTO tokens, HttpResponse response)
+  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensManagerDTO tokens, HttpResponse response)
   {
     try
     {
@@ -25,28 +25,34 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
       string refreshToken = tokens.RefreshToken;
       var refreshTokenClaims = _jwtService.VerifyTokenAndGetClaims(refreshToken);
 
-      UserRole role = Enum.Parse<UserRole>(refreshTokenClaims[ClaimsKeySession.Role]);
+      UserRole role = Enum.Parse<UserRole>(refreshTokenClaims[ClaimsKeySessionManager.Role]);
 
       JwtTokensDTO newTokens;
 
-      if (role == UserRole.EMPLOYEE)
+      switch (role)
       {
-        newTokens = _sessionService.CreateSessionEmployee(
-          username: int.TryParse(refreshTokenClaims[ClaimsKeySessionEmployee.Username], out int usernameInt)
-            ? usernameInt
-            : throw new BadRequestException("Invalid refresh token"),
-          storeId: Guid.Parse(refreshTokenClaims[ClaimsKeySessionEmployee.Store]),
-          role: role.ToString()
-        );
+        case UserRole.EMPLOYEE:
+          newTokens = _sessionService.CreateTokensEmployee(
+            username: int.TryParse(refreshTokenClaims[ClaimsKeySessionEmployee.Username], out int usernameInt)
+              ? usernameInt
+              : throw new BadRequestException("Invalid refresh token"),
+            storeId: Guid.Parse(refreshTokenClaims[ClaimsKeySessionEmployee.Store]),
+            role: role.ToString()
+          );
+          break;
+
+        case UserRole.ADMIN:
+          newTokens = _sessionService.CreateTokensManager(
+            userId: refreshTokenClaims[ClaimsKeySessionManager.UserId],
+            email: refreshTokenClaims[ClaimsKeySessionManager.Email],
+            role: role.ToString()
+          );
+          break;
+
+        default:
+          throw new InvalidOperationException("Invalid role.");
       }
-      else
-      {
-        newTokens = _sessionService.CreateSessionUser(
-          userId: refreshTokenClaims[ClaimsKeySession.UserId],
-          email: refreshTokenClaims[ClaimsKeySession.Email],
-          role: role.ToString()
-        );
-      }
+
 
       var accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newTokens.AccessToken);
 
@@ -66,15 +72,13 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
     }
   }
 
-  public Guid StoreToken(string sessionStoreToken)
+  public Guid GetStoreInToken(string sessionStoreToken)
   {
     try
     {
       var sessionStorePayload = this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken);
 
-      sessionStorePayload.LoggerJson();
-
-      string storeIdString = sessionStorePayload.TryGetValue(ClaimsKeySession.Store, out string? str)
+      string storeIdString = sessionStorePayload.TryGetValue(ClaimsKeySessionManager.Store, out string? str)
         ? str
         : throw new BadRequestException("token ja loja não presente!");
 

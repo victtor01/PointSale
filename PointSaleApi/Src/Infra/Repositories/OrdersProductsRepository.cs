@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Database;
@@ -38,7 +37,7 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
       .Where(OP => OP.StoreId == storeId)
       .OrderBy(OP => OP.CreatedAt)
       .Include(OP => OP.Order)
-      .ThenInclude(order => order.Table)
+      .ThenInclude(order => (StoreTable?)order!.Table)
       .Include(OP => OP.Product)
       .ToListAsync();
     return orderProducts;

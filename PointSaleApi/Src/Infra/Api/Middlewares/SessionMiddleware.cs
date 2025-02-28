@@ -1,4 +1,5 @@
 using PointSaleApi.Src.Core.Application.Dtos;
+using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
@@ -8,18 +9,12 @@ using PointSaleApi.Src.Infra.utils;
 
 namespace PointSaleApi.Src.Infra.Api.Middlewares
 {
-  public class SessionMiddleware
+  public class SessionMiddleware(RequestDelegate next)
   {
-    private readonly RequestDelegate _next;
-    private readonly ITokenValidator _tokenValidator;
+    private readonly RequestDelegate _next = next;
 
-    public SessionMiddleware(RequestDelegate next, ITokenValidator tokenValidator)
-    {
-      _next = next;
-      _tokenValidator = tokenValidator;
-    }
-
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task InvokeAsync(HttpContext httpContext, ISessionService sessionService,
+      ITokenValidator _tokenValidator)
     {
       if (RouteValidator.IsPublicRoute(httpContext))
       {
@@ -27,35 +22,49 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         return;
       }
 
-      TokensDTO cookiesSession = GetCookieToken(context: httpContext);
+      TokensManagerDTO cookiesSession = GetCookieToken(context: httpContext);
 
       Dictionary<string, string> payload =
         _tokenValidator.VerifyAndRenewTokenAsync(tokens: cookiesSession, response: httpContext.Response);
 
       Session payloadSession = SessionParser.DictionaryToSession(payload);
 
-      ValidateUserRole(httpContext, payloadSession);
+      IsValidUserRoleToRoute(httpContext, payloadSession);
 
-      if (RouteValidator.IsStoreSelectedRoute(httpContext))
+      switch (payloadSession.Role)
       {
-        HandleStoreSelection(cookiesSession, payloadSession);
-      }
+        case UserRole.EMPLOYEE:
+        {
+          int username = payload[ClaimsKeySessionEmployee.Username].ToIntOrThrow();
+          SessionEmployee employeeSession = await sessionService.CreateSessionEmployee(username);
+          httpContext.SetSession(employeeSession);
+          break;
+        }
+        case UserRole.ADMIN:
+        {
+          Guid userID = payload[ClaimsKeySessionManager.UserId].ToGuidOrThrow();
+          SessionManager employeeSession = await sessionService.CreateSessionManager(userID);
+          httpContext.SetSession(employeeSession);
+          break;
+        }
 
-      httpContext.SetSession(payloadSession);
+        default:
+          throw new BadRequestException("Nenhuma permissão encontrada");
+      }
 
       await _next(httpContext);
     }
 
-    public TokensDTO GetCookieToken(HttpContext context)
+    public TokensManagerDTO GetCookieToken(HttpContext context)
     {
-      var cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
-      var cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
-      var cookiesStoreToken = context.Request.Cookies[CookiesSessionKeys.StoreToken] ?? null;
+      string? cookiesAccessToken = context.Request.Cookies[CookiesSessionKeys.AccessToken] ?? null;
+      string? cookiesRefreshToken = context.Request.Cookies[CookiesSessionKeys.RefreshToken] ?? null;
+      string? cookiesStoreToken = context.Request.Cookies[CookiesSessionKeys.StoreToken] ?? null;
 
       if (string.IsNullOrEmpty(cookiesAccessToken) || string.IsNullOrEmpty(cookiesRefreshToken))
         throw new BadRequestException("Faça o login!");
 
-      TokensDTO tokens = new TokensDTO
+      TokensManagerDTO tokens = new TokensManagerDTO
       {
         AccessToken = cookiesAccessToken,
         RefreshToken = cookiesRefreshToken,
@@ -69,23 +78,13 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       return tokens;
     }
 
-    private void ValidateUserRole(HttpContext httpContext, Session payloadSession)
+    private static void IsValidUserRoleToRoute(HttpContext httpContext, Session payloadSession)
     {
       if (RouteValidator.IsAdminRoute(httpContext) && payloadSession.Role != UserRole.ADMIN)
         throw new BadRequestException("Usuário não tem permissão!");
 
       if (RouteValidator.IsEmployeeRoute(httpContext) && payloadSession.Role == UserRole.EMPLOYEE)
         throw new BadRequestException("Usuário não tem permissão para acessar métodos do employee!");
-    }
-
-    private void HandleStoreSelection(TokensDTO cookiesSession, Session payloadSession)
-    {
-      string? sessionStoreToken = cookiesSession.StoreToken ?? null;
-
-      if (string.IsNullOrEmpty(sessionStoreToken))
-        throw new BadRequestException("Selecione a loja primeiro!");
-
-      payloadSession.StoreId = _tokenValidator.StoreToken(sessionStoreToken);
     }
   }
 }

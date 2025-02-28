@@ -5,12 +5,11 @@ namespace PointSaleApi.Src.Core.Domain;
 public class SessionEmployee : Session
 {
   public int Username { get; set; }
-
-  public SessionEmployee(string username, UserRole role)
+  public Guid managerId { get; set; }
+  
+  public SessionEmployee(int username, UserRole role)
   {
-    Username = int.TryParse(username, out int userId)
-      ? userId
-      : throw new BadRequestException("username of session is invalid");
+    Username = username;
     Role = role;
   }
 }
