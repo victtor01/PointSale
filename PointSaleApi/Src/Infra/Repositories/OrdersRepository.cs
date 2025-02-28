@@ -32,19 +32,19 @@ public class OrdersRepository(DatabaseContext databaseContext) : IOrdersReposito
         .Include(order => order.Table)
         .Where(order => order.TableId == tableId && order.ManagerId == managerId)
         .ToListAsync();
-    
+
     return orders;
   }
 
   public async Task<Order?> FindByIdAsync(Guid orderId)
   {
-    Order order = await databaseContext.Orders
+    var order = await databaseContext.Orders
       .Include(o => o.Table)
       .Include(o => o.OrderProducts)
-      .ThenInclude(o => o.Product)
-      .ThenInclude(o => o.Options)
+      .ThenInclude(orderProduct => orderProduct.Product)
+      .ThenInclude(product => product!.Options)
       .FirstOrDefaultAsync(order => order.Id == orderId) ?? null;
-    
+
     return order;
   }
 

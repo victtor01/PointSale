@@ -99,6 +99,7 @@ DELETE {{HOST}}/tables/acaee29d-d92d-4475-8d0f-006935c4301d
 
 # GET ALL PRODUCTS
 GET {{HOST}}/products HTTP/1.1
+###
 
 ###
 # GET ALL PRODUCTS
@@ -116,7 +117,7 @@ Content-Type: application/json
 ###########################################
 
 # CREATE A NEW ORDER
-POST {{HOST}}/orders
+POST {{HOST}}/orders/managers
 Content-Type: application/json
 
 { 
@@ -129,11 +130,11 @@ GET {{HOST}}/orders/employee/13017437-f561-49c6-a804-ba7e56c6c736
 
 ###
 # GET ALL INFORMATIONS OF TABLE
-GET {{HOST}}/orders/13017437-f561-49c6-a804-ba7e56c6c736
+GET {{HOST}}/orders/managers/13017437-f561-49c6-a804-ba7e56c6c736
 
 ###
 # GET ALL ORDERS
-GET {{HOST}}/orders
+GET {{HOST}}/orders/managers
 
 ###########################################
 ##            ORDERS-PRODUCTS            ##
@@ -150,6 +151,7 @@ Content-Type: application/json
 }
 
 ###
+
 # GET ALL ORDERS PRODUCTS OF STORE
 GET {{HOST}}/orders-products
 
@@ -173,3 +175,5 @@ Content-Type: application/json
   "salary": 2000,
   "password": "123456"
 }
+
+### 

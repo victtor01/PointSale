@@ -20,7 +20,7 @@ public class StoresController(
   private readonly IStoresService _storesService = storesService;
 
   [IsAdminRoute]
-  [HttpPost()]
+  [HttpPost]
   public async Task<Store> Save([FromBody] CreateStoreDTO createStoreDto)
   {
     SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();

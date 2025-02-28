@@ -9,11 +9,11 @@ using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
+[IsAdminRoute]
 [ApiController]
 [Route("tables")]
 public class TablesController(ITablesService tablesService) : ControllerBase
 {
-  [IsAdminRoute]
   [HttpPost]
   [IsStoreSelectedRoute]
   public async Task<IActionResult> SaveAsync([FromBody] CreateTableDTO createTableDto)
@@ -31,7 +31,6 @@ public class TablesController(ITablesService tablesService) : ControllerBase
     return Ok(saved.ToMapper());
   }
 
-  [IsAdminRoute]
   [HttpGet]
   [IsStoreSelectedRoute]
   public async Task<IActionResult> FindByStoreSelected()
@@ -48,7 +47,6 @@ public class TablesController(ITablesService tablesService) : ControllerBase
     return Ok(tables.Select(table => table.ToMapper()).ToList());
   }
 
-  [IsAdminRoute]
   [HttpGet("{idString}")]
   public async Task<IActionResult> FindByIdAndManager(string idString)
   {
@@ -64,7 +62,6 @@ public class TablesController(ITablesService tablesService) : ControllerBase
     return Ok(table.ToMapper());
   }
 
-  [IsAdminRoute]
   [HttpDelete("{idString}")]
   public async Task<IActionResult> DeleteAsync(string idString)
   {

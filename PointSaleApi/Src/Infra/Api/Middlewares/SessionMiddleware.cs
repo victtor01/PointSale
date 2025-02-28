@@ -42,6 +42,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       }
 
       httpContext.SetSession(payloadSession);
+
       await _next(httpContext);
     }
 
@@ -73,7 +74,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       if (RouteValidator.IsAdminRoute(httpContext) && payloadSession.Role != UserRole.ADMIN)
         throw new BadRequestException("Usuário não tem permissão!");
 
-      if (RouteValidator.IsAdminRoute(httpContext) && payloadSession.Role == UserRole.EMPLOYEE)
+      if (RouteValidator.IsEmployeeRoute(httpContext) && payloadSession.Role == UserRole.EMPLOYEE)
         throw new BadRequestException("Usuário não tem permissão para acessar métodos do employee!");
     }
 

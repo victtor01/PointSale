@@ -12,7 +12,7 @@ public class EmployeeController(IEmployeesService employeesService) : Controller
   private readonly IEmployeesService _employeesService = employeesService;
 
   [HttpPost]
-  [IsAdminRoute] 
+  [IsAdminRoute]
   [IsStoreSelectedRoute]
   public async Task<IActionResult> Create([FromBody] CreateEmployeeDTO createEmployeeDto)
   {
@@ -20,7 +20,7 @@ public class EmployeeController(IEmployeesService employeesService) : Controller
     Guid storeId = HttpContext.GetStoreOrThrow();
 
     var created = await _employeesService.CreateAsync(createEmployeeDto, managerId, storeId);
-    
+
     return Ok(created);
   }
 }

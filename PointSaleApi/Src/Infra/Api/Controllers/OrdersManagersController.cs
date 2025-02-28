@@ -8,54 +8,54 @@ using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
-[ApiController]
-[Route("orders")]
-public class OrdersController(
-  IOrdersService ordersService, 
+[IsAdminRoute]
+[Route("/orders/managers")]
+public class OrdersManagersController(
+  IOrdersService ordersService,
   IFindOrdersService findOrdersService,
   IOrdersCauculator ordersCauculator
-  ) : ControllerBase
+) : OrdersControllerBase
 {
+  private readonly IOrdersService _ordersService = ordersService;
+  private readonly IFindOrdersService _findOrdersService = findOrdersService;
+  private readonly IOrdersCauculator _ordersCauculator = ordersCauculator;
+
+  private SessionManager _sessionManager => HttpContext.GetManagerSessionOrThrow();
   
-  [IsStoreSelectedRoute]
   [HttpPost]
-  public async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
+  [IsStoreSelectedRoute]
+  public override async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
   {
-    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
     Guid storeId = HttpContext.GetStoreOrThrow();
-    Guid managerId = sessionManager.UserId;
+    Guid managerId = _sessionManager.UserId;
 
     Order order =
-      await ordersService.CreateAsync(createOrderDto, storeId: storeId, managerId: managerId);
+      await _ordersService.CreateAsync(createOrderDto, storeId: storeId, managerId: managerId);
 
     return Ok(order.ToMapper());
   }
-
+  
   [HttpGet]
-  [IsAdminRoute]
   [IsStoreSelectedRoute]
-  public async Task<IActionResult> GetAllByCreatedAt()
+  public override async Task<IActionResult> FindAll()
   {
-    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
     Guid storeId = HttpContext.GetStoreOrThrow();
-    Guid managerId = sessionManager.UserId;
+    Guid managerId = _sessionManager.UserId;
 
     List<Order> orders = await findOrdersService.ByManagerAndStoreAsync(managerId, storeId);
-    
+
     List<OrderDTO> ordersDto = orders.Select(order => order.ToMapper()).ToList();
-    
+
     return Ok(ordersDto);
   }
-
-  [IsAdminRoute]
+  
   [HttpGet("{orderId}")]
   public async Task<IActionResult> FindAsync(Guid orderId)
   {
-    SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
-    Guid managerId = sessionManager.UserId;
+    Guid managerId = _sessionManager.UserId;
     
     Order order = await findOrdersService.ByIdAndManagerAsync(orderId, managerId);
-    
+
     float totalPrice = ordersCauculator.TotalPriceOfOrder(order);
 
     return Ok(new ResponseOrderDTO
@@ -63,14 +63,5 @@ public class OrdersController(
       Orders = order.ToMapper(),
       TotalPrice = totalPrice
     });
-  }
-  
-  [IsEmployeeRoute]
-  [HttpGet("employee/{orderId}")]
-  public IActionResult FindByIdAsync(Guid orderId)
-  {
-    SessionEmployee sessionManager = HttpContext.GetEmployeeSessionOrThrow();
-
-    return Ok(sessionManager.Username);
   }
 }

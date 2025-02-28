@@ -20,7 +20,7 @@ public class Employee : BaseEntity
 
   [Column("email")]
   [MaxLength(50)]
-  public string Email { get; set; }
+  public string? Email { get; set; }
 
   [Required]
   [Column("salary")]
@@ -29,25 +29,25 @@ public class Employee : BaseEntity
   [Column("phone")]
   [MaxLength(30)]
   public string? Phone { get; set; }
-  
+
   [Column("password")]
   [MaxLength(255)]
   public string? Password { get; set; }
-  
+
   [Column("userId")]
   [Required]
   public required Guid ManagerId { get; set; }
 
   [Required]
   [Column("storeId")]
-  public required Guid StoreId { get; set; } 
-  
+  public required Guid StoreId { get; set; }
+
   [ForeignKey(nameof(StoreId))]
   public Store? Store { get; set; }
-  
+
   [ForeignKey(nameof(ManagerId))]
   public Manager? Manager { get; set; }
-  
+
   [Column("birth_date")]
   public DateTime? BirthDate { get; set; } = null;
 
@@ -60,5 +60,5 @@ public class Employee : BaseEntity
     string newPassword = passwordHasher.HashPassword(userId.ToString(), Password);
     Password = newPassword;
   }
-  
+
 }
