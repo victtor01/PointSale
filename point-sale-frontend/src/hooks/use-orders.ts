@@ -6,7 +6,7 @@ const useOrders = () => {
   const getAllOrders = () => {
     const { data: orders } = useQuery<IOrder[]>({
       queryKey: ["orders"],
-      queryFn: async () => (await api.get("/orders")).data,
+      queryFn: async () => (await api.get("/orders/managers")).data,
     });
 
     return {

@@ -102,7 +102,7 @@ function Tables() {
         </CenterSection>
       </div>
 
-      <CenterSection className="p-0 pb-[1rem] mt-[-4rem] px-4 relative">
+      <CenterSection className="mt-[-4rem] px-4 relative">
         <header className="flex flex-col gap-4 relative w-full bg-white p-6 rounded-xl items-center border z-30 justify-between text-gray-600 dark:text-gray-200">
           <AnimatePresence>
             {action === "create" && <ModalCreateTable />}

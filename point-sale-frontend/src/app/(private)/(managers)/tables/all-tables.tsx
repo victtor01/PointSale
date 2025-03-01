@@ -21,7 +21,7 @@ function AllTables() {
         <div className="flex-1 flex gap-2 text-center items-center">
           <span className="text-[1.4rem] font-semibold text-shadow bg-indigo-600 w-[2.2rem] h-[2.2rem] grid place-items-center text-white rounded-md
           border-2 border-indigo-500">
-            {orders?.length}
+            {orders?.length || 0}
           </span>
           <span className="text-md font-semibold">
             Pedidos no total

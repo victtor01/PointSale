@@ -45,24 +45,26 @@ const Informations = (props: { order: IOrder }) => {
       exit={{ maxHeight: 0 }}
       key={props.order.id}
       layoutId={props.order.id}
-      className="bg-white border-b border-l border-r flex overflow-hidden"
+      className="bg-white flex overflow-hidden"
     >
-      <div className=" flex flex-col h-full w-full">
-        <section className="flex flex-col overflow-auto relative bg-gradient-45 from-indigo-50 to-purple-50">
+      <div className="flex flex-col h-full w-full">
+        <section className="flex flex-col overflow-auto relative bg-white">
           {orderProducts?.map((orderProduct: IOrderProduct, index: number) => {
             const STATUS_PULSE: OrderProductStatus = "IN_PROGRESS";
 
             const colorStatus = OrderProductStatusColors[orderProduct.status];
             const { updatedAt } = orderProduct;
+
             return (
               <button
                 key={index}
-                className="flex hover:bg-white hover:shadow-lg hover:z-20 gap-2 pr-5 border-r items-center border-l 
-                border-b p-1 bg-gray-50 opacity-90 hover:opacity-100 group/button relative"
+                className="flex hover:bg-white hover:shadow-lg hover:z-20 gap-2 pr-5 items-center first:border-t
+                border-b p-1 bg-white opacity-90 hover:opacity-100 group/button relative last:border-b-0"
               >
                 <header className="w-10 h-10 bg-blue-100 rounded-md"></header>
                 <div className="p-1 flex-[2]">{dayjs(updatedAt).fromNow()}</div>
-                <div className="flex items-center gap-2 flex-1 border-l data-[pulse=true]:animate-pulse" data-pulse={STATUS_PULSE === orderProduct.status} >
+
+                <div className="flex items-center gap-2 flex-1 data-[pulse=true]:animate-pulse" data-pulse={STATUS_PULSE === orderProduct.status} >
                   <div
                   style={{ backgroundColor: colorStatus}}  
                     className={`p-1 px-2 text-gray-200 rounded-md text-[0.7rem] font-semibold shadow-gray-700`}
@@ -99,8 +101,8 @@ const OrderContainer = (props: OrderStatusProps) => {
   const statusLegend = ORDER_STATUS_PT[orderStatus as ORDER_STATUS];
 
   return (
-    <div className="flex flex-col rounded-md">
-      <div className="flex border bg-white p-3 items-center gap-2 z-20">
+    <div className="flex flex-col rounded-lg overflow-hidden bg-white border">
+      <div className="flex p-3 items-center gap-2 z-20">
         <header className="flex flex-1 gap-4 items-center">
           <div className={`w-4 h-4 ${statusColor} rounded-full`} />
           <h1 className={`${fontSaira} font-semibold text-gray-600`}>
