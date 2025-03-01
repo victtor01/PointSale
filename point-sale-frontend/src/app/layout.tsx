@@ -30,10 +30,12 @@ export default function RootLayout({
     <html lang="pt-br" className="light" suppressHydrationWarning>
       <body
         cz-shortcut-listen="false"
-        className={`text-gray-600 dark:text-neutral-200 bg-white dark:bg-neutral-950`}
+        className={`text-gray-600 dark:text-neutral-200 flex flex-col bg-gray-200 dark:bg-neutral-950 p-0 2xl:p-4`}
       >
-        <QueryProvider>{children}</QueryProvider>
-        <ToastContainer position="bottom-right" />
+        <div className="rounded-none 2xl:rounded-xl overflow-hidden flex-1 flex shadow-xl">
+          <QueryProvider>{children}</QueryProvider>
+          <ToastContainer position="bottom-right" />
+        </div>
       </body>
     </html>
   );

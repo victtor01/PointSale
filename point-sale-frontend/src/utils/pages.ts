@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { GoHomeFill } from "react-icons/go";
 import { HiRectangleStack } from "react-icons/hi2";
-import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { MdTableBar } from "react-icons/md";
 
 export type Page = {
   name: string;
@@ -11,8 +11,8 @@ export type Page = {
 };
 
 export const pages = [
-  { name: "Minhas mesas", icon: GoHomeFill, link: "/tables" },
-  { name: "Dashboard", icon: TbLayoutDashboardFilled, link: "/home" },
+  { name: "Dashboard", icon: GoHomeFill, link: "/home" },
+  { name: "Minhas mesas", icon: MdTableBar, link: "/tables" },
   { name: "Orders", icon: BiSolidFoodMenu, link: "/orders" },
   { name: "Orders-Products", icon:  HiRectangleStack, link: "/orders-products"}
 ] satisfies Page[];

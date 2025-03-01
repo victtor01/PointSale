@@ -2,29 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html, body {
   height: 100vh;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .grid-image {
@@ -39,4 +21,66 @@ body {
 
 .text-shadow {
   text-shadow:  rgb(147 51 234 / 0) 0px 0px 7px;
+}
+
+
+@layer base {
+  :root {
+    --background: 240 5% 6%;
+    --foreground: 60 5% 90%;
+    --primary: 240 0% 90%;
+    --primary-foreground: 60 0% 0%;
+    --secondary: 240 4% 15%;
+    --secondary-foreground: 60 5% 85%;
+    --accent: 240 0% 13%;
+    --accent-foreground: 60 0% 100%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --muted: 240 5% 25%;
+    --muted-foreground: 60 5% 85%;
+    --card: 240 4% 10%;
+    --card-foreground: 60 5% 90%;
+    --popover: 240 5% 15%;
+    --popover-foreground: 60 5% 85%;
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 240 5% 90%;
+    --chart-1: 359 2% 90%;
+    --chart-2: 240 1% 74%;
+    --chart-3: 240 1% 58%;
+    --chart-4: 240 1% 42%;
+    --chart-5: 240 2% 26%;
+  }
+  .dark {
+    --background: 240 5% 6%;
+    --foreground: 60 5% 90%;
+    --primary: 240 0% 90%;
+    --primary-foreground: 60 0% 0%;
+    --secondary: 240 4% 15%;
+    --secondary-foreground: 60 5% 85%;
+    --accent: 240 0% 13%;
+    --accent-foreground: 60 0% 100%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --muted: 240 5% 25%;
+    --muted-foreground: 60 5% 85%;
+    --card: 240 4% 10%;
+    --card-foreground: 60 5% 90%;
+    --popover: 240 5% 15%;
+    --popover-foreground: 60 5% 85%;
+    --input: 240 6% 20%;
+    --ring: 240 5% 90%;
+    --chart-1: 359 2% 90%;
+    --chart-2: 240 1% 74%;
+    --chart-3: 240 1% 58%;
+    --chart-4: 240 1% 42%;
+    --chart-5: 240 2% 26%;
+    }
+}
+
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
 }

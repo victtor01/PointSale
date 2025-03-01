@@ -23,7 +23,11 @@ function Button(props: ButtonProps) {
   const { redirectToStore } = useSelectStore();
 
   return (
-    <motion.div initial={{ y: 20, opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} className="flex flex-col  w-full flex-wrap text-wrap gap-2 items-center text-center">
+    <motion.div
+      initial={{ y: 20, opacity: 0.5 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="flex flex-col bg-opacity-95 hover:opacity-100 w-full flex-wrap text-wrap gap-2 items-center text-center"
+    >
       <button
         type="button"
         onClick={() => redirectToStore(store)}
@@ -72,7 +76,7 @@ function SelectStore() {
   }
 
   return (
-    <div className="bg-gradient-radial from-blue-50 to-white dark:bg-neutral-950 w-full h-screen overflow-auto flex">
+    <div className="bg-white dark:bg-neutral-950 w-full h-screen overflow-auto flex">
       <div className="text-gray-700 dark:text-gray-200 flex flex-col items-center w-full">
         <header className="text-2xl font-semibold text-center w-full shadow-[inset_0px_-12px_50px_rgba(0,0,0,0.3)] items-center justify-center gap-5 flex bg-purple-600 p-[6rem] flex-col">
           <span className={`${fontSaira} text-white opacity-90`}>

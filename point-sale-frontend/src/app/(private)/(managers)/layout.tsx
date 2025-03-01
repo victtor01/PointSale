@@ -7,12 +7,12 @@ interface LayoutManagerProps {
 
 export default function LayoutManagers({ children }: LayoutManagerProps) {
   return (
-    <main className="flex h-[100vh] w-full overflow-hidden">
+    <main className="flex flex-1 w-full overflow-hidden">
       <MinSidebar />
-      <BottomSidebar />
-      <section className="flex w-full relative h-[100vh] overflow-auto flex-col pb-[5rem] bg-gradient-radial from-gray-100 to-white">
+      <section className="flex w-full relative overflow-auto flex-col bg-gradient-radial from-gray-100 to-white">
         {children}
       </section>
+      <BottomSidebar />
     </main>
   );
 }

@@ -14,10 +14,10 @@ export default function Login() {
 
   return (
     <div
-      className={`${fontOpenSans} z-20 flex flex-col gap-2 m-auto w-full max-w-md bg-white dark:bg-zinc-950 rounded-3xl shadow dark:shadow-black p-8`}
+      className={`${fontOpenSans} z-20 flex pb-[10rem] flex-col gap-2 mx-auto mt-[4rem] w-full max-w-md bg-white dark:bg-zinc-950 rounded-3xl p-8`}
     >
       <header className={`${fontSaira} grid gap-2`}>
-        <h1 className="text-[1.4rem] text-indigo-600 dark:text-white font-semibold text-center">
+        <h1 className="text-[1.4rem] text-violet-500 dark:text-white font-semibold text-center">
           Entre com o google ou faça login para continuar!
         </h1>
       </header>
@@ -38,7 +38,7 @@ export default function Login() {
       <form onSubmit={handleSubmit(submitLogin)} className="grid gap-1">
         <label htmlFor="email" className="grid gap-2">
           <span className="opacity-60">Email</span>
-          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md">
+          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md focus-within:ring-4 ring-indigo-500/80 transition-shadow">
             <MdEmail className="opacity-30 w-12" size={18} />
             <input
               type="email"
@@ -61,7 +61,7 @@ export default function Login() {
 
         <label htmlFor="password" className="grid gap-2 mt-2">
           <span className="opacity-60">Password</span>
-          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md">
+          <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md focus-within:ring-4 ring-indigo-500/80 transition-shadow">
             <FaLock className="opacity-30 w-12" size={16} />
             <input
               type="password"
@@ -92,12 +92,14 @@ export default function Login() {
           </span>
         </div>
 
-        <footer className="flex w-full mt-4">
+        <footer className="flex w-full mt-7">
           <button
             type="submit"
-            className="bg-indigo-600 w-full transition-opacity duration-300 rounded dark:bg-violet-600 text-white opacity-90 hover:opacity-100 p-2 py-3"
+            className="font-semibold bg-violet-600 w-full transition-opacity duration-300 rounded-lg dark:bg-violet-600 text-white opacity-95 hover:opacity-100 p-2 py-3"
           >
-            Entrar
+            <span className={fontSaira}>
+              Entrar
+            </span>
           </button>
         </footer>
       </form>
