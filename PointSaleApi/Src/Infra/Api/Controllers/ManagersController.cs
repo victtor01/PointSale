@@ -18,7 +18,7 @@ public class ManagersController(IManagersService managersService) : ControllerBa
   [IsPublicRoute]
   public async Task<IActionResult> GetAllManagers([FromBody] CreateUserDTO createUserDto)
   {
-    var register = await _managersService.RegisterAsync(createUserDto);
+    Manager register = await _managersService.RegisterAsync(createUserDto);
 
     return Ok(register);
   }

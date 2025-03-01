@@ -56,10 +56,9 @@ public class AuthService(
     {
       JwtTokensDTO tokens = _sessionService.CreateTokensEmployee(
         role: UserRole.EMPLOYEE.ToString(),
-        username: employee.Username,
-        storeId: employee.StoreId
+        username: employee.Username
       );
-      
+
       return tokens;
     }
     catch (Exception e)

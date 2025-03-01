@@ -13,7 +13,7 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
   private readonly IJwtService _jwtService = jwtService;
   private readonly ISessionService _sessionService = sessionService;
 
-  public Dictionary<string, string> VerifyAndRenewTokenAsync(TokensManagerDTO tokens, HttpResponse response)
+  public Dictionary<string, string> VerifyAndRenewTokenAsync(JwtTokensDTO tokens, HttpResponse response)
   {
     try
     {
@@ -32,11 +32,10 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
       switch (role)
       {
         case UserRole.EMPLOYEE:
+          string username = refreshTokenClaims[ClaimsKeySessionEmployee.Username];
+
           newTokens = _sessionService.CreateTokensEmployee(
-            username: int.TryParse(refreshTokenClaims[ClaimsKeySessionEmployee.Username], out int usernameInt)
-              ? usernameInt
-              : throw new BadRequestException("Invalid refresh token"),
-            storeId: Guid.Parse(refreshTokenClaims[ClaimsKeySessionEmployee.Store]),
+            username: username.ToIntOrThrow(),
             role: role.ToString()
           );
           break;
@@ -50,7 +49,7 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
           break;
 
         default:
-          throw new InvalidOperationException("Invalid role.");
+          throw new BadRequestException("Invalid role.");
       }
 
 
@@ -76,15 +75,14 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
   {
     try
     {
-      var sessionStorePayload = this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken);
+      Dictionary<string, string> sessionStorePayload =
+        this._jwtService.VerifyTokenAndGetClaims(sessionStoreToken);
 
       string storeIdString = sessionStorePayload.TryGetValue(ClaimsKeySessionManager.Store, out string? str)
         ? str
         : throw new BadRequestException("token ja loja não presente!");
 
-      Guid storeId = Guid.TryParse(storeIdString, out Guid storeIdGuid)
-        ? storeIdGuid
-        : throw new BadRequestException("Token da loja inválido!");
+      Guid storeId = storeIdString.ToGuidOrThrow();
 
       return storeId;
     }

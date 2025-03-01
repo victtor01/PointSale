@@ -60,12 +60,11 @@ public class SessionService(
     return GenerateTokens(claims);
   }
 
-  public JwtTokensDTO CreateTokensEmployee(int username, string role, Guid storeId)
+  public JwtTokensDTO CreateTokensEmployee(int username, string role)
   {
     Claim[] claims =
     [
       new(ClaimsKeySessionEmployee.Username, username.ToString()),
-      new(ClaimsKeySessionEmployee.Store, storeId.ToString()),
       new(ClaimsKeySessionEmployee.Role, role),
     ];
 
