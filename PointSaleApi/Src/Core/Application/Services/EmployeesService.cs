@@ -28,7 +28,8 @@ public class EmployeesService(IEmployeeRepository employeeRepository) : IEmploye
       Salary = createEmployeeDto.Salary,
       ManagerId = managerId,
       StoreId = storeId,
-      Password = createEmployeeDto.Password
+      Password = createEmployeeDto.Password,
+      Positions = []
     };
 
     employee.HashPassword(managerId);

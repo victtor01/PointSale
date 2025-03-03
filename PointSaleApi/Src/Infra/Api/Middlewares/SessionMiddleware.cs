@@ -25,37 +25,42 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         return;
       }
 
-      var cookiesSession = GetCookieToken(httpContext);
-      var payload = tokenValidator.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
-      var session = SessionParser.DictionaryToSession(payload);
-
+      JwtTokensDTO cookiesSession = GetCookieToken(httpContext);
+      Dictionary<string, string>
+        payload = tokenValidator.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
+      
+      Session session = SessionParser.DictionaryToSession(payload);
+      
       ValidateUserRoleForRoute(httpContext, session);
 
-      switch (session.Role)
+      if (session.IsManager())
       {
-        case UserRole.EMPLOYEE:
-          int username = payload[ClaimsKeySessionEmployee.Username].ToIntOrThrow();
-          var employeeSession = await sessionService.CreateSessionEmployee(username);
-          httpContext.SetSession(employeeSession);
-          break;
-        case UserRole.ADMIN:
-          Guid userId = payload[ClaimsKeySessionManager.UserId].ToGuidOrThrow();
-          SessionManager managerSession = await sessionService.CreateSessionManager(userId);
-
-          if (RouteValidator.IsStoreSelectedRoute(httpContext))
-          {
-            Guid decodedTokenStore = tokenValidator
-              .GetStoreInToken(getTokenStoreInCookie(httpContext));
-            managerSession.StoreId = decodedTokenStore;
-          }
-
-          httpContext.SetSession(managerSession);
-          break;
-        default:
-          throw new BadRequestException("Nenhuma permissão encontrada");
+        Guid userId = payload[ClaimsKeySessionManager.UserId].ToGuidOrThrow();
+        SessionManager managerSession = await sessionService.CreateSessionManager(userId);
+        
+        if (RouteValidator.IsStoreSelectedRoute(httpContext))
+        {
+          string tokenStoreInCookie = getTokenStoreInCookie(httpContext);
+          Guid decodedTokenStore = tokenValidator.GetStoreInToken(tokenStoreInCookie);
+          managerSession.StoreId = decodedTokenStore;
+        }
+        
+        httpContext.SetSession(managerSession);
+        await _next(httpContext);
+        
+        return;
       }
 
-      await _next(httpContext);
+      if (session.IsEmployee())
+      {
+        int username = payload[ClaimsKeySessionEmployee.Username].ToIntOrThrow();
+        var employeeSession = await sessionService.CreateSessionEmployee(username);
+        httpContext.SetSession(employeeSession);
+        await _next(httpContext);
+        return;
+      }
+
+      throw new BadRequestException("Nenhuma permissão encontrada");
     }
 
     private static string getTokenStoreInCookie(HttpContext httpContext)
@@ -88,7 +93,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       if (RouteValidator.IsAdminRoute(httpContext) && session.Role != UserRole.ADMIN)
         throw new BadRequestException("Usuário não tem permissão!");
 
-      if (RouteValidator.IsEmployeeRoute(httpContext) && session.Role == UserRole.EMPLOYEE)
+      if (RouteValidator.IsEmployeeRoute(httpContext) && session.Role != UserRole.EMPLOYEE)
         throw new BadRequestException("Usuário não tem permissão para acessar métodos do employee!");
     }
   }

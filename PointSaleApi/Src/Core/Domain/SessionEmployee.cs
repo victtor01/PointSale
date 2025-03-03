@@ -1,15 +1,16 @@
-using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Core.Application.Enums;
 
 namespace PointSaleApi.Src.Core.Domain;
 
 public class SessionEmployee : Session
 {
-  public int Username { get; set; }
-  public Guid managerId { get; set; }
+  public required int Username { get; set; }
+  public required Guid ManagerId { get; set; }
   
-  public SessionEmployee(int username, UserRole role)
+  public required List<EmployeePosition> Positions { get; set; }
+
+  public SessionEmployee()
   {
-    Username = username;
-    Role = role;
+    Role = UserRole.EMPLOYEE;
   }
 }

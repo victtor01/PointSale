@@ -9,6 +9,7 @@ using PointSaleApi.Src.Infra.Extensions;
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [IsAdminRoute]
+[ApiController]
 [Route("/orders/managers")]
 public class OrdersManagersController(
   IOrdersService ordersService,

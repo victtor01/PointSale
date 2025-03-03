@@ -12,6 +12,7 @@ using PointSaleApi.Src.Infra.Extensions;
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [ApiController]
+[IsAdminRoute]
 [Route("/orders-products")]
 public class OrdersProductsController(IOrdersProductsService ordersProductsService) : ControllerBase
 {

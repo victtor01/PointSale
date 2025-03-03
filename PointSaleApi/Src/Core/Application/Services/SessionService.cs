@@ -5,7 +5,6 @@ using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
-using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 
@@ -28,10 +27,12 @@ public class SessionService(
       throw new BadRequestException("employee not found");
     }
 
-    return new SessionEmployee(employee.Username, UserRole.EMPLOYEE)
+    return new SessionEmployee()
     {
+      Username = employee.Username,
       StoreId = employee.StoreId,
-      managerId = employee.ManagerId
+      ManagerId = employee.ManagerId,
+      Positions = employee.Positions,
     };
   }
 
@@ -39,33 +40,36 @@ public class SessionService(
   {
     Manager? manager = await _managersRepository.FindByIdAsync(managerId);
     if (manager == null)
+    {
+      Logger.Error("Manager não existe");
       throw new BadRequestException("user not found!");
+    }
 
-    return new SessionManager(
-      userId: manager.Id,
-      email: manager.Email,
-      role: UserRole.ADMIN
-    );
+    return new SessionManager()
+    {
+      UserId = manager.Id,
+      Email = manager.Email,
+    };
   }
  
-  public JwtTokensDTO CreateTokensManager(string userId, string email, string role)
+  public JwtTokensDTO CreateTokensManager(string userId, string email)
   {
     Claim[] claims =
     [
       new(ClaimsKeySessionManager.UserId, userId),
       new(ClaimsKeySessionManager.Email, email),
-      new(ClaimsKeySessionManager.Role, role)
+      new(ClaimsKeySessionManager.Role, UserRole.ADMIN.ToString())
     ];
 
     return GenerateTokens(claims);
   }
 
-  public JwtTokensDTO CreateTokensEmployee(int username, string role)
+  public JwtTokensDTO CreateTokensEmployee(int username)
   {
     Claim[] claims =
     [
       new(ClaimsKeySessionEmployee.Username, username.ToString()),
-      new(ClaimsKeySessionEmployee.Role, role),
+      new(ClaimsKeySessionEmployee.Role, UserRole.EMPLOYEE.ToString()),
     ];
 
     return GenerateTokens(claims);

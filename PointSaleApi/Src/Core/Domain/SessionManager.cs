@@ -8,13 +8,11 @@ public enum UserRole
 
 public class SessionManager : Session
 {
-  public Guid UserId { get; }
-  public string Email { get; }
-    
-  public SessionManager(Guid userId, string email, UserRole role)
+  public required Guid UserId { get; set; }
+  public required string Email { get; set;  }
+
+  public SessionManager()
   {
-    UserId = userId;
-    Email = email;
-    Role = role;
-  }
+    Role = UserRole.ADMIN;
+  }  
 }

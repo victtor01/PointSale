@@ -34,9 +34,7 @@ public class AuthService(
   {
     var employee = await _employeeRepository.FindByUsernameAsync(authDto.Username);
     if (employee == null)
-    {
       throw new NotFoundException("employee not found!");
-    }
 
     try
     {
@@ -55,7 +53,6 @@ public class AuthService(
     try
     {
       JwtTokensDTO tokens = _sessionService.CreateTokensEmployee(
-        role: UserRole.EMPLOYEE.ToString(),
         username: employee.Username
       );
 
@@ -87,7 +84,6 @@ public class AuthService(
     }
 
     JwtTokensDTO tokens = _sessionService.CreateTokensManager(
-      role: UserRole.ADMIN.ToString(),
       userId: manager.Id.ToString(),
       email: manager.Email
     );

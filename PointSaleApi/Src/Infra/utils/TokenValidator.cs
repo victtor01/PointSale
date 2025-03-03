@@ -35,16 +35,14 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
           string username = refreshTokenClaims[ClaimsKeySessionEmployee.Username];
 
           newTokens = _sessionService.CreateTokensEmployee(
-            username: username.ToIntOrThrow(),
-            role: role.ToString()
+            username: username.ToIntOrThrow()
           );
           break;
 
         case UserRole.ADMIN:
           newTokens = _sessionService.CreateTokensManager(
             userId: refreshTokenClaims[ClaimsKeySessionManager.UserId],
-            email: refreshTokenClaims[ClaimsKeySessionManager.Email],
-            role: role.ToString()
+            email: refreshTokenClaims[ClaimsKeySessionManager.Email]
           );
           break;
 
@@ -52,8 +50,7 @@ public class TokenValidator(IJwtService jwtService, ISessionService sessionServi
           throw new BadRequestException("Invalid role.");
       }
 
-
-      var accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newTokens.AccessToken);
+      Dictionary<string, string> accessTokenClaims = _jwtService.VerifyTokenAndGetClaims(newTokens.AccessToken);
 
       response.Cookies.Append(
         key: CookiesSessionKeys.AccessToken,

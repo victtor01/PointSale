@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PointSaleApi.Src.Core.Application.Utils;
 using PointSaleApi.Src.Infra.Config;
 
@@ -31,6 +30,9 @@ public class Employee : BaseEntity
   [MaxLength(30)]
   public string? Phone { get; set; }
 
+  [Column("positions")]
+  public required List<EmployeePosition>  Positions { get; set; } = [];
+
   [Column("password")]
   [MaxLength(255)]
   public string? Password { get; set; }
@@ -38,7 +40,7 @@ public class Employee : BaseEntity
   [Column("userId")]
   [Required]
   public required Guid ManagerId { get; set; }
-
+  
   [Required]
   [Column("storeId")]
   public required Guid StoreId { get; set; }

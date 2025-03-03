@@ -13,21 +13,15 @@ public static class SessionParser
     try
     {
       UserRole role = Enum.Parse<UserRole>(payload[ClaimsKeySessionManager.Role]);
+      Guid? storeId = payload.ContainsKey(ClaimsKeySession.Store) ? 
+          payload[ClaimsKeySession.Store].ToGuidOrThrow() : null;
 
-      if (role == UserRole.EMPLOYEE)
-      {
-        var username = payload[ClaimsKeySessionEmployee.Username];
-        return new SessionEmployee(
-          username: username.ToIntOrThrow(),
-          role: role
-        );
-      }
+      Session session = new Session { Role = role };
 
-      return new SessionManager(
-        userId: Guid.Parse(payload[ClaimsKeySessionManager.UserId]),
-        email: payload[ClaimsKeySessionManager.Email],
-        role: role
-      );
+      if (storeId != null)
+        session.StoreId = storeId;
+
+      return session;
     }
     catch (Exception e)
     {
