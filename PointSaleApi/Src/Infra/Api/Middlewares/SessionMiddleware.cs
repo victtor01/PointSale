@@ -26,6 +26,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       }
 
       JwtTokensDTO cookiesSession = GetCookieToken(httpContext);
+      
       Dictionary<string, string>
         payload = tokenValidator.VerifyAndRenewTokenAsync(cookiesSession, httpContext.Response);
       
@@ -56,6 +57,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         int username = payload[ClaimsKeySessionEmployee.Username].ToIntOrThrow();
         var employeeSession = await sessionService.CreateSessionEmployee(username);
         httpContext.SetSession(employeeSession);
+        
         await _next(httpContext);
         return;
       }

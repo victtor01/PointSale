@@ -8,7 +8,6 @@ namespace PointSaleApi.Src.Core.Application.Services;
 public class EmployeesService(IEmployeeRepository employeeRepository) : IEmployeesService
 {
   private readonly IEmployeeRepository _employeeRepository = employeeRepository;
-
   private const int COUNT_EMPLOYEE_MAX = 10;
 
   public async Task<Employee> CreateAsync(CreateEmployeeDTO createEmployeeDto, Guid managerId, Guid storeId)
