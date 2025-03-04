@@ -32,7 +32,7 @@ public class AuthService(
 
   public async Task<JwtTokensDTO> AuthEmployee(AuthEmployeeDTO authDto)
   {
-    var employee = await _employeeRepository.FindByUsernameAsync(authDto.Username);
+    var employee = await _employeeRepository.FindByUsernameAsyncWithPositions(authDto.Username);
     if (employee == null)
       throw new NotFoundException("employee not found!");
 

@@ -7,3 +7,7 @@ Content-Type: application/json
   "username": "338287",
   "password": "123456"
 }
+
+### 
+
+GET {{HOST}}/orders/employee

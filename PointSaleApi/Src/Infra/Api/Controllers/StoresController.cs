@@ -72,7 +72,7 @@ public class StoresController(
   public async Task<IActionResult> GetInformations()
   {
     Guid userId = HttpContext.GetManagerSessionOrThrow().UserId;
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
 
     Store store = await _storesService.FindOneByIdWithRelations(storeId);
     store.isValidManager(userId);

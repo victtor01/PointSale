@@ -19,7 +19,7 @@ public class SessionService(
 
   public async Task<SessionEmployee> CreateSessionEmployee(int username)
   {
-    Employee? employee = await _employeeRepository.FindByUsernameAsync(username);
+    Employee? employee = await _employeeRepository.FindByUsernameAsyncWithPositions(username);
 
     if (employee == null)
     {

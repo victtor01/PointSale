@@ -9,15 +9,23 @@ public class EmployeePosition
 {
   [Key] public Guid Id { get; set; } = Guid.NewGuid();
 
-  [Column("name")] [MaxLength(100)] public required string Name { get; set; }
+  [Column("name")] [MaxLength(100)] 
+  public required string Name { get; set; }
 
-  [Column("managerId")] public required Guid ManagerId { get; set; }
+  [Column("managerId")] 
+  public required Guid ManagerId { get; set; }
 
-  [ForeignKey(nameof(ManagerId))] public Employee? Manager { get; set; }
+  [ForeignKey(nameof(ManagerId))] 
+  public  Manager? Manager { get; set; }
 
-  [Required]
-  [Column("permissions_orders")]
-  public HashSet<string> Permissions { get; private set; } = [];
+  [Required] [Column("permissions_orders")]
+  public List<string> Permissions { get; private set; } = [];
+  
+  [Required] [Column("storeId")]
+  public Guid? StoreId { get; set; }
+  
+  [ForeignKey(nameof(StoreId))]
+  public Store? Store { get; set; }
 
   public void SetPermissions(HashSet<string> permissions)
   {
@@ -30,7 +38,7 @@ public class EmployeePosition
     if (parsedPermissions.Count != permissions.Count)
       throw new BadRequestException("Invalid permission(s) detected.");
 
-    Permissions = parsedPermissions;
+    Permissions = parsedPermissions.ToList();
   }
 }
 

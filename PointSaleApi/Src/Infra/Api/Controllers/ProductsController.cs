@@ -21,7 +21,7 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   public async Task<IActionResult> Create([FromBody] CreateProductDTO createProductDto)
   {
     SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
     Product product = await _productsService.SaveProduct(createProductDto, managerId: sessionManager.UserId, storeId: storeId);
 
     return Ok(product.toMapper());
@@ -32,7 +32,7 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   [IsAdminRoute]
   public async Task<IActionResult> GetAll()
   {
-    var storeId = HttpContext.GetStoreOrThrow();
+    var storeId = HttpContext.GetStoreIdOrThrow();
 
     List<Product> products = await _productsService.GetAllProducts(
       storeId: storeId, managerId: userId

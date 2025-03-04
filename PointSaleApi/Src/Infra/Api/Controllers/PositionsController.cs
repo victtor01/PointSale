@@ -6,19 +6,29 @@ using PointSaleApi.Src.Infra.Extensions;
 
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
+[IsAdminRoute]
 [ApiController]
+[IsStoreSelectedRoute]
 [Route("positions")]
 public class PositionsController(IEmployeePositionsService employeePositionsService) : ControllerBase
 {
   private readonly IEmployeePositionsService _employeePositionsService = employeePositionsService;
-  
-  [IsAdminRoute]
+
+  private Guid _managerId => HttpContext.GetManagerSessionOrThrow().UserId;
+  private Guid _storeId => HttpContext.GetStoreIdOrThrow();
+
   [HttpPost]
   public async Task<IActionResult> CreateAsync(CreateEmployeePositionDTO createEmployeePositionDto)
   {
-    Guid ManagerId = HttpContext.GetManagerSessionOrThrow().UserId;
-    var created = await _employeePositionsService.CreateAsync(createEmployeePositionDto, ManagerId);
+    var created = await this._employeePositionsService
+      .CreateAsync(createEmployeePositionDto, _managerId, _storeId);
 
     return Ok(created);
+  }
+
+  [HttpGet]
+  public async Task<IActionResult> GetAllAsync()
+  {
+    return Ok(await _employeePositionsService.GetAllAsync(_managerId, _storeId));
   }
 }

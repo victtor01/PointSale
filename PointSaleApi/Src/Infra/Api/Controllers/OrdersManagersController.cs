@@ -26,7 +26,7 @@ public class OrdersManagersController(
   [IsStoreSelectedRoute]
   public override async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
   {
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
     Guid managerId = _sessionManager.UserId;
 
     Order order =
@@ -39,7 +39,7 @@ public class OrdersManagersController(
   [IsStoreSelectedRoute]
   public override async Task<IActionResult> FindAll()
   {
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
     Guid managerId = _sessionManager.UserId;
 
     List<Order> orders = await findOrdersService.ByManagerAndStoreAsync(managerId, storeId);

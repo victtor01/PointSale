@@ -19,7 +19,7 @@ public class AuthController(IAuthService authService) : ControllerBase
   public async Task<IActionResult> Auth([FromBody] AuthDTO authDto)
   {
     JwtTokensDTO logged = await _authService.AuthManager(authDto);
-
+ 
     CookieOptions cookieOptions = new() { HttpOnly = true };
 
     HttpContext.Response.Cookies.Append(

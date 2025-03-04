@@ -1,23 +1,37 @@
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
+using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
 
-public class EmployeePositionsService(IEmployeeRepository employeeRepository) : IEmployeePositionsService
+public class EmployeePositionsService(IPositionsRepository positionsRepository) : IEmployeePositionsService
 {
-  private readonly IEmployeeRepository _employeeRepository = employeeRepository;
+  private readonly IPositionsRepository _positionsRepository = positionsRepository;
 
-  public async Task<EmployeePosition> CreateAsync(CreateEmployeePositionDTO createEmployeePositionDto, Guid ManagerId)
+  public async Task<EmployeePosition> CreateAsync(
+    CreateEmployeePositionDTO createEmployeePositionDto,
+    Guid ManagerId, Guid storeId)
   {
-    EmployeePosition employeePosition = new()
+    var positionInDB = await _positionsRepository
+      .FindByNameAndManagerAsync(createEmployeePositionDto.Name, ManagerId);
+
+    if (positionInDB != null)
+      throw new BadRequestException("Você já tem um cargo com esse nome");
+
+    EmployeePosition employeePosition = new EmployeePosition()
     {
       Name = createEmployeePositionDto.Name,
       ManagerId = ManagerId,
+      StoreId = storeId
     };
-    
+
     employeePosition.SetPermissions(createEmployeePositionDto.Permissions);
-    
-    return employeePosition;
+
+    return await _positionsRepository.Create(employeePosition);
   }
+
+  public async Task<List<EmployeePosition>> GetAllAsync(Guid ManagerId, Guid storeId)
+    => await this._positionsRepository.FindAllByManagerAndStoreIdAsync(ManagerId, storeId);
 }
