@@ -90,6 +90,7 @@ public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contex
   public DbSet<Store> Stores { get; set; } = null!;
   public DbSet<StoreTable> Tables { get; set; } = null!;
   public DbSet<Employee> Employees { get; set; } = null!;
+  public DbSet<EmployeePosition> EmployeePositions { get; set; } = null!;
   
   public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
   {

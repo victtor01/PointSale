@@ -70,8 +70,11 @@ public static class DependencyInjection
     // --employees--
     services.AddScoped<IEmployeesService, EmployeesService>();
     services.AddScoped<IEmployeeRepository, EmployeesRepository>();
-    // -- products-options--
+    // --products-options--
     services.AddScoped<IOptionsProductsRepository, OptionsProductsRepository>();
+    // --employee-positions--
+    services.AddScoped<IPositionsRepository, PositionsRepository>();
+    services.AddScoped<IEmployeePositionsService, EmployeePositionsService>();
     // --outers--
     services.AddScoped<ISessionService, SessionService>();
     services.AddSingleton<IJwtService, JwtService>();

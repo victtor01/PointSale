@@ -1,66 +1,52 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PointSaleApi.Src.Infra.Config;
 
 namespace PointSaleApi.Src.Core.Domain;
 
 [Table("employee_position")]
 public class EmployeePosition
 {
-  [Key]
-  public Guid Id { get; set; } = Guid.NewGuid();
-  
-  [Column("name")]
-  [MaxLength(100)]
-  public required string Name { get; set; }
-  
-  [Column("employeeId")]
-  public required Guid EmployeeId { get; set; }
+  [Key] public Guid Id { get; set; } = Guid.NewGuid();
 
-  [Column("employeeId")]
-  public required Guid ManagerId { get; set; }
+  [Column("name")] [MaxLength(100)] public required string Name { get; set; }
 
-  [ForeignKey(nameof(EmployeeId))]
-  public Employee? Employee { get; set; }
+  [Column("managerId")] public required Guid ManagerId { get; set; }
 
-  [ForeignKey(nameof(ManagerId))]
-  public Employee? Manager { get; set; }
-  
+  [ForeignKey(nameof(ManagerId))] public Employee? Manager { get; set; }
+
+  [Required]
   [Column("permissions_orders")]
-  public required List<string> PermissionsOrders { get; set; }
+  public HashSet<string> Permissions { get; private set; } = [];
 
-  [Column("permissions_stores")] 
-  public required List<string> PermissionsStores { get; set; } = [];
+  public void SetPermissions(HashSet<string> permissions)
+  {
+    var parsedPermissions = permissions
+      .Where(permission =>
+        Enum.IsDefined(typeof(EmployeePermissionOrders), permission)
+        || Enum.IsDefined(typeof(EmployeePermissionsProducts), permission))
+      .ToHashSet();
+
+    if (parsedPermissions.Count != permissions.Count)
+      throw new BadRequestException("Invalid permission(s) detected.");
+
+    Permissions = parsedPermissions;
+  }
 }
 
-public static class EmployeePermissionOrders
+public enum EmployeePermissionOrders
 {
-  public const string CREATE = "CREATE";
-  public const string UPDATE_PENDING = "UPDATE_PENDING";
-  public const string UPDATE_PROCESSING = "UPDATE_PROCESSING";
-  public const string UPDATE_COMPLETED = "UPDATE_COMPLETED";
-  public const string UPDATE_CANCELLED = "UPDATE_CANCELLED";
-  public const string DELETE = "DELETE";
+  CREATE_ORDER = 0,
+  UPDATE_ORDER_PADDING = 1,
+  UPDATE_ORDER_PROCESSING = 2,
+  UPDATE_ORDER_COMPLETED = 3,
+  UPDATE_ORDER_CANCELLED = 4,
+  DELETE_ORDER = 99,
 }
 
-public static class EmployeePermissionStores
+public enum EmployeePermissionsProducts
 {
-  public const string DELETE = "DELETE";
+  CREATE_PRODUCT = 100,
+  DELETE_PRODUCT = 101,
+  UPDATE_PRODUCT = 102
 }
-
-// public enum EmployeePermissionOrders
-// {
-//   CREATE = 0,
-//   UPDATE_PENDING = 1, 
-//   UPDATE_PROCESSING = 2,
-//   UPDATE_COMPLETED = 3, 
-//   UPDATE_CANCELLED = 4,
-//   DELETE = 100,
-// }
-
-//
-// public enum EmployeePermissionStores
-// {
-//   CREATE = 0,
-//   UPDATE = 1,
-//   DELETE = 2,
-// }

@@ -98,7 +98,7 @@ POST {{HOST}}/products HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "PRODUTO 1",
+  "name": "Hambúrguer de frango",
   "description": "Descrição do produto",
   "price": 20.00
 }
@@ -165,3 +165,16 @@ Content-Type: application/json
 ### 
 # GET ALL MY EMPLOYEE
 GET {{HOST}}/employee
+
+###########################################
+##          EMPLOYEE_PERMISSIONS         ##
+###########################################
+
+POST {{HOST}}/positions
+Content-Type: application/json
+
+{ 
+  "name": "GARCOM",
+  "permissions": ["CREATE_ORDER"]
+}
+

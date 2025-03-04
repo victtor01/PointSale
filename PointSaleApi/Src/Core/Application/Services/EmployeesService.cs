@@ -12,7 +12,7 @@ public class EmployeesService(IEmployeeRepository employeeRepository) : IEmploye
 
   public async Task<Employee> CreateAsync(CreateEmployeeDTO createEmployeeDto, Guid managerId, Guid storeId)
   {
-    List<Employee> employeesInDatabase = await _employeeRepository
+    List<Employee> employeesInDatabase = await this._employeeRepository
       .GetAllByManagerAndStoreAsync(managerId, storeId);
 
     if (employeesInDatabase.Count > COUNT_EMPLOYEE_MAX)
@@ -22,6 +22,8 @@ public class EmployeesService(IEmployeeRepository employeeRepository) : IEmploye
     if (createEmployeeDto.Salary >= BIG_SALARY)
       throw new BadRequestException("the salary is invalid!");
 
+    List<Guid> positionIds = createEmployeeDto.Positions;
+    
     var employee = new Employee
     {
       Salary = createEmployeeDto.Salary,

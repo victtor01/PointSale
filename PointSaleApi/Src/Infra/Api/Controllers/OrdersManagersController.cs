@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Mappers;
+using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
@@ -18,8 +19,6 @@ public class OrdersManagersController(
 ) : OrdersControllerBase
 {
   private readonly IOrdersService _ordersService = ordersService;
-  private readonly IFindOrdersService _findOrdersService = findOrdersService;
-  private readonly IOrdersCauculator _ordersCauculator = ordersCauculator;
 
   private SessionManager _sessionManager => HttpContext.GetManagerSessionOrThrow();
 

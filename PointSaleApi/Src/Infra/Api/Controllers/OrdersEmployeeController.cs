@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Dtos;
+using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
@@ -22,7 +23,7 @@ public class OrdersEmployeeController : OrdersControllerBase
 
   [HttpGet]
   [IsEmployeeRoute]
-  [PermissionsOrders(EmployeePermissionOrders.CREATE)]
+  [PermissionsOrders(EmployeePermissionOrders.CREATE_ORDER)]
   public IActionResult Example()
   {
     SessionEmployee sessionEmployee = HttpContext.GetEmployeeSessionOrThrow();

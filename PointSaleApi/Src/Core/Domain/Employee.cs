@@ -31,7 +31,7 @@ public class Employee : BaseEntity
   public string? Phone { get; set; }
 
   [Column("positions")]
-  public required List<EmployeePosition>  Positions { get; set; } = [];
+  public required List<EmployeePosition> Positions { get; set; } = [];
 
   [Column("password")]
   [MaxLength(255)]

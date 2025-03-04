@@ -1,6 +1,7 @@
 using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
 
@@ -20,7 +21,7 @@ public class OrdersProductsService(
   public async Task<OrderProduct> SaveAsync(CreateOrderProductDTO createOrderProductDto, Guid storeId)
   {
     List<OptionsProduct> optionsProducts =
-      await _optionsProductsRepository.FindByIdsAsync(createOrderProductDto.options);
+      await _optionsProductsRepository.FindByIdsAsync(createOrderProductDto.Options);
 
     var product = await _productsRepository.FindByIdAsync(createOrderProductDto.ProductId);
     if (product == null || product.StoreId != storeId) throw new NotFoundException("Product not found");
