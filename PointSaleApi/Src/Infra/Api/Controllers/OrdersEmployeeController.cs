@@ -13,9 +13,20 @@ namespace PointSaleApi.Src.Infra.Api.Controllers;
 [Route("orders/employee")]
 public class OrdersEmployeeController(IOrdersService ordersService) : OrdersControllerBase
 {
-  public override Task<IActionResult> Create(CreateOrderDTO createOrderDTO)
+  private readonly IOrdersService _ordersService = ordersService;
+
+  private SessionEmployee _sessionEmployee => HttpContext.GetEmployeeSessionOrThrow();
+  
+  [HttpPost]
+  [PermissionsOrders(EmployeePermissionOrders.CREATE_ORDER)]
+  public override async Task<IActionResult> Create(CreateOrderDTO createOrderDTO)
   {
-    throw new NotImplementedException();
+    var created = await _ordersService
+      .CreateAsync(createOrderDto: createOrderDTO,
+        managerId: _sessionEmployee.ManagerId, 
+        storeId: _sessionEmployee.StoreId);
+
+    return Ok(created);
   }
 
   public override Task<IActionResult> FindAll()
@@ -23,8 +34,6 @@ public class OrdersEmployeeController(IOrdersService ordersService) : OrdersCont
     throw new NotImplementedException();
   }
 
-  [HttpGet]
-  [PermissionsOrders(EmployeePermissionOrders.DELETE_ORDER)]
   public IActionResult Example()
   {
     SessionEmployee sessionEmployee = HttpContext.GetEmployeeSessionOrThrow();

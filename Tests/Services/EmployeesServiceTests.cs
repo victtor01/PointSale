@@ -51,6 +51,7 @@ public class EmployeesServiceTests
         ManagerId = managerId,
         StoreId = storeId,
         Salary = 1000,
+        Positions = []
       });
     }
 

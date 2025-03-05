@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
 using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Application.Services;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;

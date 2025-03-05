@@ -167,7 +167,7 @@ PUT {{HOST}}/employee/e5e7b4e5-fb4f-4412-8918-4d87305f3d20/positions
 Content-Type: application/json
 
 {
-  "positions": ["0a003d1e-9166-4465-8e63-8338e7aaeb88"]
+  "positions": ["7f5161b6-8b66-4b43-8dc4-6a8580f7043a"]
 }
 
 ### 
@@ -182,8 +182,8 @@ POST {{HOST}}/positions
 Content-Type: application/json
 
 { 
-  "name": "GARCOM2",
-  "permissions": ["CREATE_ORDER"]
+  "name": "Manager",
+  "permissions": ["DELETE_ORDER"]
 }
 
 ###
