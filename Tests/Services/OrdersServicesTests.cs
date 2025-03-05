@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
 using PointSaleApi.Src.Core.Application.Dtos;
+using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Application.Services;
@@ -33,7 +34,7 @@ public class OrdersServicesTests
   [TestMethod]
   public async Task ShouldErrorBacauseTableNotFound()
   {
-    CreateOrderDTO createOrderDto = new CreateOrderDTO() { TableId = Guid.NewGuid() };
+    CreateOrderDTO createOrderDto = new CreateOrderDTO(Guid.NewGuid(), OrderStatus.PAID);
 
     _tablesRepositoryMock.Setup(repo => repo.FindByIdAsync(Guid.NewGuid())).ReturnsAsync((StoreTable?)null);
 
@@ -50,7 +51,7 @@ public class OrdersServicesTests
   [TestMethod]
   public async Task ShouldCreateANewOrder()
   {
-    CreateOrderDTO createOrderDto = new CreateOrderDTO() { TableId = Guid.NewGuid() };
+    CreateOrderDTO createOrderDto = new CreateOrderDTO(Guid.NewGuid(), OrderStatus.PAID);
     var anyGuid = It.IsAny<Guid>();
     Guid managerId = Guid.NewGuid();
     Guid storeId = Guid.NewGuid();
