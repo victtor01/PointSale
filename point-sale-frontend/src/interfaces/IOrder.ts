@@ -5,7 +5,7 @@ export interface IOrder {
   id: string;
   tableId: string;
   orderStatus: string | number;
-  orderProducts: IOrderProduct[];
+  ordersProducts: IOrderProduct[];
   createdAt: string;
   updatedAt: string;
   table?: ITable | null;

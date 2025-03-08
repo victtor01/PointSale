@@ -13,6 +13,8 @@ export default function Orders() {
   const { getAllOrders } = useOrders();
   const { orders } = getAllOrders();
 
+  console.log(orders);
+
   return (
     <>
       <header className="flex h-auto mt-4 border border-gray-300 rounded-lg bg-white  relative justify-between items-center p-2 text-gray-500 font-semibold z-20">
@@ -35,7 +37,7 @@ export default function Orders() {
 
       <SimpleDashboard />
 
-      <section className="flex w-full flex-col mt-4">
+      <section className="flex w-full flex-col mt-4 gap-2">
         {orders?.map((order: IOrder) => {
           const { updatedAt, table, orderStatus } = order;
           return (

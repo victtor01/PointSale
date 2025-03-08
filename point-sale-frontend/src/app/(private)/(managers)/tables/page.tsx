@@ -94,9 +94,13 @@ function Tables() {
 
   return (
     <>
-      <div className="w-full bg-gradient-45 from-purple-600 to-indigo-600 min-h-[8rem]">
+      <div className="w-full bg-gray-900 min-h-[8rem] relative overflow-hidden">
+        <div className="grid-image" />
+
         <CenterSection>
-          <span className={`${fontSaira} flex text-xl opacity-90 text-white font-semibold p-1 pt-4`}>
+          <span
+            className={`${fontSaira} flex text-xl opacity-90 text-white font-semibold p-1 pt-4`}
+          >
             José Victor
           </span>
         </CenterSection>

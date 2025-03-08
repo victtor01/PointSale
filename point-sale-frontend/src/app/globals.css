@@ -78,6 +78,14 @@ html, body {
     }
 }
 
+.grid-image {
+  @apply absolute inset-0 top-[50%] left-[40%] translate-x-[-50%] translate-y-[-50%] h-[100vh] w-[50%] z-10 opacity-[0.15] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)];
+}
+
+.light .grid-image {
+  @apply bg-[radial-gradient(#fff,transparent_1px)] opacity-100;
+}
+
 
 @layer base {
   body {

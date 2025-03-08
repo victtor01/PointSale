@@ -54,9 +54,9 @@ public class EmployeesService(
 
     List<EmployeePosition> positions = await _positionsRepository
       .FindAllByIds(updatePositionEmployeeRecord.Positions);
-    
+
     employee.Positions = positions;
-    
+
     var updated = await _employeeRepository.UpdateAsync(employee);
 
     return updated;

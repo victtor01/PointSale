@@ -26,6 +26,8 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         return;
       }
 
+      httpContext.Request.Cookies.LoggerJson();
+
       JwtTokensDTO cookiesSession = GetCookieToken(httpContext);
 
       Dictionary<string, string>
@@ -41,7 +43,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
         if (RouteValidator.IsStoreSelectedRoute(httpContext))
         {
-          string tokenStoreInCookie = getTokenStoreInCookie(httpContext);
+          string tokenStoreInCookie = GetTokenStoreInCookie(httpContext);
           Guid decodedTokenStore = tokenValidator.GetStoreInToken(tokenStoreInCookie);
           managerSession.StoreId = decodedTokenStore;
         }
@@ -71,10 +73,11 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
       throw new BadRequestException("Nenhuma permissão encontrada");
     }
 
-    private static string getTokenStoreInCookie(HttpContext httpContext)
+    private static string GetTokenStoreInCookie(HttpContext httpContext)
     {
       string? token = httpContext.Request.Cookies[CookiesSessionKeys.StoreToken];
-
+      Console.WriteLine(token);
+      httpContext.Request.Cookies.LoggerJson();
       if (string.IsNullOrEmpty(token))
         throw new BadRequestException("Faça o login!");
 

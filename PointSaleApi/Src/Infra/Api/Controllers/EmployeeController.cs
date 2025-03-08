@@ -38,9 +38,8 @@ public class EmployeeController(IEmployeesService employeesService) : Controller
   }
 
   [HttpPut("{employeeId}/positions")]
-  public async Task<IActionResult> Update(
-    Guid employeeId,
-    [FromBody] UpdatePositionEmployeeRecord updatePositionEmployeeRecord)
+  public async Task<IActionResult> Update(Guid employeeId,
+  [FromBody] UpdatePositionEmployeeRecord updatePositionEmployeeRecord)
   {
     await _employeesService.UpdateAsync(
       updatePositionEmployeeRecord, employeeId

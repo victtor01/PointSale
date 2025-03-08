@@ -1,11 +1,11 @@
 "use client";
 
-import { fontSaira } from "@/fonts";
+import { fontSaira, fontValela } from "@/fonts";
 import { IOrder } from "@/interfaces/IOrder";
 import {
   IOrderProduct,
   OrderProductStatus,
-  OrderProductStatusColors
+  OrderProductStatusColors, 
 } from "@/interfaces/IOrderProducts";
 import { dayjs } from "@/utils/dayjs";
 import { AnimatePresence, motion } from "framer-motion";
@@ -36,7 +36,7 @@ const ORDER_STATUS_COLORS = {
 
 const Informations = (props: { order: IOrder }) => {
   const { order } = props;
-  const { orderProducts } = order;
+  const { ordersProducts: orderProducts } = order;
 
   return (
     <motion.div
@@ -59,27 +59,44 @@ const Informations = (props: { order: IOrder }) => {
               <button
                 key={index}
                 className="flex hover:bg-white hover:shadow-lg hover:z-20 gap-2 pr-5 items-center first:border-t
-                border-b p-1 bg-white opacity-90 hover:opacity-100 group/button relative last:border-b-0"
+                border-b p-1 bg-white opacity-90 hover:opacity-100 group/button relative last:border-b-0 flex-wrap text-nowrap"
               >
-                <header className="w-10 h-10 bg-blue-100 rounded-md"></header>
-                <div className="p-1 flex-[2]">{dayjs(updatedAt).fromNow()}</div>
+                <header className="w-10 h-10 bg-gray-100 border rounded-md"></header>
+                <div className="p-1 flex-1 text-sm font-semibold px-2 bg-gray-100 rounded-md">
+                  {orderProduct.product?.name}
+                </div>
 
-                <div className="flex items-center gap-2 flex-1 data-[pulse=true]:animate-pulse" data-pulse={STATUS_PULSE === orderProduct.status} >
+                <div className="flex-1 flex text-left text-sm font-semibold px-2  rounded-md">
+                  <div className="text-gray-700 w-8 text-md h-8 rounded-md border-2 border-gray-600 grid place-items-center">
+                    <span className={fontValela}>
+                      {orderProduct?.quantity || 0}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-1 flex-1 hidden md:flex">
+                  {dayjs(updatedAt).fromNow()}
+                </div>
+
+                <div
+                  className="flex items-center gap-2 flex-1 data-[pulse=true]:animate-pulse"
+                  data-pulse={STATUS_PULSE === orderProduct.status}
+                >
                   <div
-                  style={{ backgroundColor: colorStatus}}  
+                    style={{ backgroundColor: colorStatus }}
                     className={`p-1 px-2 text-gray-200 rounded-md text-[0.7rem] font-semibold shadow-gray-700`}
                   >
                     {orderProduct.status}
                   </div>
                   <div
-                    style={{ backgroundColor: colorStatus}}  
+                    style={{ backgroundColor: colorStatus }}
                     className={`p-2 rounded-full shadow-lg shadow-gray-700`}
                   />
                 </div>
 
                 <div className="flex absolute right-2">
                   <div className="text-white grid place-items-center group-hover/button:opacity-100 scale-0 group-hover/button:scale-100 transition-all opacity-0 w-[1.8rem] h-[1.8rem] rounded-xl bg-gray-800">
-                     <FaArrowRight />
+                    <FaArrowRight />
                   </div>
                 </div>
               </button>
@@ -105,14 +122,20 @@ const OrderContainer = (props: OrderStatusProps) => {
       <div className="flex p-3 items-center gap-2 z-20">
         <header className="flex flex-1 gap-4 items-center">
           <div className={`w-4 h-4 ${statusColor} rounded-full`} />
-          <h1 className={`${fontSaira} font-semibold text-gray-600`}>
-            {statusLegend}
-          </h1>
+          <div className="w-[7rem] flex">
+            <h1
+              className={`${fontSaira} font-semibold text-gray-600 text-nowrap`}
+            >
+              {statusLegend}
+            </h1>
+          </div>
 
-          <div className="p-1 bg-gray-700 border-4 border-gray-500 text-gray-200 px-3 rounded-xl">
-            <h2 className={`${fontSaira} font-semibold text-xs `}>
-              {tableNumber}
-            </h2>
+          <div className="flex-1 flex">
+            <div className="p-1 bg-gray-700 border-4 border-gray-500 text-gray-200 px-3 rounded-xl">
+              <h2 className={`${fontSaira} font-semibold text-xs `}>
+                {tableNumber}
+              </h2>
+            </div>
           </div>
 
           <div className="p-1 px-2 bg-gray-100 rounded-md shadow font-semibold text-xs opacity-50">

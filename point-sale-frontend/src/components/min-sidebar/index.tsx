@@ -4,6 +4,7 @@ import { fontSaira } from "@/fonts";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { pages } from "@/utils/pages";
+import { IoMdSettings } from "react-icons/io";
 
 type ButtonToLinkProps = {
   children: React.ReactNode;
@@ -19,24 +20,18 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
     <button
       data-selected={selected}
       onClick={() => router.push(link)}
-      className="w-[2.8rem] h-[2.8rem] bg-gray-200 relative rounded-lg grid place-items-center opacity-90 hover:opacity-100 shadow-inner
-      data-[selected=true]:bg-gray-900 data-[selected=true]:text-gray-100 data-[selected=true]:opacity-100 group/button "
+      className="w-[2.8rem] h-[2.8rem] group border relative rounded-full grid place-items-center opacity-90 hover:opacity-100
+      data-[selected=true]:bg-gray-800 data-[selected=true]:border-4 data-[selected=true]:border-gray-600 data-[selected=true]:text-gray-100 data-[selected=true]:opacity-100 group/button "
     >
       {children}
-
-      <div
-        data-selected={selected}
-        className="flex absolute top-[50%] translate-y-[-50%] transition-all left-[-0.7rem] w-[0.6rem] h-0 rounded bg-gray-900
-        data-[selected=true]:h-[2rem] opacity-0 data-[selected=true]:opacity-100"
-      />
     </button>
   );
 }
 
 function MinSidebar() {
   return (
-    <div className="h-screen lg:flex hidden">
-      <motion.div className="w-auto overflow-auto bg-white p-3 border-r flex flex-col gap-2 shadow-gray-300 z-30 items-center">
+    <div className="lg:flex hidden flex-col bg-white border-r z-40">
+      <motion.div className="flex-1 w-auto overflow-visible bg-white p-3 flex flex-col gap-2 z-30 items-center">
         <header className="flex">
           <button
             className="w-[2.5rem] h-[2.5rem] bg-gray-900 rounded-full border-4 border-gray-800 text-white hover:rounded-[100%] transition-all
@@ -46,14 +41,27 @@ function MinSidebar() {
           </button>
         </header>
 
-        <section className="flex w-full flex-1 flex-col justify-center gap-2">
-          {pages?.map(({ icon: Icon, link }, index) => (
+        <section className="flex w-full flex-col justify-center gap-2 mt-4">
+          {pages?.map(({ icon: Icon, link, name }, index) => (
             <ButtonToLink key={index} link={link}>
               <Icon />
+              <div className="border p-1 group-hover:opacity-100 opacity-0 pointer-events-none 
+              flex-nowrap text-nowrap absolute left-[100%] ml-[1rem] transition-all bg-white rounded">
+                <span className={`${fontSaira} text-gray-500 dark:text-gray-100`}>
+
+                {name}
+                </span>
+              </div>
             </ButtonToLink>
           ))}
         </section>
       </motion.div>
+
+      <footer className="w-full">
+        <button className="grid place-items-center w-full h-[5rem]">
+          <IoMdSettings size={20}/>
+        </button>
+      </footer>
     </div>
   );
 }

@@ -4,13 +4,13 @@ import { pages } from "@/utils/pages";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-function BottomSidebar() {
+export function BottomSidebar() {
   const LINK_MAIN = "/orders";
   const pathName = usePathname();
 
   return (
     <div className="fixed bottom-0 left-0 w-full bg-gray-100 lg:hidden z-40 flex justify-between">
-      <div className="flex w-full max-w-[15rem] mx-auto justify-between pb-3">
+      <div className="flex w-full max-w-[50rem] px-7 mx-auto justify-between pb-3">
         {pages?.map((page) => {
           const Icon = page.icon;
           const selected = page.link === pathName;
@@ -21,10 +21,15 @@ function BottomSidebar() {
           return (
             <Link
               href={page.link}
-              key={page.name}
-              className={`w-10 h-10 grid place-items-center rounded-full transition-all ${selectedStyle}`}
+              key={page.link}
+              className="items-center flex flex-col gap-0"
             >
-              <Icon size={selected ? 16 : 20} />
+              <div
+                className={`w-10 h-10 grid place-items-center rounded-full transition-all ${selectedStyle}`}
+              >
+                <Icon size={selected ? 16 : 20} />
+              </div>
+              <span className="text-xs opacity-60">{page.name}</span>
             </Link>
           );
         })}
@@ -32,5 +37,3 @@ function BottomSidebar() {
     </div>
   );
 }
-
-export { BottomSidebar };

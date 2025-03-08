@@ -8,7 +8,7 @@ public class SessionEmployee : Session
   public required Guid ManagerId { get; set; }
   public required List<EmployeePosition> Positions { get; set; }
   public new required Guid StoreId { get; set; }
-  
+
   public SessionEmployee()
   {
     Role = UserRole.EMPLOYEE;
