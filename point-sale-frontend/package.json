@@ -19,6 +19,7 @@
     "lucide-react": "^0.477.0",
     "next": "^15.1.6",
     "react": "^18",
+    "react-currency-input-field": "^3.10.0",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
     "react-hook-form": "^7.54.1",

@@ -18,6 +18,14 @@ public class Employee : BaseEntity
   [Column("username")]
   public int Username { get; set; } = RandomId.Generate();
 
+  [StringLength(60)]
+  [Column("first_name")]
+  public required string FirstName { get; set; }
+
+  [StringLength(50)]
+  [Column("last_name")]
+  public string? LastName { get; set; } = null;
+
   [Column("email")]
   [MaxLength(50)]
   public string? Email { get; set; }
@@ -40,7 +48,7 @@ public class Employee : BaseEntity
   [Column("userId")]
   [Required]
   public required Guid ManagerId { get; set; }
-  
+
   [Required]
   [Column("storeId")]
   public required Guid StoreId { get; set; }

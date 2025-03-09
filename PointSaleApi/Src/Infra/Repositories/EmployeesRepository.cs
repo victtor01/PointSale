@@ -17,7 +17,9 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
   public async Task<List<Employee>> GetAllByManagerAndStoreAsync(Guid managerId, Guid storeId)
   {
     List<Employee> employees = await context.Employees
+      .AsNoTracking()
       .Where(emp => emp.ManagerId == managerId && emp.StoreId == storeId)
+      .Include(emp => emp.Positions)
       .ToListAsync();
 
     return employees;
@@ -44,7 +46,7 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
   {
     context.Employees.Update(employee);
     await context.SaveChangesAsync();
-    
+
     return employee;
   }
 }

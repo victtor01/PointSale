@@ -4,7 +4,7 @@ POST {{HOST}}/auth/employee
 Content-Type: application/json
 
 {
-  "username": "338287",
+  "username": "178807",
   "password": "123456"
 }
 

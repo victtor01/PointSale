@@ -1,6 +1,6 @@
 "use client";
 
-import { fontSaira } from "@/fonts";
+import { fontFiraCode, fontInter, fontOpenSans, fontRoboto, fontSaira, fontValela } from "@/fonts";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { pages } from "@/utils/pages";
@@ -20,8 +20,8 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
     <button
       data-selected={selected}
       onClick={() => router.push(link)}
-      className="w-[2.8rem] h-[2.8rem] group border relative rounded-full grid place-items-center opacity-90 hover:opacity-100
-      data-[selected=true]:bg-gray-800 data-[selected=true]:border-4 data-[selected=true]:border-gray-600 data-[selected=true]:text-gray-100 data-[selected=true]:opacity-100 group/button "
+      className="w-[2.8rem] h-[2.8rem] group relative rounded-full grid place-items-center shadow-inner opacity-60 hover:opacity-100
+      data-[selected=true]:shadow-xl data-[selected=true]:opacity-100 group/button border transition-all"
     >
       {children}
     </button>
@@ -34,10 +34,12 @@ function MinSidebar() {
       <motion.div className="flex-1 w-auto overflow-visible bg-white p-3 flex flex-col gap-2 z-30 items-center">
         <header className="flex">
           <button
-            className="w-[2.5rem] h-[2.5rem] bg-gray-900 rounded-full border-4 border-gray-800 text-white hover:rounded-[100%] transition-all
-            grid place-items-center opacity-80 hover:opacity-100"
+            className="w-[2.5rem] h-[2.5rem] bg-gray-950 rounded-full border-4 border-gray-600 hover:rounded-[100%] transition-all
+            grid place-items-center opacity-90 hover:opacity-100 text-sm font-semibold text-gray-200"
           >
-            <h1 className={fontSaira}>JV</h1>
+            <h1 className={fontRoboto}>
+              J
+            </h1>
           </button>
         </header>
 

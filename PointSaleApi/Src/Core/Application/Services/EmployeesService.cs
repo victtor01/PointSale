@@ -5,7 +5,6 @@ using PointSaleApi.Src.Infra.Config;
 using PointSaleApi.Src.Infra.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
-
 public class EmployeesService(
   IEmployeeRepository employeeRepository,
   IPositionsRepository positionRepository
@@ -35,6 +34,8 @@ public class EmployeesService(
 
     var employee = new Employee
     {
+      FirstName = createEmployeeDto.FirstName,
+      LastName = createEmployeeDto.LastName,
       Salary = createEmployeeDto.Salary,
       ManagerId = managerId,
       StoreId = storeId,

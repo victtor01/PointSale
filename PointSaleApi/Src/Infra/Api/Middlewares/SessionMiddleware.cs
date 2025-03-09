@@ -26,8 +26,6 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
         return;
       }
 
-      httpContext.Request.Cookies.LoggerJson();
-
       JwtTokensDTO cookiesSession = GetCookieToken(httpContext);
 
       Dictionary<string, string>

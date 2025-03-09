@@ -158,16 +158,18 @@ POST {{HOST}}/employee
 Content-Type: application/json
 
 {
+  "firstName": "José",
   "salary": 2000,
-  "password": "123456"
+  "password": "123456",
+  "positions": []
 }
 ###
 # UPDATE 
-PUT {{HOST}}/employee/e5e7b4e5-fb4f-4412-8918-4d87305f3d20/positions
+PUT {{HOST}}/employee/99033453-c558-4e32-aea1-3b808ee72dc1/positions
 Content-Type: application/json
 
 {
-  "positions": ["7f5161b6-8b66-4b43-8dc4-6a8580f7043a"]
+  "positions": ["27a6c819-a649-464e-b4f6-2b1e37c019a0"]
 }
 
 ### 

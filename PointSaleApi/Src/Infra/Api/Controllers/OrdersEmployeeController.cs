@@ -39,8 +39,7 @@ public class OrdersEmployeeController(IOrdersService ordersService) : OrdersCont
 
   [HttpGet]
   [PermissionsOrders(
-    EmployeePermissionOrders.CREATE_ORDER,
-    EmployeePermissionOrders.UPDATE_ORDER_PADDING
+    EmployeePermissionOrders.CREATE_ORDER
   )]
   public IActionResult Example()
   {
