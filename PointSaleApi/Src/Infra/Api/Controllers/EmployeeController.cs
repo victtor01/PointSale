@@ -32,9 +32,20 @@ public class EmployeeController(IEmployeesService employeesService) : Controller
     Guid managerId = HttpContext.GetManagerSessionOrThrow().UserId;
     Guid storeId = HttpContext.GetStoreIdOrThrow();
 
-    List<Employee> employees = await _employeesService.GetEmployeesAsync(managerId, storeId);
+    List<Employee> employees = await _employeesService.GetAllEmployeesAsync(managerId, storeId);
 
     return Ok(employees);
+  }
+
+  [HttpGet("{employeeId}")]
+  public async Task<IActionResult> FindAsync(Guid employeeId)
+  {
+    Guid managerId = HttpContext.GetManagerSessionOrThrow().UserId;
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
+
+    Employee employee = await _employeesService.GetEmployeeByIdAsync(employeeId, storeId);
+    
+    return Ok(employee);
   }
 
   [HttpPut("{employeeId}/positions")]

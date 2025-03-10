@@ -15,7 +15,20 @@ export const useEmployee = () => {
     };
   };
 
+  const findById = (employeeId: string) => {
+    const { data: employee, isLoading } = useQuery<IEmployee>({
+      queryKey: ["employees", employeeId],
+      queryFn: async () => (await api.get(`/employee/${employeeId}`)).data,
+    });
+
+    return {
+      employee,
+      isLoading,
+    };
+  };
+
   return {
     getAllEmployees,
+    findById,
   };
 };

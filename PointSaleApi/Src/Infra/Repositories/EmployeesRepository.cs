@@ -39,6 +39,7 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
   {
     return await context.Employees
       .AsNoTracking()
+      .Include(e => e.Positions)
       .FirstOrDefaultAsync(e => e.Id == id) ?? null;
   }
 

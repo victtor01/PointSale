@@ -1,21 +1,24 @@
-import { FieldValues, Path, UseFormRegisterReturn } from "react-hook-form";
-import CurrencyInput, { CurrencyInputProps } from "react-currency-input-field";
+import { CurrencyInputProps } from "react-currency-input-field";
+import CurrencyInput from "react-currency-input-field";
 
-interface CustomInputCurrencyProps<T extends FieldValues> extends CurrencyInputProps {
-  register: UseFormRegisterReturn<Path<T>>;
+interface CustomInputCurrencyProps extends CurrencyInputProps {
+  value: string;
+  onChangeValue: (value: string | undefined) => void;
 }
 
-export const CustomInputCurrency = <T extends FieldValues>({
-  register,
+export const CustomInputCurrency = ({
+  value,
+  onChangeValue,
   ...props
-}: CustomInputCurrencyProps<T>) => {
+}: CustomInputCurrencyProps) => {
   return (
     <CurrencyInput
       {...props}
-      {...register} 
+      value={value}
+      onValueChange={onChangeValue}
       prefix="R$ "
-						className="p-2 outline-none rounded-md shadow"
-						placeholder="R$ 2,500.99"
+      className="p-2 outline-none rounded-md shadow"
+      placeholder="R$ 2,500.99"
       allowDecimals
       decimalsLimit={2}
       disableAbbreviations

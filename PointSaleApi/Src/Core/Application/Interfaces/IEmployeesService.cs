@@ -5,7 +5,8 @@ namespace PointSaleApi.Src.Core.Application.Interfaces;
 
 public interface IEmployeesService
 {
-  public Task<List<Employee>> GetEmployeesAsync(Guid managerId, Guid storeId);
+  public Task<List<Employee>> GetAllEmployeesAsync(Guid managerId, Guid storeId);
   public Task<Employee> CreateAsync(CreateEmployeeDTO createEmployeeDto, Guid managerId, Guid storeId);
   public Task<Employee> UpdateAsync(UpdatePositionEmployeeRecord updatePositionEmployeeRecord, Guid employeeId);
+  public Task<Employee> GetEmployeeByIdAsync(Guid employeeId, Guid storeId);
 }

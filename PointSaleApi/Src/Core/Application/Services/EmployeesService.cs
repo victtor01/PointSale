@@ -14,7 +14,7 @@ public class EmployeesService(
   private readonly IEmployeeRepository _employeeRepository = employeeRepository;
   private const int COUNT_EMPLOYEE_MAX = 10;
 
-  public async Task<List<Employee>> GetEmployeesAsync(Guid managerId, Guid storeId)
+  public async Task<List<Employee>> GetAllEmployeesAsync(Guid managerId, Guid storeId)
   {
     List<Employee> employees = await _employeeRepository.GetAllByManagerAndStoreAsync(managerId, storeId);
     return employees;
@@ -61,5 +61,16 @@ public class EmployeesService(
     var updated = await _employeeRepository.UpdateAsync(employee);
 
     return updated;
+  }
+
+  public async Task<Employee> GetEmployeeByIdAsync(Guid employeeId, Guid storeId)
+  {
+    Employee? employee = await _employeeRepository
+      .FindByIdAsync(employeeId) ?? throw new NotFoundException("employee not found!");
+    
+    if(employee?.StoreId != storeId)
+      throw new BadRequestException("employee not found!");
+    
+    return employee;
   }
 }
