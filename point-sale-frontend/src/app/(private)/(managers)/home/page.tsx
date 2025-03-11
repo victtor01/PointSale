@@ -1,8 +1,11 @@
+"use client"
+
 import { CenterSection } from "@/components/center-section";
 import { Employees } from "../employee/employee";
 import { FaUsers } from "react-icons/fa";
 import { fontOpenSans, fontSaira } from "@/fonts";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const DashboardEmployee = () => {
   return (

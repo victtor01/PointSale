@@ -1,10 +1,12 @@
 import { fontInter, fontRoboto, fontSaira } from "@/fonts";
 import { IPositionEmployee } from "@/interfaces/IEmployee";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
+import { AnchorHTMLAttributes } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaHashtag, FaPause } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
+import { twMerge } from "tailwind-merge";
 
 interface BaseProps {
   children: React.ReactNode;
@@ -12,6 +14,7 @@ interface BaseProps {
 
 interface ContainerProps extends BaseProps {
   employeeId: string;
+  className?: string;
 }
 
 interface PhotoEmployeeCardProps {
@@ -99,13 +102,18 @@ const InformatinsEmployeeCard = (props: InformationsEmployeeCardsProps) => {
   );
 };
 
-const EmployeeComponent = ({ children, employeeId }: ContainerProps) => {
+const EmployeeComponent = ({
+  children,
+  employeeId,
+  ...props
+}: ContainerProps) => {
+  const classStyle = twMerge(
+    "flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full max-w-[20rem] min-w-[14rem] border-b-4 rounded-xl items-center flex-col border bg-white",
+    props.className
+  );
+
   return (
-    <Link
-      href={`/employee/${employeeId}`}
-      className="flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full 
-      max-w-[20rem] min-w-[14rem] border-b-4 rounded-xl items-center flex-col border bg-white"
-    >
+    <Link href={`/employee/${employeeId}`} className={classStyle}>
       {children}
       <footer className="text-sm mt-5 w-full flex opacity-70">
         Criado 24 de set, 2024

@@ -1,15 +1,16 @@
+import { QueryProvider } from "@/providers/query-client-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
-import { QueryProvider } from "@/providers/query-client-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -34,7 +35,15 @@ export default function RootLayout({
       >
         <div className="rounded-none 2xl:rounded-2xl overflow-hidden flex-1 flex border">
           <QueryProvider>{children}</QueryProvider>
-          <ToastContainer position="bottom-right" />
+          <ToastContainer
+            pauseOnHover={false}
+            limit={1}
+            autoClose={1000}
+            hideProgressBar={true}
+            toastClassName="bg-gray-800 text-white p-3 max-h-[0rem]"
+            closeButton={false}
+            position="top-center"
+          />
         </div>
       </body>
     </html>

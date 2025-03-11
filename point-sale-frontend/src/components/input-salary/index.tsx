@@ -16,7 +16,6 @@ export const CustomInputCurrency = ({
       {...props}
       value={value}
       onValueChange={onChangeValue}
-      prefix="R$ "
       className="p-2 outline-none rounded-md shadow"
       placeholder="R$ 2,500.99"
       allowDecimals
