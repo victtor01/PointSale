@@ -38,6 +38,7 @@ export const Employees = () => {
             animate={{ height: "10rem" }}
             className="absolute w-[0.5rem] border-l-[0.4rem] border-dotted left-10 top-10"
           />
+          
           <motion.div
             initial={{ height: 0 }}
             animate={{ height: "10rem" }}
@@ -53,6 +54,7 @@ export const Employees = () => {
             {employees?.map((employee: IEmployee, index: number) => {
               const { id, username, email, phone, firstName, positions } =
                 employee;
+
               const active = Math.floor(Math.random() * 2) % 2 === 0;
               return (  
                 <EmployeeCard.Container employeeId={id} key={index}>

@@ -1,5 +1,6 @@
 import { CurrencyInputProps } from "react-currency-input-field";
 import CurrencyInput from "react-currency-input-field";
+import { twMerge } from "tailwind-merge";
 
 interface CustomInputCurrencyProps extends CurrencyInputProps {
   value: string;
@@ -11,12 +12,15 @@ export const CustomInputCurrency = ({
   onChangeValue,
   ...props
 }: CustomInputCurrencyProps) => {
+  const { className } = props;
+  const merge = twMerge("p-2 outline-none rounded-md", className);
+
   return (
     <CurrencyInput
       {...props}
       value={value}
       onValueChange={onChangeValue}
-      className="p-2 outline-none rounded-md shadow"
+      className={merge}
       placeholder="R$ 2,500.99"
       allowDecimals
       decimalsLimit={2}

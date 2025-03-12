@@ -44,18 +44,30 @@ public class EmployeeController(IEmployeesService employeesService) : Controller
     Guid storeId = HttpContext.GetStoreIdOrThrow();
 
     Employee employee = await _employeesService.GetEmployeeByIdAsync(employeeId, storeId);
-    
+    employee.IsValidManager(managerId);
+
     return Ok(employee);
   }
 
   [HttpPut("{employeeId}/positions")]
   public async Task<IActionResult> Update(Guid employeeId,
-  [FromBody] UpdatePositionEmployeeRecord updatePositionEmployeeRecord)
+    [FromBody] UpdatePositionEmployeeRecord updatePositionEmployeeRecord)
   {
-    await _employeesService.UpdateAsync(
+    await _employeesService.UpdatePositionAsync(
       updatePositionEmployeeRecord, employeeId
     );
 
     return Ok("ATUALIZADO!");
+  }
+
+  [HttpPut("{employeeId}")]
+  public async Task<IActionResult> Update(Guid employeeId, [FromBody] UpdateEmployeeRecord updateEmployeeRecord)
+  {
+    var managerId = HttpContext.GetManagerSessionOrThrow().UserId;
+
+    var updated = await _employeesService
+      .UpdateEmployee(employeeId, updateEmployeeRecord, managerId);
+
+    return Ok(updated);
   }
 }

@@ -1,7 +1,7 @@
 import { QueryProvider } from "@/providers/query-client-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Slide, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
@@ -28,19 +28,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" className="light" suppressHydrationWarning>
+    <html lang="pt-br" className="light">
       <body
         cz-shortcut-listen="false"
-        className={`text-gray-600 dark:text-neutral-200 flex flex-col bg-gray-100 dark:bg-neutral-950 p-0 2xl:p-4`}
+        className={`text-gray-600 dark:text-neutral-200 flex flex-col bg-white dark:bg-neutral-950 p-0 2xl:p-4`}
       >
         <div className="rounded-none 2xl:rounded-2xl overflow-hidden flex-1 flex border">
           <QueryProvider>{children}</QueryProvider>
           <ToastContainer
             pauseOnHover={false}
             limit={1}
+            rtl={false}
             autoClose={1000}
+            transition={Slide}
             hideProgressBar={true}
-            toastClassName="bg-gray-800 text-white p-3 max-h-[0rem]"
             closeButton={false}
             position="top-center"
           />

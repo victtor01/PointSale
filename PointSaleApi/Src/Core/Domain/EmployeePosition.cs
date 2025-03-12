@@ -27,6 +27,8 @@ public class EmployeePosition
   [Column("storeId")]
   public Guid? StoreId { get; set; }
 
+  public List<Employee> Employees { get; set; } = [];
+
   [ForeignKey(nameof(StoreId))]
   public Store? Store { get; set; }
 

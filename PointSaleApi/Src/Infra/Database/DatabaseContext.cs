@@ -78,6 +78,13 @@ internal static class Extensions
       table.HasOne(e => e.Order).WithMany(o => o.OrderProducts).HasForeignKey(e => e.OrderId);
     });
   }
+
+  public static void EmployeeConfigure(this ModelBuilder builder)
+  {
+    builder.Entity<Employee>()
+    .HasMany(e => e.Positions)
+    .WithMany(p => p.Employees);
+  }
 }
 
 public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contextOptions)
@@ -91,7 +98,7 @@ public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contex
   public DbSet<StoreTable> Tables { get; set; } = null!;
   public DbSet<Employee> Employees { get; set; } = null!;
   public DbSet<EmployeePosition> EmployeePositions { get; set; } = null!;
-  
+
   public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
   {
     foreach (var entry in ChangeTracker.Entries())
@@ -116,5 +123,6 @@ public class DatabaseContext(DbContextOptions contextOptions) : DbContext(contex
     modelBuilder.TablesConfigure();
     modelBuilder.OrdersConfigure();
     modelBuilder.OrderProductsConfigure();
+    modelBuilder.EmployeeConfigure();
   }
 }

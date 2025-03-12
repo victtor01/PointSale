@@ -43,9 +43,16 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
       .FirstOrDefaultAsync(e => e.Id == id) ?? null;
   }
 
+  public async Task<Employee?> FindByIdTracking(Guid id)
+  {
+    return await context.Employees
+      .Include(e => e.Positions)
+      .FirstOrDefaultAsync(e => e.Id == id) ?? null;
+  }
+
   public async Task<Employee> UpdateAsync(Employee employee)
   {
-    context.Employees.Update(employee);
+    context.Entry(employee).State = EntityState.Modified;
     await context.SaveChangesAsync();
 
     return employee;

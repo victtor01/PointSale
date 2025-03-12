@@ -15,38 +15,23 @@ public class OrdersEmployeeController(IOrdersService ordersService) : OrdersCont
 {
   private readonly IOrdersService _ordersService = ordersService;
 
-  private SessionEmployee _sessionEmployee => HttpContext.GetEmployeeSessionOrThrow();
+  private SessionEmployee _sessionEmployee =>
+    HttpContext.GetEmployeeSessionOrThrow();
 
   [HttpPost]
-  [PermissionsOrders(
-    EmployeePermissionOrders.CREATE_ORDER,
-    EmployeePermissionOrders.UPDATE_ORDER_PADDING
-  )]
-  public override async Task<IActionResult> Create(CreateOrderDTO createOrderDTO)
+  [PermissionsOrders(EmployeePermissionOrders.CREATE_ORDER)]
+  public override async Task<IActionResult> CreateAsync(CreateOrderDTO createOrderDTO)
   {
-    var created = await _ordersService
+    var order = await _ordersService
       .CreateAsync(createOrderDto: createOrderDTO,
         managerId: _sessionEmployee.ManagerId,
         storeId: _sessionEmployee.StoreId);
 
-    return Ok(created);
+    return CreatedAtAction(nameof(CreateAsync), new { id = order.Id }, order);
   }
 
   public override Task<IActionResult> FindAll()
   {
     throw new NotImplementedException();
-  }
-
-  [HttpGet]
-  [PermissionsOrders(
-    EmployeePermissionOrders.CREATE_ORDER
-  )]
-  public IActionResult Example()
-  {
-    SessionEmployee sessionEmployee = HttpContext.GetEmployeeSessionOrThrow();
-
-    sessionEmployee.LoggerJson();
-
-    return Ok("EXAMPLE");
   }
 }

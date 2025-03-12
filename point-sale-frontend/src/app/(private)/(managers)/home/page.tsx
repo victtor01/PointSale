@@ -1,15 +1,13 @@
 "use client"
 
 import { CenterSection } from "@/components/center-section";
-import { Employees } from "../employee/employee";
 import { FaUsers } from "react-icons/fa";
 import { fontOpenSans, fontSaira } from "@/fonts";
 import Link from "next/link";
-import { toast } from "react-toastify";
 
 const DashboardEmployee = () => {
   return (
-    <div className="bg-white flex flex-col shadow rounded-xl w-full max-w-[25rem]">
+    <Link href="/employee" className="bg-white hover:shadow-xl flex flex-col shadow rounded-xl w-full max-w-[25rem]">
       <header className="w-full flex items-center p-2 justify-between gap-2 border-b">
         <div className="flex items-center gap-2">
           <FaUsers />
@@ -17,13 +15,6 @@ const DashboardEmployee = () => {
             Funcionários
           </h1>
         </div>
-
-        <Link
-          href="/employee"
-          className="text-sm text-gray-500 opacity-90 hover:opacity-100"
-        >
-          Detalhes
-        </Link>
       </header>
 
       <section className="mt-3 flex flex-col px-3 pb-2">
@@ -36,7 +27,7 @@ const DashboardEmployee = () => {
           <p className={`${fontOpenSans} mb-1 text-sm`}>Dispensados</p>
         </div>
       </section>
-    </div>
+    </Link>
   );
 };
 

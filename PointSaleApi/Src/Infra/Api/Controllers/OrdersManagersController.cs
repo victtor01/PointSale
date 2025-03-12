@@ -24,7 +24,7 @@ public class OrdersManagersController(
 
   [HttpPost]
   [IsStoreSelectedRoute]
-  public override async Task<IActionResult> Create([FromBody] CreateOrderDTO createOrderDto)
+  public override async Task<IActionResult> CreateAsync([FromBody] CreateOrderDTO createOrderDto)
   {
     Guid storeId = HttpContext.GetStoreIdOrThrow();
     Guid managerId = _sessionManager.UserId;
@@ -47,13 +47,6 @@ public class OrdersManagersController(
     List<OrderDTO> ordersDto = orders.Select(order => order.ToMapper()).ToList();
 
     return Ok(ordersDto);
-  }
-
-  [HttpGet("test")]
-  public async Task Testt()
-  {
-    SessionManager session = HttpContext.GetManagerSessionOrThrow();
-    session.LoggerJson();
   }
 
   [HttpGet("{orderId}")]

@@ -2,9 +2,11 @@ using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Extensions;
 using PointSaleApi.Src.Infra.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
+
 public class EmployeesService(
   IEmployeeRepository employeeRepository,
   IPositionsRepository positionRepository
@@ -48,7 +50,8 @@ public class EmployeesService(
     return await this._employeeRepository.AddAsync(employee);
   }
 
-  public async Task<Employee> UpdateAsync(UpdatePositionEmployeeRecord updatePositionEmployeeRecord, Guid employeeId)
+  public async Task<Employee> UpdatePositionAsync(UpdatePositionEmployeeRecord updatePositionEmployeeRecord,
+    Guid employeeId)
   {
     Employee? employee = await _employeeRepository
       .FindByIdAsync(employeeId) ?? throw new NotFoundException("employee not found!");
@@ -67,10 +70,32 @@ public class EmployeesService(
   {
     Employee? employee = await _employeeRepository
       .FindByIdAsync(employeeId) ?? throw new NotFoundException("employee not found!");
-    
-    if(employee?.StoreId != storeId)
+
+    if (employee?.StoreId != storeId)
       throw new BadRequestException("employee not found!");
-    
+
     return employee;
+  }
+
+  public async Task<Employee> UpdateEmployee(Guid employeeId, UpdateEmployeeRecord updateEmployeeRecord, Guid managerId)
+  {
+    Employee? employee = await _employeeRepository.FindByIdTracking(employeeId) ?? throw new NotFoundException("employee not found!");
+
+    employee.IsValidManager(managerId);
+
+    List<EmployeePosition> positions = await _positionsRepository
+      .FindAllByIds(updateEmployeeRecord.Positions);
+
+    employee.FirstName = updateEmployeeRecord.FirstName;
+    employee.LastName = updateEmployeeRecord.LastName;
+    employee.Salary = updateEmployeeRecord.Salary;
+    employee.Email = updateEmployeeRecord.Email;
+    employee.Phone = updateEmployeeRecord.Phone;
+
+    employee.Positions.Clear();
+    if (positions != null)
+      employee.Positions = [.. positions];
+
+    return await _employeeRepository.UpdateAsync(employee);
   }
 }
