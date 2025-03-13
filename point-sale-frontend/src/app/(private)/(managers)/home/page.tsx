@@ -1,13 +1,17 @@
-"use client"
+"use client";
 
 import { CenterSection } from "@/components/center-section";
-import { FaUsers } from "react-icons/fa";
 import { fontOpenSans, fontSaira } from "@/fonts";
 import Link from "next/link";
+import { FaUsers } from "react-icons/fa";
+import { ListOfPositions } from "./positions";
 
 const DashboardEmployee = () => {
   return (
-    <Link href="/employee" className="bg-white hover:shadow-xl flex flex-col shadow rounded-xl w-full max-w-[25rem]">
+    <Link
+      href="/employee"
+      className="bg-white hover:shadow-xl flex flex-col shadow rounded-xl w-full max-w-[25rem]"
+    >
       <header className="w-full flex items-center p-2 justify-between gap-2 border-b">
         <div className="flex items-center gap-2">
           <FaUsers />
@@ -33,10 +37,14 @@ const DashboardEmployee = () => {
 
 export default function Home() {
   return (
-    <CenterSection className="p-0 px-4 mt-4 pb-[20rem]">
-      <div className="w-full flex gap-2 items-center">
+    <CenterSection className="p-0 px-4 mt-4 pb-[20rem] z-10">
+      <section className="w-full flex gap-2 items-center">
         <DashboardEmployee />
-      </div>
+      </section>
+
+      <section className="mt-5">
+        <ListOfPositions />
+      </section>
     </CenterSection>
   );
 }

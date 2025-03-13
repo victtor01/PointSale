@@ -7,6 +7,10 @@ interface PublicLayoutProps {
   children: Promise<React.ReactNode>;
 }
 
+interface FetchServerLoginProps {
+  email?: string
+}
+
 export default async function PublicLayout({ children }: PublicLayoutProps) {
   const cookiesStore = await cookies();
   const accessToken = cookiesStore.get(_COOKIE_ACCESS_TOKEN)?.value;
@@ -14,7 +18,7 @@ export default async function PublicLayout({ children }: PublicLayoutProps) {
 
   if (!accessToken || !refreshToken) return await children;
 
-  const res = await fetchServer<any>({ url: "managers/i" });
+  const res = await fetchServer<FetchServerLoginProps>({ url: "managers/i" });
   if (res?.email) return redirect("/select-store");
   
   return await children;

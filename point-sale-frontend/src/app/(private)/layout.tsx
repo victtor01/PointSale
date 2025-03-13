@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 interface LayoutProps {
-  children: Promise<React.ReactNode>;
+  children: React.ReactNode;
 }
 
 export const metadata: Metadata = {
@@ -30,11 +30,12 @@ export default async function Layout({ children }: LayoutProps) {
     const responseJSON = await res.json();
 
     if (responseJSON.email) {
-      return await children;
+      return children;
     }
 
     throw new Error();
-  } catch (error) {
+  } catch (error: unknown) {
+    console.log(error)
     redirect("/");
   }
 }

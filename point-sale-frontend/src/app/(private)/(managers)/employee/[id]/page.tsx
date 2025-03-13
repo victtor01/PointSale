@@ -27,13 +27,6 @@ interface ParamsOf extends Record<string, string> {
   id: string;
 }
 
-export const formatCurrency = (value: number | string) => {
-  if (typeof value === "string") {
-    value = parseFloat(value);
-  }
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-};
-
 const useDetailsEmployee = (employee?: IEmployee) => {
   const form = useForm<IUpdateEmployee>({
     resolver: zodResolver(UpdateEmployeeSchema),
@@ -65,7 +58,7 @@ const useDetailsEmployee = (employee?: IEmployee) => {
       phone: employee?.phone || "",
       positions: employee?.positions?.map((e) => e.id) ?? [],
     });
-  }, [employee, reset]);
+  }, [employee, reset, form]);
 
   return {
     form,
@@ -75,7 +68,7 @@ const useDetailsEmployee = (employee?: IEmployee) => {
 
 export default function Details() {
   const { id } = useParams<ParamsOf>();
-  const { getAllPositions } = usePositions();
+  const { useAllPositions: getAllPositions } = usePositions();
   const { positions, isLoading: loadingPositions } = getAllPositions();
   const { findById, update } = useEmployee();
   const { employee, isLoading: loadingEmployee } = findById(id);
@@ -243,7 +236,7 @@ export default function Details() {
 
           <CustomInputCurrency
             id="salary"
-            value={watch("salary").toString()}
+            value={watch("salary")?.toString()}
             className="border"
             onChangeValue={(value) => setValue("salary", Number(value) || 0)}
           />
@@ -271,7 +264,7 @@ export default function Details() {
 
           <div className="flex gap-2 flex-wrap">
             {positions?.map((position: IPositionEmployee, index: number) => {
-              const includes: boolean = watch("positions").includes(
+              const includes: boolean = watch("positions")?.includes(
                 position.id
               );
               return (
@@ -320,11 +313,11 @@ export default function Details() {
             <EmployeeCard.Photo
               name={watch("firstName")}
               positions={positions?.filter((p) =>
-                watch("positions").includes(p.id)
+                watch("positions")?.includes(p.id)
               )}
             />
             <EmployeeCard.Informatins
-              username={watch("username").toString()}
+              username={watch("username")?.toString()}
               email={watch("email")}
               phone={watch("phone")}
             />

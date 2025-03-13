@@ -9,10 +9,3 @@ export const UpdateEmployeeSchema = z.object({
 	salary: z.number(),
 	positions: z.array(z.string().uuid())
 })
-
-// string FirstName,
-// string LastName,
-// string Email,
-// string Phone,
-// decimal Salary,
-// List<Guid> Positions

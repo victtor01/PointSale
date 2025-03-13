@@ -1,9 +1,9 @@
 "use client";
 
-import { fontFiraCode, fontInter, fontOpenSans, fontRoboto, fontSaira, fontValela } from "@/fonts";
-import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { fontRoboto, fontSaira } from "@/fonts";
 import { pages } from "@/utils/pages";
+import { motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 import { IoMdSettings } from "react-icons/io";
 
 type ButtonToLinkProps = {
@@ -13,7 +13,7 @@ type ButtonToLinkProps = {
 
 function ButtonToLink({ children, link }: ButtonToLinkProps) {
   const currentLink = usePathname();
-  const selected = currentLink === link;
+  const selected = currentLink.startsWith(link);
   const router = useRouter();
 
   return (
@@ -30,7 +30,7 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
 
 function MinSidebar() {
   return (
-    <div className="lg:flex hidden flex-col bg-white border-r z-40">
+    <div className="lg:flex hidden flex-col bg-white border-r z-10">
       <motion.div className="flex-1 w-auto overflow-visible bg-white p-3 flex flex-col gap-2 z-30 items-center">
         <header className="flex">
           <button

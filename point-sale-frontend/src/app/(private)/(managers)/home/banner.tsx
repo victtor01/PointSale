@@ -1,7 +1,5 @@
 import { CenterSection } from "@/components/center-section";
 import { fontSaira } from "@/fonts";
-import { IStore } from "@/interfaces/IStore";
-import { fetchServer } from "@/utils/api-server";
 import { GoPencil } from "react-icons/go";
 
 type BannerProps = {
@@ -10,7 +8,7 @@ type BannerProps = {
 };
 
 export function Banner(props: BannerProps) {
-  const { id, title } = props;
+  const { title } = props;
   return (
     <div className="flex w-full justify-center relative mt-2">
       <CenterSection className="px-[1rem] py-0 w-full">

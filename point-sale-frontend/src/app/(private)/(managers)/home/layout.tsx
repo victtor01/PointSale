@@ -16,7 +16,6 @@ export default async function Layout({ children }: LayoutProps) {
     url: "stores/informations",
   });
 
-
   if (!data?.store) {
     return (
       <div className="flex flex-col absolute top-[50%] gap-3 left-[50%] text-xl translate-x-[-50%]">
@@ -32,8 +31,13 @@ export default async function Layout({ children }: LayoutProps) {
 
   return (
     <section className="h-auto w-full">
-      <Banner title={data.store.name} id={data.store.id} />
-      {children}
+      <div className="flex absolute top-0 left-0 w-full h-[10rem] bg-gray-100 overflow-hidden">
+        <div className="grid-image-gray"/>
+      </div>
+      <div className="flex flex-col gap-2 z-20">
+        <Banner title={data.store.name} id={data.store.id} />
+        {children}
+      </div>
     </section>
   );
 }

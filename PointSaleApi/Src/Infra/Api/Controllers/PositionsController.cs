@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
+using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
 
@@ -26,6 +27,15 @@ public class PositionsController(IEmployeePositionsService employeePositionsServ
     return Ok(created);
   }
 
+  [HttpGet("{positionId}")]
+  public async Task<IActionResult> GetByIdAsync(Guid positionId)
+  {
+    EmployeePosition position = await this._employeePositionsService
+      .GetByIdAsync(_managerId, positionId);
+    
+    return Ok(position);
+  }
+  
   [HttpGet]
   public async Task<IActionResult> GetAllAsync()
   {

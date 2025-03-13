@@ -1,12 +1,10 @@
-import { fetchServer } from "@/utils/api-server";
 
 interface TemplateProps {
-  params: Promise<{ storeId: string }>
-  children: Promise<React.ReactNode>
+  children: React.ReactNode
 }
 
-async function TemplateSelectStoreWithId(props: TemplateProps) {
-  const children = await props?.children;
+export default async function Layout(props: TemplateProps) {
+  const children = props?.children;
 
   return (
     <div className="flex bg-blue-50 h-screen w-full p-6">
@@ -14,5 +12,3 @@ async function TemplateSelectStoreWithId(props: TemplateProps) {
     </div>
   )
 }
-
-export default TemplateSelectStoreWithId;

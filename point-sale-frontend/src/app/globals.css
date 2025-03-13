@@ -9,13 +9,37 @@ html, body {
   overflow-x: hidden;
 }
 
-.grid-image {
+/* .grid-image {
   position: absolute;
   inset: 0;
   height: 100%;
   width: 100%;
   background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
     linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 24px 24px;
+} */
+
+.grid-image-gray {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
+    linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.grid-image-white {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(
+      to right,
+      var(--color) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--color) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 

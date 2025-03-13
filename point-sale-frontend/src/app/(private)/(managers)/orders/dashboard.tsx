@@ -1,25 +1,9 @@
 "use client";
 
-import { CenterSection } from "@/components/center-section";
 import { fontSaira } from "@/fonts";
-import Link from "next/link";
-import { BsPlus } from "react-icons/bs";
-import { IoMdAlert } from "react-icons/io";
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, XAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis } from "recharts";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-interface LayoutOrdersProps {
-  children: React.ReactNode;
-}
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 const chartData = [
   { month: "janeiro", desktop: 30 },
@@ -43,7 +27,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 border rounded-lg">
@@ -62,9 +46,7 @@ export function SimpleDashboard() {
     <section className="flex flex-col gap-2 mt-8">
       <header className="flex items-center px-1 justify-between flex-wrap gap-1">
         <div className="text-lg font-semibold text-gray-600">
-          <h1 className={fontSaira}>
-            Quantidade de ordens
-          </h1>
+          <h1 className={fontSaira}>Quantidade de ordens</h1>
         </div>
         <div className="flex items-center gap-2 rounded-md">
           <button className="bg-white p-1 px-2 shadow rounded-md text-gray-600 text-sm">
@@ -87,7 +69,12 @@ export function SimpleDashboard() {
                 tickFormatter={(value) => value.slice(0, 3)}
               />
               <Tooltip content={<CustomTooltip />} cursor={false} />
-              <Bar dataKey="desktop" className="fill-gray-700" radius={8} barSize={40} />
+              <Bar
+                dataKey="desktop"
+                className="fill-gray-700"
+                radius={8}
+                barSize={40}
+              />
             </BarChart>
           </ChartContainer>
         </ResponsiveContainer>

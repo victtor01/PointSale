@@ -50,11 +50,9 @@ public class EmployeePosition
 public enum EmployeePermissionOrders
 {
   CREATE_ORDER = 0,
-  UPDATE_ORDER_PADDING = 1,
-  UPDATE_ORDER_PROCESSING = 2,
-  UPDATE_ORDER_COMPLETED = 3,
-  UPDATE_ORDER_CANCELLED = 4,
-  DELETE_ORDER = 99,
+  UPDATE_ORDER_CURRENT = 1,
+  UPDATE_ORDER_PAID = 2,
+  UPDATE_ORDER_CANCELLED = 99,
 }
 
 public enum EmployeePermissionsProducts

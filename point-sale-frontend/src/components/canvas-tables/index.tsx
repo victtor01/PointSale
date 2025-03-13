@@ -1,7 +1,6 @@
-import { twMerge } from "tailwind-merge";
-import { motion } from "framer-motion";
-import { RefObject } from "react";
 import { useCanvasDiv } from "@/hooks/canvas/useCanvas.ts";
+import { motion } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
 type ContainerMainProps = {
   children?: React.ReactNode;
@@ -15,7 +14,7 @@ type Position = {
 type CanvasDivProps = {
   top?: number;
   left?: number;
-  callback: ({ x, y }: Position) => any;
+  callback: ({ x, y }: Position) => void;
 } & ContainerMainProps;
 
 type CanvasContainerProps = {} & ContainerMainProps;

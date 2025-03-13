@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function BottomSidebar() {
-  const LINK_MAIN = "/orders";
   const pathName = usePathname();
 
   return (

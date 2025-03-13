@@ -8,7 +8,7 @@ import { z } from "zod";
 export type IUpdateEmployee = z.infer<typeof UpdateEmployeeSchema>;
 
 export const useEmployee = () => {
-  const getAllEmployees = () => {
+  const useGetAllEmployees = () => {
     const { data: employees, isLoading } = useQuery<IEmployee[]>({
       queryKey: ["employees"],
       queryFn: async () => (await api.get("/employee")).data,
@@ -20,7 +20,7 @@ export const useEmployee = () => {
     };
   };
 
-  const findById = (employeeId: string) => {
+  const useFindById = (employeeId: string) => {
     const { data: employee, isLoading } = useQuery<IEmployee>({
       queryKey: ["employees", employeeId],
       queryFn: async () => (await api.get(`/employee/${employeeId}`)).data,
@@ -42,8 +42,8 @@ export const useEmployee = () => {
   };
 
   return {
-    getAllEmployees,
-    findById,
+    getAllEmployees: useGetAllEmployees,
+    findById: useFindById,
     update,
   };
 };

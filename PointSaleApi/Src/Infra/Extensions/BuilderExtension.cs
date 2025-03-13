@@ -79,6 +79,8 @@ public static class DependencyInjection
     services.AddScoped<ISessionService, SessionService>();
     services.AddSingleton<IJwtService, JwtService>();
     services.AddScoped<ITokenValidator, TokenValidator>();
+    // --permissions--
+    services.AddScoped<IPermissionsService, PermissionsService>();
   }
 };
 

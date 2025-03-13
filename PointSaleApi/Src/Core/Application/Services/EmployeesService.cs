@@ -2,7 +2,6 @@ using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
-using PointSaleApi.Src.Infra.Extensions;
 using PointSaleApi.Src.Infra.Interfaces;
 
 namespace PointSaleApi.Src.Core.Application.Services;
@@ -93,7 +92,7 @@ public class EmployeesService(
     employee.Phone = updateEmployeeRecord.Phone;
 
     employee.Positions.Clear();
-    if (positions != null)
+    if (positions.Any())
       employee.Positions = [.. positions];
 
     return await _employeeRepository.UpdateAsync(employee);

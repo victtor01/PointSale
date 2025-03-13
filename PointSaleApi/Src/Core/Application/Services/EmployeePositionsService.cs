@@ -10,6 +10,17 @@ public class EmployeePositionsService(IPositionsRepository positionsRepository) 
 {
   private readonly IPositionsRepository _positionsRepository = positionsRepository;
 
+  public async Task<EmployeePosition> GetByIdAsync(Guid managerId, Guid positionId)
+  {
+    var position = await _positionsRepository.GetById(positionId) 
+                   ?? throw new NotFoundException("position not found!") ;
+    
+    if(position.ManagerId != managerId)
+      throw new BadRequestException("Employee position does not belong to this manager!");
+    
+    return position;
+  }
+
   public async Task<EmployeePosition> CreateAsync(
     CreateEmployeePositionDTO createEmployeePositionDto,
     Guid ManagerId, Guid storeId)
