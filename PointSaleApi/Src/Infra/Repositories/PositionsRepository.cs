@@ -30,6 +30,7 @@ public class PositionsRepository(DatabaseContext databaseContext) : IPositionsRe
   {
     return await _databaseContext.EmployeePositions
       .Where(e => e.ManagerId == managerId && e.StoreId == storeId)
+      .Include(p => p.Employees)
       .ToListAsync();
   }
 
@@ -37,5 +38,13 @@ public class PositionsRepository(DatabaseContext databaseContext) : IPositionsRe
   {
     return await _databaseContext.EmployeePositions.FirstOrDefaultAsync(e =>
       e.Name == name && e.ManagerId == managerId) ?? null;
+  }
+
+  public async Task<EmployeePosition> Update(EmployeePosition employeePosition)
+  {
+    _databaseContext.Update(employeePosition);
+    await _databaseContext.SaveChangesAsync();
+
+    return employeePosition;
   }
 }

@@ -12,8 +12,12 @@ public class PermissionsService : IPermissionsService
       "Com essa permissão o usuário poderá criar novos pedidos."),
 
     new PermissionInformation(EmployeePermissionOrders.UPDATE_ORDER_CURRENT.ToString(),
-      "Atualizar para EM ANDAMENTO",
-      "O funcionário poderá atualizar a pedido para EM ANDAMENTO."),
+      "Atualizar ordem para (em andamento)",
+      "Com essa permissão é possível colocar a ordem para (pendente)"),
+    
+    new PermissionInformation(EmployeePermissionOrders.UPDATE_ORDER_PAID.ToString(),
+      "Atualizar para (pago)",
+      "Com essa permissão o funcionário poderá aceitar pagamentos sobre a ordem"),
 
     new PermissionInformation(EmployeePermissionOrders.UPDATE_ORDER_CANCELLED.ToString(),
       "cancelar pedido.",

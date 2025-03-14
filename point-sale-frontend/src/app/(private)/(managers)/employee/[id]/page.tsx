@@ -1,27 +1,33 @@
 "use client";
 
 import { CenterSection } from "@/components/center-section";
+import { DefaultLoader } from "@/components/default-loader";
+import {
+  ActiveStatus,
+  EmployeeCard,
+  PausedStatus,
+} from "@/components/employee-card";
 import { CustomInputCurrency } from "@/components/input-salary";
 import { SimpleLoader } from "@/components/simple-loader";
 import { fontRoboto, fontSaira, fontValela } from "@/fonts";
 import { IUpdateEmployee, useEmployee } from "@/hooks/use-employee";
 import { usePositions } from "@/hooks/use-positions";
 import { IEmployee, IPositionEmployee } from "@/interfaces/IEmployee";
-import { useParams } from "next/navigation";
+import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BiSolidPhone } from "react-icons/bi";
-import { FaCheck, FaHashtag, FaLock, FaUser, FaUserTie } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { RiEdit2Fill } from "react-icons/ri";
 import {
-  ActiveStatus,
-  EmployeeCard,
-  PausedStatus,
-} from "@/components/employee-card";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
-import { DefaultLoader } from "@/components/default-loader";
+  FaCheck,
+  FaChevronLeft,
+  FaHashtag,
+  FaLock,
+  FaUser,
+  FaUserTie,
+} from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 interface ParamsOf extends Record<string, string> {
   id: string;
@@ -67,6 +73,7 @@ const useDetailsEmployee = (employee?: IEmployee) => {
 };
 
 export default function Details() {
+  const router = useRouter();
   const { id } = useParams<ParamsOf>();
   const { useAllPositions: getAllPositions } = usePositions();
   const { positions, isLoading: loadingPositions } = getAllPositions();
@@ -101,8 +108,10 @@ export default function Details() {
   return (
     <CenterSection className="mt-5">
       <div className="flex gap-2 justify-between items-center">
-        <div className="flex items-center gap-2">
-          <RiEdit2Fill />
+        <div className="flex items-center gap-5">
+          <button onClick={() => router.back()}>
+            <FaChevronLeft />
+          </button>
           <h1 className={`${fontSaira} text-gray-600 rounded text-xl`}>
             Editar informações
           </h1>

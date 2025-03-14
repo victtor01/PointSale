@@ -25,7 +25,8 @@ public class EmployeesServiceTests
   [Description("it should error because salary is invalid")]
   public async Task ItShouldReturnErrorBecauseSalaryIsInvalid()
   {
-    var createEmployeeDTO = new CreateEmployeeDTO(Salary: 1000 * 1000, Password: "EXAMPLE", Positions: []);
+    var createEmployeeDTO = new CreateEmployeeDTO(FirstName: "EXAMPLE", Salary: 1000 * 1000, Password: "EXAMPLE",
+      Positions: [], null);
 
     _employeeRepository.Setup(repo => repo.GetAllByManagerAndStoreAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
       .ReturnsAsync([]);
@@ -52,6 +53,7 @@ public class EmployeesServiceTests
       {
         ManagerId = managerId,
         StoreId = storeId,
+        FirstName = "EXAMPLE",
         Salary = 1000,
         Positions = []
       });
@@ -63,10 +65,12 @@ public class EmployeesServiceTests
 
     decimal salaryOfEmployee = 900;
     BadRequestException exception = await Assert.ThrowsExceptionAsync<BadRequestException>(
-      () => _employeesService.CreateAsync(new CreateEmployeeDTO(Salary: salaryOfEmployee, Password: "EXAMPLE", Positions: []), managerId, storeId));
-    
+      () => _employeesService.CreateAsync(
+        new CreateEmployeeDTO(FirstName: "EXAMPLE", Salary: salaryOfEmployee, Password: "EXAMPLE", Positions: [], null),
+        managerId, storeId));
+
     _employeeRepository.Verify(repo => repo.AddAsync(It.IsAny<Employee>()), Times.Never);
-    
+
     exception.Should().NotBeNull();
     exception.Message.Should().Contain("count of employees in database exceeded");
   }

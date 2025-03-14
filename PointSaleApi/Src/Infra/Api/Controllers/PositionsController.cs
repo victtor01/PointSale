@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PointSaleApi.Src.Core.Application.Interfaces;
+using PointSaleApi.Src.Core.Application.Mappers;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
@@ -27,18 +28,34 @@ public class PositionsController(IEmployeePositionsService employeePositionsServ
     return Ok(created);
   }
 
+  [HttpPut("{positionId}")]
+  public async Task<IActionResult> UpdateAsync(Guid positionId,
+    UpdateEmployeePositionRecord updateEmployeePositionRecord)
+  {
+    var updated = await this._employeePositionsService.UpdateAsync(
+      managerId: _managerId,
+      positionId: positionId,
+      updateEmployeePositionRecord: updateEmployeePositionRecord
+    );
+
+    return Ok(updated);
+  }
+
   [HttpGet("{positionId}")]
   public async Task<IActionResult> GetByIdAsync(Guid positionId)
   {
     EmployeePosition position = await this._employeePositionsService
       .GetByIdAsync(_managerId, positionId);
-    
-    return Ok(position);
+
+    return Ok(position.ToEmployeePositionDTO());
   }
-  
+
   [HttpGet]
   public async Task<IActionResult> GetAllAsync()
   {
-    return Ok(await _employeePositionsService.GetAllAsync(_managerId, _storeId));
+    List<EmployeePosition> positions = await _employeePositionsService
+      .GetAllAsync(_managerId, _storeId);
+
+    return Ok(positions?.Select(p => p.ToEmployeePositionDTO()).ToList());
   }
 }

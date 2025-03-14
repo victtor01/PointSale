@@ -16,4 +16,5 @@ export interface IPositionEmployee {
   id: string;
   name: string;
   permissions: string[];
+  employees?: IEmployee[];
 }

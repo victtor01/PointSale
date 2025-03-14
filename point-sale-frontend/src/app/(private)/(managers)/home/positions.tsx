@@ -33,7 +33,9 @@ export const ListOfPositions = () => {
             >
               <div className="flex flex-col">
                 <div className="font-semibold text-lg">{position?.name}</div>
-                <div className="text-sm opacity-70 flex">4 membros</div>
+                <div className="text-sm opacity-70 flex">
+                  {position?.employees?.length || 0} membros
+                </div>
               </div>
 
               <div className="px-4 opacity-50">
