@@ -20,7 +20,7 @@ public class ProductsRepository(DatabaseContext databaseContext) : IProductsRepo
   {
     var product = await this._databaseContext.Products.AsNoTracking()
       .FirstOrDefaultAsync(product => product.Id == id) ?? null;
-    
+
     return product;
   }
 

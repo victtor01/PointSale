@@ -2,10 +2,8 @@
 
 import { CenterSection } from "@/components/center-section";
 import { fontSaira } from "@/fonts";
-import { IOrder } from "@/interfaces/IOrder";
 import {
-  IOrderProduct,
-  OrderProductStatusColors,
+  IOrderProduct
 } from "@/interfaces/IOrderProducts";
 import { IProduct } from "@/interfaces/IProduct";
 import { api } from "@/utils/api";
@@ -17,7 +15,7 @@ type ResponseGetAllProducts = {
 };
 
 const useOrdersProducts = () => {
-  const getAllProducts = () => {
+  const useGetAllProducts = () => {
     const { data: ordersProducts } = useQuery<ResponseGetAllProducts>({
       queryKey: ["orders-products"],
       queryFn: async () => (await api.get("/orders-products")).data,
@@ -31,7 +29,7 @@ const useOrdersProducts = () => {
   };
 
   return {
-    getAllProducts,
+    getAllProducts: useGetAllProducts,
   };
 };
 

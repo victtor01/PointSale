@@ -1,24 +1,63 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PointSaleApi.Src.Infra.Config;
 
 namespace PointSaleApi.Src.Core.Domain;
 
 [Table("employee_position")]
 public class EmployeePosition
 {
-  [Key]
-  public Guid Id { get; set; } = Guid.NewGuid();
-  
+  [Key] public Guid Id { get; set; } = Guid.NewGuid();
+
   [Column("name")]
   [MaxLength(100)]
   public required string Name { get; set; }
+
+  [Column("managerId")]
+  public required Guid ManagerId { get; set; }
+
+  [ForeignKey(nameof(ManagerId))]
+  public Manager? Manager { get; set; }
+
+  [Required]
+  [Column("permissions_orders")]
+  public List<string> Permissions { get; private set; } = [];
+
+  [Required]
+  [Column("storeId")]
+  public Guid? StoreId { get; set; }
+
+  public List<Employee> Employees { get; set; } = [];
+
+  [ForeignKey(nameof(StoreId))]
+  public Store? Store { get; set; }
+
+  public void SetPermissions(HashSet<string> permissions)
+  {
+    var parsedPermissions = permissions
+      .Where(permission =>
+        Enum.IsDefined(typeof(EmployeePermissionOrders), permission)
+        || Enum.IsDefined(typeof(EmployeePermissionsProducts), permission))
+      .ToHashSet();
+
+    if (parsedPermissions.Count != permissions.Count)
+      throw new BadRequestException("Invalid permission(s) detected.");
+
+    Permissions = [.. parsedPermissions];
+  }
 }
 
-public enum EmployeePermission
+public enum EmployeePermissionOrders
 {
-  CREATE_ORDER,       // Criar pedidos
-  PROCESS_PAYMENT,    // Processar pagamentos
-  MANAGE_EMPLOYEES,   // Gerenciar funcionários
-  VIEW_REPORTS,       // Visualizar relatórios
-  MANAGE_STOCK        // Gerenciar estoque
+  CREATE_ORDER = 0,
+  UPDATE_ORDER_CURRENT = 1,
+  UPDATE_ORDER_PAID = 2,
+  UPDATE_ORDER_CANCELLED = 99,
+}
+
+public enum EmployeePermissionsProducts
+{
+  CREATE_PRODUCT = 100,
+  DELETE_PRODUCT = 101,
+  UPDATE_PRODUCT = 102
 }

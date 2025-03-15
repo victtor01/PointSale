@@ -9,13 +9,37 @@ html, body {
   overflow-x: hidden;
 }
 
-.grid-image {
+/* .grid-image {
   position: absolute;
   inset: 0;
   height: 100%;
   width: 100%;
   background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
     linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 24px 24px;
+} */
+
+.grid-image-gray {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
+    linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.grid-image-white {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(
+      to right,
+      var(--color) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--color) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -76,6 +100,14 @@ html, body {
     --chart-4: 240 1% 42%;
     --chart-5: 240 2% 26%;
     }
+}
+
+.grid-image {
+  @apply absolute inset-0 top-[50%] left-[40%] translate-x-[-50%] translate-y-[-50%] h-[100vh] w-[50%] z-10 opacity-[0.15] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)];
+}
+
+.light .grid-image {
+  @apply bg-[radial-gradient(#fff,transparent_1px)] opacity-100;
 }
 
 

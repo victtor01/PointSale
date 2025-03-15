@@ -6,11 +6,11 @@ type Position = {
 const useCanvasDiv = () => {
   const makeDraggable = (
     e: React.MouseEvent,
-    callback: ({ x, y }: Position) => any
+    callback: ({ x, y }: Position) => void
   ) => {
     const target = e.currentTarget as HTMLElement;
-    let offsetX = e.clientX - target.offsetLeft;
-    let offsetY = e.clientY - target.offsetTop;
+    const offsetX = e.clientX - target.offsetLeft;
+    const offsetY = e.clientY - target.offsetTop;
 
     const onMouseMove = (moveEvent: MouseEvent) => {
       let newX = moveEvent.clientX - offsetX;
@@ -28,7 +28,7 @@ const useCanvasDiv = () => {
     };
 
     const onMouseUp = (moveEvent: MouseEvent) => {
-      let newX = moveEvent.clientX - offsetX;
+      const newX = moveEvent.clientX - offsetX;
       console.log(newX);
 
       document.removeEventListener("mousemove", onMouseMove);

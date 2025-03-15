@@ -22,7 +22,7 @@ public class OrdersProductsController(IOrdersProductsService ordersProductsServi
   [IsStoreSelectedRoute]
   public async Task<IActionResult> Create([FromBody] CreateOrderProductDTO orderProductDTO)
   {
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
     OrderProduct orderProduct = await _ordersProductsService.SaveAsync(orderProductDTO, storeId);
 
     return Ok(orderProduct.ToMapper());
@@ -32,7 +32,7 @@ public class OrdersProductsController(IOrdersProductsService ordersProductsServi
   [IsStoreSelectedRoute]
   public async Task<IActionResult> UpdateStatus(string id, [FromBody] UpdateStatusOrderProductDTO updateDTO)
   {
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
     Guid orderProductId = id.ToGuidOrThrow();
 
     OrderProduct orderProduct = await _ordersProductsService.FindByIdAsync(orderProductId);
@@ -48,7 +48,7 @@ public class OrdersProductsController(IOrdersProductsService ordersProductsServi
   [IsStoreSelectedRoute]
   public async Task<IActionResult> GetAll()
   {
-    Guid storeId = HttpContext.GetStoreOrThrow();
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
 
     List<OrderProduct> orders = await this._ordersProductsService.GetAllByStoreAsync(storeId);
     List<OrderProductDTO> orderProductDTOs = orders.Select(o => o.ToMapper()).ToList();

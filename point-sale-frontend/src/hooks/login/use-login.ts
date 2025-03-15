@@ -18,7 +18,7 @@ type SchemaLoginProps = {
 };
 
 type useFormLoginResponse = {
-  form: UseFormReturn<SchemaLoginProps, any, undefined>;
+  form: UseFormReturn<SchemaLoginProps, unknown, undefined>;
 };
 
 const useFormLogin = (): useFormLoginResponse => {
@@ -33,15 +33,18 @@ const _PAGE_URL_SELECT_STORE = "/select-store"
 
 const useLogin = () => {
   const router = useRouter();
+
   const submitLogin = async (data: SchemaLoginProps): Promise<void> => {
     try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
       const { email, password } = data;
       const body = { email, password };
       await api.post("/auth", body);
       toast.success("login sucessfull");
       router.replace(_PAGE_URL_SELECT_STORE);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log("Houve um erro ao tentar fazer o login!", error);
+      throw new Error("teste");
     }
   };
 

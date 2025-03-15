@@ -27,6 +27,7 @@ const useSelectStore = () => {
         router.push("/home");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Houve um erro ao tentar selecionar a loja!");
     }
   };

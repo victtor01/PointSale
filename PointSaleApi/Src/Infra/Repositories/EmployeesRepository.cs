@@ -17,15 +17,19 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
   public async Task<List<Employee>> GetAllByManagerAndStoreAsync(Guid managerId, Guid storeId)
   {
     List<Employee> employees = await context.Employees
+      .AsNoTracking()
       .Where(emp => emp.ManagerId == managerId && emp.StoreId == storeId)
+      .Include(emp => emp.Positions)
       .ToListAsync();
 
     return employees;
   }
 
-  public async Task<Employee?> FindByUsernameAsync(int username)
+  public async Task<Employee?> FindByUsernameAsyncWithPositions(int username)
   {
     var employee = await context.Employees
+      .AsNoTracking()
+      .Include(e => e.Positions)
       .FirstOrDefaultAsync(emp => emp.Username == username) ?? null;
 
     return employee;
@@ -33,11 +37,24 @@ public class EmployeesRepository(DatabaseContext context) : IEmployeeRepository
 
   public async Task<Employee?> FindByIdAsync(Guid id)
   {
-    return await context.Employees.FirstOrDefaultAsync(e => e.Id == id) ?? null;
+    return await context.Employees
+      .AsNoTracking()
+      .Include(e => e.Positions)
+      .FirstOrDefaultAsync(e => e.Id == id) ?? null;
   }
 
-  public Task<Employee> UpdateAsync(Employee employee)
+  public async Task<Employee?> FindByIdTracking(Guid id)
   {
-    throw new NotImplementedException();
+    return await context.Employees
+      .Include(e => e.Positions)
+      .FirstOrDefaultAsync(e => e.Id == id) ?? null;
+  }
+
+  public async Task<Employee> UpdateAsync(Employee employee)
+  {
+    context.Entry(employee).State = EntityState.Modified;
+    await context.SaveChangesAsync();
+
+    return employee;
   }
 }

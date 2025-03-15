@@ -7,7 +7,7 @@ type CenterSectionProps = {
 
 function CenterSection({ children, ...props }: CenterSectionProps) {
   const className = twMerge(
-    "flex mx-auto flex-col h-auto w-full max-w-[50rem] p-2 px-4 pb-[5rem]",
+    "flex mx-auto flex-col h-auto w-full max-w-[50rem] p-2 px-4 pb-[5rem] z-10",
     props.className
   );
   

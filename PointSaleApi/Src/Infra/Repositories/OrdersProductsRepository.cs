@@ -37,7 +37,7 @@ public class OrdersProductsRepository(DatabaseContext context) : IOrdersProducts
       .Where(OP => OP.StoreId == storeId)
       .OrderBy(OP => OP.CreatedAt)
       .Include(OP => OP.Order)
-      .ThenInclude(order => (StoreTable?)order!.Table)
+        .ThenInclude(order => order!.Table)
       .Include(OP => OP.Product)
       .ToListAsync();
     return orderProducts;
