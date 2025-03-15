@@ -3,7 +3,7 @@ import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 const useOrders = () => {
-  const getAllOrders = () => {
+  const useGetAllOrders = () => {
     const { data: orders } = useQuery<IOrder[]>({
       queryKey: ["orders"],
       queryFn: async () => (await api.get("/orders/managers")).data,
@@ -15,7 +15,7 @@ const useOrders = () => {
   };
 
   return {
-    getAllOrders,
+    getAllOrders: useGetAllOrders,
   };
 };
 

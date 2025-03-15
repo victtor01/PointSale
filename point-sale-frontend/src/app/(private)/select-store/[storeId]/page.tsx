@@ -5,10 +5,9 @@ import { IStore } from "@/interfaces/IStore";
 
 interface SelectStoreWithIdProps {
   params: Promise<{ storeId: string }>;
-  children: Promise<React.ReactNode>;
 }
 
-async function SelectStoreWithId(props: SelectStoreWithIdProps) {
+export default async function SelectStoreWithId(props: SelectStoreWithIdProps) {
   const params = await props.params;
   const store = await fetchServer<IStore>({ url: `stores/${params?.storeId}` });
 
@@ -37,5 +36,3 @@ async function SelectStoreWithId(props: SelectStoreWithIdProps) {
     </div>
   );
 }
-
-export default SelectStoreWithId;

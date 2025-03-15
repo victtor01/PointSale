@@ -5,6 +5,7 @@ using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Application.Services;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Config;
+using PointSaleApi.Src.Infra.Interfaces;
 
 namespace Tests.Services;
 
@@ -12,18 +13,20 @@ namespace Tests.Services;
 public class EmployeesServiceTests
 {
   private readonly Mock<IEmployeeRepository> _employeeRepository = new Mock<IEmployeeRepository>();
+  private readonly Mock<IPositionsRepository> _positionsRepository = new Mock<IPositionsRepository>();
   private readonly EmployeesService _employeesService;
 
   public EmployeesServiceTests()
   {
-    this._employeesService = new EmployeesService(_employeeRepository.Object);
+    this._employeesService = new EmployeesService(_employeeRepository.Object, _positionsRepository.Object);
   }
 
   [TestMethod]
   [Description("it should error because salary is invalid")]
   public async Task ItShouldReturnErrorBecauseSalaryIsInvalid()
   {
-    var createEmployeeDTO = new CreateEmployeeDTO(Salary: 1000 * 1000, Password: "EXAMPLE");
+    var createEmployeeDTO = new CreateEmployeeDTO(FirstName: "EXAMPLE", Salary: 1000 * 1000, Password: "EXAMPLE",
+      Positions: [], null);
 
     _employeeRepository.Setup(repo => repo.GetAllByManagerAndStoreAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
       .ReturnsAsync([]);
@@ -50,7 +53,9 @@ public class EmployeesServiceTests
       {
         ManagerId = managerId,
         StoreId = storeId,
+        FirstName = "EXAMPLE",
         Salary = 1000,
+        Positions = []
       });
     }
 
@@ -60,10 +65,12 @@ public class EmployeesServiceTests
 
     decimal salaryOfEmployee = 900;
     BadRequestException exception = await Assert.ThrowsExceptionAsync<BadRequestException>(
-      () => _employeesService.CreateAsync(new CreateEmployeeDTO(Salary: salaryOfEmployee, Password: "EXAMPLE"), managerId, storeId));
-    
+      () => _employeesService.CreateAsync(
+        new CreateEmployeeDTO(FirstName: "EXAMPLE", Salary: salaryOfEmployee, Password: "EXAMPLE", Positions: [], null),
+        managerId, storeId));
+
     _employeeRepository.Verify(repo => repo.AddAsync(It.IsAny<Employee>()), Times.Never);
-    
+
     exception.Should().NotBeNull();
     exception.Message.Should().Contain("count of employees in database exceeded");
   }

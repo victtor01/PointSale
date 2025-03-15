@@ -17,7 +17,7 @@ const animationOpacity = {
 
 function LoginForm({ store: { id } }: LoginFormProps) {
   const { login, form } = useLoginForm({ storeId: id });
-  const { handleSubmit, formState } = form;
+  const { handleSubmit } = form;
 
   return (
     <motion.form

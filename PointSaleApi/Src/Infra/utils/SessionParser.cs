@@ -13,7 +13,7 @@ public static class SessionParser
     try
     {
       UserRole role = Enum.Parse<UserRole>(payload[ClaimsKeySessionManager.Role]);
-      Guid? storeId = payload.ContainsKey(ClaimsKeySession.Store) ? 
+      Guid? storeId = payload.ContainsKey(ClaimsKeySession.Store) ?
           payload[ClaimsKeySession.Store].ToGuidOrThrow() : null;
 
       Session session = new Session { Role = role };

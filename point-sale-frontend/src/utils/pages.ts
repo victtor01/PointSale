@@ -12,7 +12,7 @@ export type Page = {
 
 export const pages = [
   { name: "Dashboard", icon: GoHomeFill, link: "/home" },
-  { name: "Minhas mesas", icon: MdTableBar, link: "/tables" },
-  { name: "Orders", icon: BiSolidFoodMenu, link: "/orders" },
-  { name: "Orders-Products", icon:  HiRectangleStack, link: "/orders-products"}
+  { name: "Mesas", icon: MdTableBar, link: "/tables" },
+  { name: "Ordens", icon: BiSolidFoodMenu, link: "/orders" },
+  { name: "Pedidos", icon:  HiRectangleStack, link: "/orders-products"}
 ] satisfies Page[];

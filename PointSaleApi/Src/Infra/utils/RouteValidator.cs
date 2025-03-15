@@ -15,6 +15,7 @@ public static class RouteValidator
     var endpoint = context.GetEndpoint();
     return endpoint?.Metadata?.GetMetadata<IsPublicRoute>() != null;
   }
+  
 
   public static bool IsAdminRoute(HttpContext context)
   {

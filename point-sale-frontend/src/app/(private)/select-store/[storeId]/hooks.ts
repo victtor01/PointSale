@@ -37,6 +37,7 @@ const useLoginForm = ({ storeId }: PropsLoginForm) => {
       toast.success("Logado com sucesso!");
       router.push("/home");
     } catch (error) {
+      console.log(error)
       toast.error("Senha incorreta, tente novamente!");
     }
   };

@@ -9,50 +9,40 @@ namespace PointSaleApi.Src.Core.Domain;
 [Table("employees")]
 public class Employee : BaseEntity
 {
-  [Key]
-  [Column("id")]
-  public Guid Id { get; set; } = Guid.NewGuid();
+  [Key] [Column("id")] public Guid Id { get; set; } = Guid.NewGuid();
 
   [Required]
   [StringLength(100)]
   [Column("username")]
   public int Username { get; set; } = RandomId.Generate();
 
-  [Column("email")]
-  [MaxLength(50)]
-  public string? Email { get; set; }
+  [StringLength(60)]
+  [Column("first_name")]
+  public required string FirstName { get; set; }
 
-  [Required]
-  [Column("salary")]
-  public decimal Salary { get; set; }
+  [StringLength(50)]
+  [Column("last_name")]
+  public string? LastName { get; set; } = null;
 
-  [Column("phone")]
-  [MaxLength(30)]
-  public string? Phone { get; set; }
+  [Column("email")] [MaxLength(50)] public string? Email { get; set; }
 
-  [Column("positions")]
-  public required List<EmployeePosition>  Positions { get; set; } = [];
+  [Required] [Column("salary")] public decimal Salary { get; set; }
 
-  [Column("password")]
-  [MaxLength(255)]
-  public string? Password { get; set; }
+  [Column("phone")] [MaxLength(30)] public string? Phone { get; set; }
 
-  [Column("userId")]
-  [Required]
-  public required Guid ManagerId { get; set; }
-  
-  [Required]
-  [Column("storeId")]
-  public required Guid StoreId { get; set; }
+  [Column("positions")] public required List<EmployeePosition> Positions { get; set; } = [];
 
-  [ForeignKey(nameof(StoreId))]
-  public Store? Store { get; set; }
+  [Column("password")] [MaxLength(255)] public string? Password { get; set; }
 
-  [ForeignKey(nameof(ManagerId))]
-  public Manager? Manager { get; set; }
+  [Column("userId")] [Required] public required Guid ManagerId { get; set; }
 
-  [Column("birth_date")]
-  public DateTime? BirthDate { get; set; } = null;
+  [Required] [Column("storeId")] public required Guid StoreId { get; set; }
+
+  [ForeignKey(nameof(StoreId))] public Store? Store { get; set; }
+
+  [ForeignKey(nameof(ManagerId))] public Manager? Manager { get; set; }
+
+  [Column("birth_date")] public DateTime? BirthDate { get; set; } = null;
 
   public void HashPassword(Guid userId)
   {
@@ -64,4 +54,10 @@ public class Employee : BaseEntity
     Password = newPassword;
   }
 
+  public bool IsValidManager(Guid managerId)
+  {
+    if (managerId != this.ManagerId)
+      throw new BadRequestException("this employee not belong to this manager!");
+    return true;
+  }
 }

@@ -8,6 +8,6 @@ public interface IEmployeeRepository
   public Task<Employee> UpdateAsync(Employee employee);
   public Task<List<Employee>> GetAllByManagerAndStoreAsync(Guid managerId, Guid storeId);
   public Task<Employee?> FindByIdAsync(Guid id);
-  public Task<Employee?> FindByUsernameAsync(int username); 
-  
+  public Task<Employee?> FindByIdTracking(Guid id);
+  public Task<Employee?> FindByUsernameAsyncWithPositions(int username);
 }
