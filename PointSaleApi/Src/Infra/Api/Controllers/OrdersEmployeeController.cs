@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;

@@ -9,7 +9,7 @@ export default function Positions() {
   const { useAllPositions: getAllPositions } = usePositions();
   const { positions } = getAllPositions();
 
-  const { getAllPermissions } = usePermissions();
+  const { useGetAllPermissions: getAllPermissions } = usePermissions();
   const { permissions } = getAllPermissions();
 
   return (

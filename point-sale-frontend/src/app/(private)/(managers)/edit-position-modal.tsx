@@ -2,7 +2,7 @@
 
 import { CenterSection } from "@/components/center-section";
 import { DefaultLoader } from "@/components/default-loader";
-import { fontSaira } from "@/fonts";
+import { fontInter, fontSaira } from "@/fonts";
 import { usePermissions } from "@/hooks/use-permissions";
 import { usePositions } from "@/hooks/use-positions";
 import {
@@ -13,10 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ReadonlyURLSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiCheck } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { TbAlertSquareRoundedFilled } from "react-icons/tb";
 
 interface Props {
   params: ReadonlyURLSearchParams;
@@ -24,6 +26,7 @@ interface Props {
 
 const useEditPosition = (positionId: string | null) => {
   const { useFindById, update } = usePositions();
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   const { position } = useFindById(positionId) || { position: null };
 
@@ -49,6 +52,21 @@ const useEditPosition = (positionId: string | null) => {
         shouldValidate: true,
       });
     }
+
+    if (!isChanged) {
+      setIsChanged(true);
+    }
+  };
+
+  const toggleEmployees = (id: string) => {
+    if (!position) return;
+
+    const employees: string[] = form.getValues("employees") || [];
+
+    if (!employees.includes(id)) return;
+
+    const newEmployees = employees?.filter((e) => e !== id);
+    form.setValue("employees", [...newEmployees]);
   };
 
   useEffect(() => {
@@ -56,6 +74,7 @@ const useEditPosition = (positionId: string | null) => {
       form.reset({
         name: position?.name,
         permissions: position?.permissions,
+        employees: position?.employees?.map((e) => e.id),
       });
     }
   }, [position, form]);
@@ -63,6 +82,8 @@ const useEditPosition = (positionId: string | null) => {
   return {
     position,
     update,
+    toggleEmployees,
+    isChanged,
     togglePosition,
     form,
   };
@@ -70,13 +91,17 @@ const useEditPosition = (positionId: string | null) => {
 
 export const EditPosition = ({ params }: Props) => {
   const positionId = params.get("positionId");
-  const { position, form, togglePosition, update } =
+  const { position, form, togglePosition, update, toggleEmployees, isChanged } =
     useEditPosition(positionId);
-  const { getAllPermissions } = usePermissions();
+  const { useGetAllPermissions: getAllPermissions } = usePermissions();
   const { permissions } = getAllPermissions();
   const { register, watch, handleSubmit, formState } = form;
   const { isSubmitting } = formState;
   const router = useRouter();
+
+  const employeesToShow = position?.employees?.filter((emp) =>
+    watch("employees")?.includes(emp.id)
+  );
 
   return (
     <motion.div
@@ -101,8 +126,9 @@ export const EditPosition = ({ params }: Props) => {
         </CenterSection>
       </header>
 
-      <CenterSection className="mt-10 text-gray-500">
+      <CenterSection className="text-gray-500">
         <form
+          className="mt-5"
           onSubmit={handleSubmit((data) => {
             if (position?.id) {
               update(position.id, data);
@@ -149,16 +175,16 @@ export const EditPosition = ({ params }: Props) => {
                       data-selected={!!selected}
                       type="button"
                       className="min-w-[3rem] overflow-hidden grid items-center relative
-                      h-[1.5rem] shadow-inner rounded-full bg-gray-200 ring-gray-200
-                      ring-4 opacity-90 data-[selected=true]:opacity-100
-                      data-[selected=true]:ring-indigo-500 data-[selected=true]:bg-indigo-500"
+                        h-[1.5rem] shadow-inner rounded-full bg-gray-200 ring-gray-200
+                        ring-4 opacity-90 data-[selected=true]:opacity-100
+                        data-[selected=true]:ring-indigo-500 data-[selected=true]:bg-indigo-500"
                     >
                       <motion.div
                         layout
                         data-selected={!!selected}
                         animate={{ x: selected ? "100%" : "0" }}
                         className="h-[1.5rem] w-[1.5rem] bg-white rounded-full shadow-inner z-10
-                        data-[selected=true]:text-indigo-500 opacity-90 text-gray-300 flex absolute items-center justify-center"
+                          data-[selected=true]:text-indigo-500 opacity-90 text-gray-300 flex absolute items-center justify-center"
                       >
                         {selected && <BiCheck size={20} />}
                         {!selected && <IoClose size={20} />}
@@ -179,8 +205,74 @@ export const EditPosition = ({ params }: Props) => {
               })}
             </section>
 
+            {isChanged && (
+              <div className="bg-indigo-100 p-5 mt-5 text-indigo-500 flex font-semibold rounded-md items-center gap-2">
+                <TbAlertSquareRoundedFilled />
+                <span>As permissões foram mudadas, salve as alterações</span>
+              </div>
+            )}
+
+            <section className="flex flex-col gap-2 mt-5">
+              <header className="w-full justify-between flex items-center">
+                <div className={fontSaira}>
+                  <h1 className="font-semibold text-lg ">Funcionários</h1>
+                </div>
+              </header>
+
+              <section className="rounded-md border bg-white flex flex-col divide-y">
+                {!employeesToShow?.length && (
+                  <div className="m-3 bg-indigo-100 p-3 rounded-md border border-indigo-200 text-indigo-400 font-semibold flex gap-2 items-center">
+                    <span className="min-w-8">
+                      <TbAlertSquareRoundedFilled />
+                    </span>
+
+                    <span>Nenhum Funcionário tem esse cargo até o momento</span>
+                  </div>
+                )}
+
+                {employeesToShow?.map((employee, index) => {
+                  return (
+                    <div
+                      className="p-2 flex gap-2 items-center justify-between"
+                      key={index}
+                    >
+                      <div className="flex gap-3 items-center">
+                        <div className="w-8 h-8 grid place-items-center text-gray-400 bg-gray-200 rounded-full">
+                          <FaUser />
+                        </div>
+
+                        <div
+                          className={`${fontInter} text-gray-500 flex flex-col`}
+                        >
+                          <span className="font-semibold">
+                            {employee?.firstName}
+                          </span>
+                          <div className="text-sm opacity-60">
+                            #{employee?.username}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="px-2">
+                        <button
+                          type="button"
+                          onClick={() => toggleEmployees(employee?.id)}
+                          className="w-7 grid place-items-center h-7 bg-gray-100 text-gray-400 rounded-full "
+                        >
+                          <IoClose size={20} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </section>
+            </section>
+
             <footer className="mt-5">
-              <button className="p-2 px-4 bg-indigo-500 text-white hover:bg-indigo-400 rounded-md flex items-center justify-center gap-2">
+              <button
+                type="submit"
+                className="p-2 px-4 bg-indigo-500 text-white hover:bg-indigo-400 rounded-md flex items-center justify-center gap-2"
+              >
                 {isSubmitting && <DefaultLoader />}
                 <span>Salvar</span>
               </button>

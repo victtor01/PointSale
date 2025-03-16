@@ -12,6 +12,7 @@ public static class EmployeesMapper
       Id = employee.Id,
       FirstName = employee.FirstName,
       LastName = employee?.LastName,
+      Username = employee?.Username,
       Email = employee?.Email,
       Phone = employee?.Phone,
     };

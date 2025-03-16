@@ -25,7 +25,7 @@ public class EmployeePosition
 
   [Required]
   [Column("storeId")]
-  public Guid? StoreId { get; set; }
+  public Guid StoreId { get; set; }
 
   public List<Employee> Employees { get; set; } = [];
 

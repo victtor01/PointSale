@@ -14,7 +14,7 @@ import { useState } from "react";
 import { FaAngleDown, FaChevronLeft } from "react-icons/fa";
 
 export const Employees = () => {
-  const { getAllEmployees } = useEmployee();
+  const { useGetAllEmployees: getAllEmployees } = useEmployee();
   const { employees } = getAllEmployees();
   const router = useRouter();
 

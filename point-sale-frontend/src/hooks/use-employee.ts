@@ -1,4 +1,5 @@
 import { IEmployee } from "@/interfaces/IEmployee";
+import { queryClient } from "@/providers/query-client-provider";
 import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
@@ -35,6 +36,11 @@ export const useEmployee = () => {
   const update = async (employeeId: string, data: IUpdateEmployee) => {
     try {
       await api.put(`/employee/${employeeId}`, data);
+
+      await queryClient.invalidateQueries({
+        queryKey: ["positions"],
+      });
+
       toast("Atualizado com sucesso!");
     } catch (error) {
       console.log(error);
@@ -42,8 +48,8 @@ export const useEmployee = () => {
   };
 
   return {
-    getAllEmployees: useGetAllEmployees,
-    findById: useFindById,
+    useGetAllEmployees,
+    useFindById,
     update,
   };
 };

@@ -3,6 +3,7 @@ import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const usePermissions = () => {
+  
   const useGetAllPermissions = () => {
     const { data: permissions, isLoading } = useQuery<IPermissionInfo[]>({
       queryKey: ["permissions"],
@@ -16,6 +17,6 @@ export const usePermissions = () => {
   };
 
   return {
-    getAllPermissions: useGetAllPermissions,
+    useGetAllPermissions,
   };
 };

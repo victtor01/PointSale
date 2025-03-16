@@ -55,7 +55,6 @@ const useDetailsEmployee = (employee?: IEmployee) => {
   };
 
   useEffect(() => {
-    console.log(employee);
     form.reset({
       salary: Number(employee?.salary) || 0,
       username: Number(employee?.username),
@@ -77,7 +76,7 @@ export default function Details() {
   const { id } = useParams<ParamsOf>();
   const { useAllPositions: getAllPositions } = usePositions();
   const { positions, isLoading: loadingPositions } = getAllPositions();
-  const { findById, update } = useEmployee();
+  const { useFindById: findById, update } = useEmployee();
   const { employee, isLoading: loadingEmployee } = findById(id);
   const { form, togglePosition } = useDetailsEmployee(employee);
   const { register, watch, setValue, handleSubmit, formState } = form;

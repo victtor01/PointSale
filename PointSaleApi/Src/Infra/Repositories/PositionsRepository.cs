@@ -17,7 +17,9 @@ public class PositionsRepository(DatabaseContext databaseContext) : IPositionsRe
   }
 
   public async Task<EmployeePosition?> GetById(Guid id)
-    => await _databaseContext.EmployeePositions.FirstOrDefaultAsync(e => e.Id == id) ?? null;
+    => await _databaseContext.EmployeePositions
+    .Include(p => p.Employees)
+    .FirstOrDefaultAsync(e => e.Id == id) ?? null;
 
   public async Task<List<EmployeePosition>> FindAllByIds(List<Guid> ids)
   {
