@@ -20,10 +20,12 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
     <button
       data-selected={selected}
       onClick={() => router.push(link)}
-      className="w-[2.8rem] h-[2.8rem] group relative rounded-[4rem] grid place-items-center opacity-60 hover:opacity-100
+      className="w-[3rem] h-[3rem] group relative rounded-xl grid place-items-center opacity-60 hover:opacity-100
       data-[selected=true]:shadow-xl data-[selected=true]:opacity-100 group/button border transition-all
       data-[selected=true]:bg-gray-800 data-[selected=true]:text-indigo-200 data-[selected=true]:border-transparent 
-      data-[selected=true]:shadow-indigo-300 data-[selected=true]:rounded-[1rem]"
+      data-[selected=true]:shadow-indigo-300
+      
+      data-[selected=true]:bg-gradient-radial from-indigo-500/40 to-transparent"
     >
       {children}
     </button>
@@ -45,10 +47,10 @@ function MinSidebar() {
           </button>
         </header>
 
-        <section className="flex w-full flex-col justify-center gap-2 mt-4">
+        <section className="flex w-full flex-col justify-center gap-2 mt-4 flex-1">
           {pages?.map(({ icon: Icon, link, name }, index) => (
             <ButtonToLink key={index} link={link}>
-              <Icon />
+              <Icon size={18}/>
               <div className="border p-1 group-hover:opacity-100 opacity-0 pointer-events-none 
               flex-nowrap text-nowrap absolute left-[100%] ml-[1rem] transition-all bg-white rounded">
                 <span className={`${fontSaira} text-gray-500 dark:text-gray-100`}>

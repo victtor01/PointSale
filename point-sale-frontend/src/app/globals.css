@@ -110,6 +110,9 @@ html, body {
   @apply bg-[radial-gradient(#fff,transparent_1px)] opacity-100;
 }
 
+.text-shadow {
+  text-shadow: 12px 12px 12px rgba(0, 0, 0, 0.4);
+}
 
 @layer base {
   body {

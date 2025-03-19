@@ -113,7 +113,7 @@ function Tables() {
           </AnimatePresence>
           <div className="flex w-full justify-between">
             <div className="font-semibold text-lg">
-              <div className="flex gap-2 items-center drop-shadow-lg">
+              <div className="flex gap-2 items-center ">
                 <FaPlay size={10} />
                 <h1 className={`text-lg font-semibold ${fontSaira}`}>Mesas</h1>
               </div>
