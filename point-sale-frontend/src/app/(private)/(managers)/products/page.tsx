@@ -1,91 +1,103 @@
+"use client";
+
 import { CenterSection } from "@/components/center-section";
-import { fontOpenSans, fontSaira } from "@/fonts";
+import { fontSaira } from "@/fonts";
 import { BiPlus } from "react-icons/bi";
+import { BsFillBoxFill } from "react-icons/bs";
+import { Product } from "./product";
+import { useProducts } from "@/hooks/use-products";
+import { IProduct } from "@/interfaces/IProduct";
 
 export default function Products() {
+  const { useGetAllProducts } = useProducts();
+  const { products } = useGetAllProducts();
+
   return (
     <>
-      <header className="flex w-full flex-col bg-gray-950 text-gray-200 p-3 overflow-hidden">
-        <CenterSection className="flex flex-col h-auto pb-2">
+      <header className="flex w-full flex-col overflow-hidden mt-5">
+        <CenterSection className="flex flex-col h-auto pb-2 px-3">
           <div className="flex w-full justify-between items-center">
-            <h1
-              className={`${fontOpenSans} text-2xl font-semibold text-blue-100`}
-            >
+            <h1 className={`${fontSaira} text-xl font-semibold text-gray-600`}>
               Meus produtos
             </h1>
 
-            <button className="p-1 px-3 flex gap-2 items-center bg-indigo-500 opacity-95 hover:opacity-100 shadow-xl shadow-black text-indigo-100 rounded-md">
-              <span>Novo</span>
-              <BiPlus />
-            </button>
+            <div className="flex gap-2 items-center">
+              <button className="p-2 px-3 flex gap-2 items-center text-indigo-50 bg-indigo-500/80 shadow-xl shadow-indigo-500/30 opacity-95 hover:opacity-100 rounded-md">
+                <BiPlus />
+                <span>Produto</span>
+              </button>
+            </div>
           </div>
 
           <div className="w-full flex mt-4">
-            <div className="p-2 items-end gap-3 bg-gray-900 px-4 w-full max-w-[20rem] border border-gray-800 rounded-md flex">
-              <h1 className="text-[1.8rem] font-semibold">4</h1>
-              <span>Produtos cadastrados</span>
+            <div className="p-2 items-center shadow justify-between gap-3 bg-white text-gray-500 px-4 py-5 w-full max-w-[20rem] rounded-md flex">
+              <div className="font-semibold flex items-center gap-2">
+                <h1 className="text-[1.8rem] font-semibold">4</h1>
+                <span className="mt-2">Produtos cadastrados</span>
+              </div>
+              <div className="w-10 h-10 grid place-items-center bg-gray-50 rounded-full text-gray-300 ">
+                <BsFillBoxFill />
+              </div>
             </div>
           </div>
         </CenterSection>
       </header>
 
+      <CenterSection className="px-3 pb-0 mt-5">
+        <section className="flex gap-2">
+          <input
+            type="text"
+            className="flex-1 p-2 bg-white rounded-md border outline-none"
+            placeholder="pesquise por algum produto..."
+          />
+
+          <button className="p-1 px-3 font-semibold border-4 border-indigo-200 text-indigo-50 bg-indigo-500/80 rounded-xl">
+            <span className={fontSaira}>GO</span>
+          </button>
+        </section>
+      </CenterSection>
+
       <CenterSection className="p-0 px-3 mt-4">
-        <section className="w-full text-left rounded-md bg-white border overflow-hidden">
+        <section className="w-full text-left rounded-xl bg-white border overflow-hidden">
           <table className="w-full">
-            <thead className="bg-indigo-50/50 text-gray-600 font-normal">
-              <tr className={fontSaira}>
-                <th scope="col" className="px-2 py-1">
-                  Nome produto
+            <thead className="bg-indigo-50/30 text-gray-500 font-normal">
+              <tr className={`${fontSaira}`}>
+                <th scope="col" className="px-2 py-3">
+                  Nome
                 </th>
-                <th scope="col" className="px-2 py-1">
+                <th scope="col" className="px-2 py-3">
+                  Descrição
+                </th>
+                <th scope="col" className="px-2 py-3">
                   Preço
                 </th>
-                <th scope="col" className="px-2 py-1">
+                <th scope="col" className="px-2 py-3">
                   Categorias
                 </th>
-                <th scope="col" className="px-2 py-1">
+                <th scope="col" className="px-2 py-3">
+                  No cardápio
+                </th>
+                <th scope="col" className="px-2 py-3">
                   Ações
                 </th>
               </tr>
             </thead>
 
             <tbody className="divide-y">
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <th
-                  scope="row"
-                  className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-2 py-4">Laptop</td>
-                <td className="px-2 py-4">$2999</td>
-                <td className="px-2 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <th
-                  scope="row"
-                  className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-2 py-4">Laptop</td>
-                <td className="px-2 py-4">$2999</td>
-                <td className="px-2 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
+              {products?.map((product: IProduct) => {
+                return (
+                  <Product
+                    key={product.id}
+                    data={{
+                      id: product.id,
+                      name: product?.name,
+                      description: product?.description,
+                      price: product.price,
+                      categories: [],
+                    }}
+                  />
+                );
+              })}
             </tbody>
           </table>
         </section>

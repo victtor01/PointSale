@@ -18,5 +18,5 @@ export const pages = [
   { name: "Ordens", icon: BiSolidFoodMenu, link: "/orders" },
   { name: "Pedidos", icon: FaRocket, link: "/queue" },
   { name: "Produtos", icon: BsFillBoxFill, link: "/products" },
-  { name: "Funcionários", icon: HiUsers, link: "##" },
+  { name: "Funcionários", icon: HiUsers, link: "/employee" },
 ] satisfies Page[];

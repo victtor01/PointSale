@@ -77,27 +77,27 @@ const PhotoEmployeeCard = ({ name, positions }: PhotoEmployeeCardProps) => (
 const InformatinsEmployeeCard = (props: InformationsEmployeeCardsProps) => {
   const { username, email, phone } = props;
   return (
-    <section className="w-full flex rounded-md bg-gray-100 text-sm border p-2 mt-4 flex-col gap-2">
-    <div className="flex gap-2 items-center text-sm">
-      <FaHashtag size={14} />
-      <span className={fontInter}>{username}</span>
-    </div>
-    <div className="flex gap-2 w-full relative">
-      <MdEmail size={15} className="mt-1 min-w-6" />
-      <div className="flex gap-1 flex-wrap w-[90%] relative">
-        <span
-          className={`${fontRoboto} overflow-hidden text-ellipsis whitespace-nowrap bg-white p-[0.1rem] border px-3 text-gray-400 rounded-full`}
-        >
-          {email || "~"}
-        </span>
-        <span
-          className={`${fontRoboto} overflow-hidden text-ellipsis whitespace-nowrap p-[0.1rem] bg-white border px-3 text-gray-400 rounded-full`}
-        >
-          {phone || "~"}
-        </span>
+    <section className="w-full flex flex-1 rounded-md bg-gray-100 text-sm border p-2 mt-4 flex-col gap-2">
+      <div className="flex gap-2 items-center text-sm">
+        <FaHashtag size={14} />
+        <span className={fontInter}>{username}</span>
       </div>
-    </div>
-  </section>
+      <div className="flex gap-2 w-full relative">
+        <MdEmail size={15} className="mt-1 min-w-6" />
+        <div className="flex gap-1 flex-wrap w-[90%] relative">
+          <span
+            className={`${fontRoboto} overflow-hidden text-ellipsis whitespace-nowrap bg-white p-[0.1rem] border px-3 text-gray-400 rounded-full`}
+          >
+            {email || "~"}
+          </span>
+          <span
+            className={`${fontRoboto} overflow-hidden text-ellipsis whitespace-nowrap p-[0.1rem] bg-white border px-3 text-gray-400 rounded-full`}
+          >
+            {phone || "~"}
+          </span>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -107,7 +107,7 @@ const EmployeeComponent = ({
   ...props
 }: ContainerProps) => {
   const classStyle = twMerge(
-    "flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full max-w-[20rem] min-w-[14rem] border-b-4 rounded-xl items-center flex-col border bg-white",
+    "flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full max-w-[18rem] min-w-[14rem] border-b-4 rounded-xl items-center flex-col border bg-white",
     props.className
   );
 

@@ -10,14 +10,14 @@ using PointSaleApi.Src.Infra.Extensions;
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
 [ApiController]
+[IsAdminRoute]
+[IsStoreSelectedRoute]
 [Route("products")]
 public class ProductsController(IProductsService _productsService) : ControllerBase
 {
   private Guid userId => HttpContext.GetManagerSessionOrThrow().UserId;
 
   [HttpPost]
-  [IsAdminRoute]
-  [IsStoreSelectedRoute]
   public async Task<IActionResult> Create([FromBody] CreateProductDTO createProductDto)
   {
     SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
@@ -28,8 +28,6 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   }
 
   [HttpGet]
-  [IsStoreSelectedRoute]
-  [IsAdminRoute]
   public async Task<IActionResult> GetAll()
   {
     var storeId = HttpContext.GetStoreIdOrThrow();
@@ -38,6 +36,6 @@ public class ProductsController(IProductsService _productsService) : ControllerB
       storeId: storeId, managerId: userId
     );
 
-    return Ok(new { products = products.Select(product => product.toMapper()).ToList() });
+    return Ok(products.Select(product => product.toMapper()).ToList());
   }
 }

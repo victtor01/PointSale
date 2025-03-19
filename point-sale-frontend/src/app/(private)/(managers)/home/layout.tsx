@@ -32,9 +32,8 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <section className="h-auto w-full">
       <div className="flex absolute top-0 left-0 w-full h-[10rem] bg-gray-100 overflow-hidden">
-        <div className="grid-image-gray"/>
       </div>
-      <div className="flex flex-col gap-2 z-20">
+      <div className="flex flex-col gap-2 z-20 mt-4">
         <Banner title={data.store.name} id={data.store.id} />
         {children}
       </div>

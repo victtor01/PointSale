@@ -24,10 +24,6 @@ export const Employees = () => {
     <div className="flex w-full mt-2 flex-col gap-2 relative">
       <header className="font-semibold flex justify-between items-center bg-white border p-2 rounded-lg border-b-4 z-20">
         <div className="flex gap-2 items-center">
-          <button onClick={() => router.back()}>
-            <FaChevronLeft />
-          </button>
-
           <h1 className={fontSaira}>Funcionários</h1>
         </div>
         <div className="flex items-center gap-5">
@@ -40,46 +36,31 @@ export const Employees = () => {
       </header>
 
       {open && (
-        <>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "10rem" }}
-            className="absolute w-[0.5rem] border-l-[0.4rem] border-dotted left-10 top-10"
-          />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex flex-wrap gap-2 justify-center lg:justify-start bg-white p-4 rounded-xl border-2 border-b-4 border-gray-400/20 z-20 "
+        >
+          {employees?.map((employee: IEmployee, index: number) => {
+            const { id, username, email, phone, firstName, positions } =
+              employee;
 
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "10rem" }}
-            transition={{ type: "tween" }}
-            className="absolute w-[0.5rem] border-r-[0.4rem] border-dotted right-10 top-10"
-          />
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-wrap gap-2 justify-center lg:justify-start items-center bg-white p-4 rounded-xl border z-20 mt-[2rem]"
-          >
-            {employees?.map((employee: IEmployee, index: number) => {
-              const { id, username, email, phone, firstName, positions } =
-                employee;
-
-              const active = Math.floor(Math.random() * 2) % 2 === 0;
-              return (
-                <EmployeeCard.Container employeeId={id} key={index}>
-                  <EmployeeCard.Header>
-                    {active ? <ActiveStatus /> : <PausedStatus />}
-                  </EmployeeCard.Header>
-                  <EmployeeCard.Photo name={firstName} positions={positions} />
-                  <EmployeeCard.Informatins
-                    username={username}
-                    email={email}
-                    phone={phone}
-                  />
-                </EmployeeCard.Container>
-              );
-            })}
-          </motion.div>
-        </>
+            const active = Math.floor(Math.random() * 2) % 2 === 0;
+            return (
+              <EmployeeCard.Container employeeId={id} key={index}>
+                <EmployeeCard.Header>
+                  {active ? <ActiveStatus /> : <PausedStatus />}
+                </EmployeeCard.Header>
+                <EmployeeCard.Photo name={firstName} positions={positions} />
+                <EmployeeCard.Informatins
+                  username={username}
+                  email={email}
+                  phone={phone}
+                />
+              </EmployeeCard.Container>
+            );
+          })}
+        </motion.div>
       )}
     </div>
   );
