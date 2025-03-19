@@ -20,8 +20,10 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
     <button
       data-selected={selected}
       onClick={() => router.push(link)}
-      className="w-[2.8rem] h-[2.8rem] group relative rounded-full grid place-items-center shadow-inner opacity-60 hover:opacity-100
-      data-[selected=true]:shadow-xl data-[selected=true]:opacity-100 group/button border transition-all"
+      className="w-[2.8rem] h-[2.8rem] group relative rounded-full grid place-items-center opacity-60 hover:opacity-100
+      data-[selected=true]:shadow-xl data-[selected=true]:opacity-100 group/button border-2 transition-all
+      data-[selected=true]:bg-gray-800 data-[selected=true]:text-indigo-200 data-[selected=true]:border-transparent 
+      data-[selected=true]:shadow-indigo-300"
     >
       {children}
     </button>

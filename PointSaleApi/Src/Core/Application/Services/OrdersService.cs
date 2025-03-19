@@ -1,4 +1,3 @@
-using PointSaleApi.Src.Core.Application.Dtos;
 using PointSaleApi.Src.Core.Application.Enums;
 using PointSaleApi.Src.Core.Application.Interfaces;
 using PointSaleApi.Src.Core.Application.Records;
@@ -20,6 +19,7 @@ public class OrdersService(
   public async Task<Order> CreateAsync(CreateOrderDTO createOrderDto, Guid managerId, Guid storeId)
   {
     var tableInDB = await tablesRepository.FindByIdAsync(createOrderDto.TableId);
+
     if (tableInDB == null) throw new NotFoundException($"Table not found");
 
     List<Order> ordersInDatabase =
