@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { BiSolidPhone } from "react-icons/bi";
+import { BiCheck, BiSolidPhone } from "react-icons/bi";
 import {
   FaCheck,
   FaChevronLeft,
@@ -28,6 +28,8 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { motion } from "framer-motion";
+import { IoClose } from "react-icons/io5";
 
 interface ParamsOf extends Record<string, string> {
   id: string;
@@ -128,14 +130,25 @@ export default function Details() {
           </div>
 
           <div className="flex gap-2 items-center">
-            <button
+            <motion.button
+              data-selected={true}
               type="button"
-              className="w-[4rem] overflow-hidden flex justify-end items-center border-emerald-500
-              h-[2rem] shadow-inner relative rounded-md bg-green-600 ring-2 ring-emerald-500"
+              className="min-w-[3rem] overflow-hidden grid items-center relative
+              h-[1.5rem] shadow-inner rounded-full bg-gray-200 ring-gray-200
+              ring-4 opacity-90 data-[selected=true]:opacity-100
+              data-[selected=true]:ring-indigo-500 data-[selected=true]:bg-indigo-500"
             >
-              <div className="absolute w-[1rem] rounded-full h-[1rem] border-2 left-2"></div>
-              <div className="h-[2rem] w-[2rem] bg-white rounded-md shadow-xl"></div>
-            </button>
+              <motion.div
+                layout
+                data-selected={true}
+                animate={{ x: true ? "100%" : "0" }}
+                className="h-[1.5rem] w-[1.5rem] bg-white rounded-full shadow-inner z-10
+                data-[selected=true]:text-indigo-500 opacity-90 text-gray-300 flex absolute items-center justify-center"
+              >
+                {true && <BiCheck size={20} />}
+                {false && <IoClose size={20} />}
+              </motion.div>
+            </motion.button>
 
             <div className="p-1 px-4 bg-white shadow rounded-md">
               Usuário ativo

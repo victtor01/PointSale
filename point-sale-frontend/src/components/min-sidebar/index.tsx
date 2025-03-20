@@ -20,7 +20,7 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
     <button
       data-selected={selected}
       onClick={() => router.push(link)}
-      className="w-[3rem] h-[3rem] group relative rounded-xl grid place-items-center opacity-60 hover:opacity-100
+      className="w-[3rem] h-[3rem] group relative rounded-xl grid border-white place-items-center opacity-60 hover:opacity-100
       data-[selected=true]:shadow-xl data-[selected=true]:opacity-100 group/button border transition-all
       data-[selected=true]:bg-gray-800 data-[selected=true]:text-indigo-200 data-[selected=true]:border-transparent 
       data-[selected=true]:shadow-indigo-300
@@ -35,7 +35,7 @@ function ButtonToLink({ children, link }: ButtonToLinkProps) {
 function MinSidebar() {
   return (
     <div className="lg:flex hidden flex-col bg-white border-r z-10">
-      <motion.div className="flex-1 w-auto overflow-visible bg-white p-3 flex flex-col gap-2 z-30 items-center">
+      <motion.div className="flex-1 w-auto overflow-visible  bg-gradient-to-b from-purple-200/20 to-transparent bg-white p-3 flex flex-col gap-2 z-30 items-center">
         <header className="flex">
           <button
             className="w-[2.5rem] h-[2.5rem] bg-gray-950 rounded-full border-4 border-gray-600 hover:rounded-[100%] transition-all
