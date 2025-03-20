@@ -37,6 +37,8 @@ public class EmployeesService(
     {
       FirstName = createEmployeeDto.FirstName,
       LastName = createEmployeeDto.LastName,
+      Email = createEmployeeDto.Email,
+      Phone = createEmployeeDto.Phone,
       Salary = createEmployeeDto.Salary,
       ManagerId = managerId,
       StoreId = storeId,

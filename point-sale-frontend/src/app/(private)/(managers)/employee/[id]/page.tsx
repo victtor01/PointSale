@@ -9,27 +9,27 @@ import {
 } from "@/components/employee-card";
 import { CustomInputCurrency } from "@/components/input-salary";
 import { SimpleLoader } from "@/components/simple-loader";
-import { fontRoboto, fontSaira, fontValela } from "@/fonts";
+import { fontOpenSans, fontRoboto, fontSaira, fontValela } from "@/fonts";
 import { IUpdateEmployee, useEmployee } from "@/hooks/use-employee";
 import { usePositions } from "@/hooks/use-positions";
 import { IEmployee, IPositionEmployee } from "@/interfaces/IEmployee";
-import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
+import { updateEmployeeSchema } from "@/schemas/update-employee-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BiCheck, BiSolidPhone } from "react-icons/bi";
 import {
   FaCheck,
-  FaChevronLeft,
   FaHashtag,
   FaLock,
   FaUser,
-  FaUserTie,
+  FaUserTie
 } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { motion } from "framer-motion";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
 
 interface ParamsOf extends Record<string, string> {
   id: string;
@@ -37,7 +37,7 @@ interface ParamsOf extends Record<string, string> {
 
 const useDetailsEmployee = (employee?: IEmployee) => {
   const form = useForm<IUpdateEmployee>({
-    resolver: zodResolver(UpdateEmployeeSchema),
+    resolver: zodResolver(updateEmployeeSchema),
   });
 
   const { reset, watch, setValue } = form;
@@ -52,7 +52,7 @@ const useDetailsEmployee = (employee?: IEmployee) => {
         { shouldValidate: true }
       );
     } else {
-      setValue("positions", [...positions, id], { shouldValidate: true });
+      setValue("positions", [...positions!, id], { shouldValidate: true });
     }
   };
 
@@ -107,16 +107,25 @@ export default function Details() {
   }
 
   return (
-    <CenterSection className="mt-5">
-      <div className="flex gap-2 justify-between items-center">
+    <CenterSection className="mt-5 ">
+      <header className="flex gap-2 justify-between items-center z-20">
         <div className="flex items-center gap-5">
-          <button onClick={() => router.back()}>
-            <FaChevronLeft />
+          <button
+            onClick={() => router.back()}
+            className="opacity-80 hover:opacity-100 w-9 h-9 bg-gray-200 grid place-items-center text-gray-500 rounded-full"
+          >
+            <FaArrowLeftLong />
           </button>
-          <h1 className={`${fontSaira} text-gray-600 rounded text-xl`}>
+          <h1
+            className={`${fontOpenSans} font-semibold text-gray-200 rounded text-xl`}
+          >
             Editar informações
           </h1>
         </div>
+      </header>
+
+      <div className="bg-gray-800 absolute top-0 left-0 w-full h-[15rem] ">
+        <div className="grid-image" />
       </div>
 
       <form
@@ -267,10 +276,10 @@ export default function Details() {
             />
           </label>
 
-          <header className="text-lg flex text-gray-600 w-full overflow-hidden font-semibold gap-4 justify-between">
+          <header className="text-lg flex w-full overflow-hidden font-semibold gap-4 justify-between">
             <div className="flex items-center gap-2">
               <FaUserTie />
-              <h1 className={fontRoboto}>Cargos</h1>
+              <h1>Cargos</h1>
             </div>
 
             <div className="flex items-center gap-3 flex-1 justify-end overflow-hidden">
@@ -288,9 +297,8 @@ export default function Details() {
 
           <div className="flex gap-2 flex-wrap">
             {positions?.map((position: IPositionEmployee, index: number) => {
-              const includes: boolean = watch("positions")?.includes(
-                position.id
-              );
+              const positions = watch("positions") || [];
+              const includes: boolean = positions?.includes(position.id);
               return (
                 <button
                   type="button"
@@ -341,7 +349,7 @@ export default function Details() {
               )}
             />
             <EmployeeCard.Informatins
-              username={watch("username")?.toString()}
+              username={watch("username")?.toString() || ""}
               email={watch("email")}
               phone={watch("phone")}
             />

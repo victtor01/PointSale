@@ -30,9 +30,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className="light">
       <body
-        className={`text-gray-600 dark:text-neutral-200 flex flex-col bg-zinc-100  dark:bg-neutral-950 p-0 2xl:p-4`}
+        className={`text-gray-600 dark:text-neutral-200 flex flex-col bg-white dark:bg-neutral-950 `}
       >
-        <div className="rounded-none 2xl:rounded-2xl overflow-hidden flex-1 flex border">
+        <div className="overflow-hidden flex-1 flex">
           <QueryProvider>{children}</QueryProvider>
           <ToastContainer
             pauseOnHover={false}

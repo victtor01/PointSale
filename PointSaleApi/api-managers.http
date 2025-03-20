@@ -164,7 +164,7 @@ Content-Type: application/json
   "positions": []
 }
 ###
-# UPDATE 
+# UPDATE POSITION
 PUT {{HOST}}/employee/99033453-c558-4e32-aea1-3b808ee72dc1/positions
 Content-Type: application/json
 

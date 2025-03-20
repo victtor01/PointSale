@@ -107,7 +107,7 @@ const EmployeeComponent = ({
   ...props
 }: ContainerProps) => {
   const classStyle = twMerge(
-    "flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full max-w-[18rem] min-w-[14rem] border-b-4 rounded-xl items-center flex-col border bg-white",
+    "flex p-5 opacity-90 hover:opacity-100 hover:shadow-xl flex-1 w-full max-w-[18rem] min-w-[15rem] border-b-4 rounded-xl items-center flex-col border bg-white",
     props.className
   );
 

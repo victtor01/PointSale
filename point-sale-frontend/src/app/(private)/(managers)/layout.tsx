@@ -34,13 +34,16 @@ export default function LayoutManagers({ children }: LayoutManagerProps) {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
-          className="flex flex-1 w-full overflow-hidden relative"
+          className="flex flex-1 w-full overflow-hidden lg:py-2 lg:pr-3 relative"
         >
           <MinSidebar />
-          <section className="flex w-full relative overflow-auto flex-col bg-gradient-radial from-gray-50 to-gray-50">
+          <section
+            className="flex w-full relative overflow-auto lg:rounded-xl lg:border 
+            flex-col bg-gradient-radial from-gray-50 to-gray-50"
+          >
             {children}
           </section>
-          <BottomSidebar/>
+          <BottomSidebar />
         </motion.main>
       )}
     </AnimatePresence>

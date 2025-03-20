@@ -1,12 +1,13 @@
 import { IEmployee } from "@/interfaces/IEmployee";
 import { queryClient } from "@/providers/query-client-provider";
-import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
+import { CreateEmployeeSchemaProps } from "@/schemas/create-employee-schema";
+import { updateEmployeeSchema } from "@/schemas/update-employee-schema";
 import { api } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
-export type IUpdateEmployee = z.infer<typeof UpdateEmployeeSchema>;
+export type IUpdateEmployee = z.infer<typeof updateEmployeeSchema>;
 
 export const useEmployee = () => {
   const useGetAllEmployees = () => {
@@ -47,9 +48,22 @@ export const useEmployee = () => {
     }
   };
 
+  const create = async (data: CreateEmployeeSchemaProps) => {
+    try {
+      data.positions = data?.positions?.map((p) => p) || [];
+      
+      const response = await api.post("/employee", data);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     useGetAllEmployees,
     useFindById,
+    create,
     update,
   };
 };

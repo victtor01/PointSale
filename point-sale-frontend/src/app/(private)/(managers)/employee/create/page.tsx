@@ -1,13 +1,44 @@
 "use client";
 
-import { CenterSection } from "@/components/center-section";
-import { CustomInputCurrency } from "@/components/input-salary";
 import { fontOpenSans, fontSaira } from "@/fonts";
+import { useEmployee } from "@/hooks/use-employee";
+import {
+  createEmployeeSchema,
+  CreateEmployeeSchemaProps,
+} from "@/schemas/create-employee-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { FaArrowLeftLong, FaCheck } from "react-icons/fa6";
+import { FormProvider, useForm } from "react-hook-form";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { updateEmployeeComponents } from "./update";
+
+const useCreateEmployee = () => {
+  const form = useForm<CreateEmployeeSchemaProps>({
+    resolver: zodResolver(createEmployeeSchema),
+  });
+
+  const { create } = useEmployee();
+
+  const update = async (data: CreateEmployeeSchemaProps) => {
+    try {
+      const created = await create(data);
+      console.log(created);
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  };
+
+  return {
+    form,
+    update,
+  };
+};
 
 export default function Create() {
+  const { form, update } = useCreateEmployee();
   const router = useRouter();
+
+  console.log(form?.formState?.errors);
 
   return (
     <div className="py-5 w-full max-w-[50rem] mx-10">
@@ -26,101 +57,21 @@ export default function Create() {
         </div>
       </header>
 
-      <section className="flex flex-col text-gray-500 mt-4 gap-3">
-        <div className="p-5 bg-white  rounded-xl border gap-4 flex flex-col">
-          <label htmlFor="" className="flex flex-col flex-1">
-            <span className={`${fontOpenSans} text-md font-semibold`}>
-              Username
-            </span>
-
-            <div className="flex gap-4 items-center w-full">
-              <input
-                type="text"
-                className="w-full p-2 bg-gray-100 rounded-md flex-1 shadow-inner outline-none"
-                placeholder="nome do funcionário"
-                value={123456}
-              />
-              <button className="p-1 px-3 bg-gray-700 rounded text-indigo-100 font-semibold">
-                <span className={fontOpenSans}>Gerar</span>
-              </button>
-            </div>
-          </label>
-
-          <label htmlFor="" className="flex flex-col">
-            <span className={`${fontOpenSans} text-md font-semibold`}>
-              Primeiro nome *
-            </span>
-
-            <input
-              type="text"
-              className="w-full p-2 bg-white rounded-md border outline-none"
-              placeholder="nome do funcionário"
-            />
-          </label>
-
-          <label htmlFor="" className="flex flex-col">
-            <span className={`${fontOpenSans} text-md font-semibold`}>
-              Sobrenome
-            </span>
-
-            <input
-              type="text"
-              className="w-full p-2 bg-white rounded-md border outline-none"
-              placeholder="nome do funcionário"
-            />
-          </label>
-        </div>
-
-        <div className="p-5 bg-white  rounded-lg border gap-4 flex flex-col">
-          <label htmlFor="" className="flex flex-col">
-            <span className={`${fontOpenSans} text-md font-semibold`}>
-              Salário
-            </span>
-
-            <CustomInputCurrency
-              value=""
-              onChangeValue={() => null}
-              className="border"
-            />
-          </label>
-
-          <label htmlFor="" className="flex flex-col gap-2">
-            <span className={`${fontOpenSans} text-md font-semibold`}>
-              Cargos
-            </span>
-            <div className="flex flex-wrap">
-              <button
-                type="button"
-                data-includes={true}
-                onClick={() => null}
-                className="items-center flex overflow-hidden bg-white rounded-md border
-              data-[includes=true]:ring-2 data-[includes=true]:ring-indigo-500"
-              >
-                <div
-                  data-includes={true}
-                  className="w-8 h-full border-gray-400/30 border-r bg-white grid place-items-center
-                data-[includes=true]:bg-indigo-600 text-white"
-                >
-                  {true && <FaCheck size={10} />}
-                </div>
-                <span
-                  data-includes={true}
-                  className="text-md font-semibold px-2 text-gray-500 p-1
-                data-[includes=true]:bg-indigo-100"
-                >
-                  Manager
-                </span>
-              </button>
-            </div>
-          </label>
-        </div>
-      </section>
-
-      <footer className="flex w-full mt-4">
-        <button className="px-5 py-2 font-semibold bg-indigo-500 text-indigo-50 rounded-md opacity-90 hover:opacity-100">
-          <span className={`${fontSaira}`}>Salvar</span>
-        </button>
-      </footer>
+      <form
+        className="flex flex-col text-gray-500 mt-4 gap-3"
+        onSubmit={form.handleSubmit(update)}
+      >
+        <FormProvider {...form}>
+          <updateEmployeeComponents.personalInformation />
+          <updateEmployeeComponents.salaryAndPositions />
+          <updateEmployeeComponents.password />
+        </FormProvider>
+        <footer className="flex w-full mt-4">
+          <button className="px-5 py-2 font-semibold bg-indigo-500 text-indigo-50 rounded-md opacity-90 hover:opacity-100">
+            <span className={`${fontSaira}`}>Salvar</span>
+          </button>
+        </footer>
+      </form>
     </div>
   );
 }

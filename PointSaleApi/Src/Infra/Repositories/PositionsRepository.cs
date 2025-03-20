@@ -13,6 +13,7 @@ public class PositionsRepository(DatabaseContext databaseContext) : IPositionsRe
   {
     var add = await _databaseContext.EmployeePositions.AddAsync(employeePosition);
     _databaseContext.SaveChanges();
+    
     return add.Entity;
   }
 

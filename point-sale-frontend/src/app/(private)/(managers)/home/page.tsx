@@ -1,10 +1,10 @@
 "use client";
 
 import { CenterSection } from "@/components/center-section";
-import { dashboards } from "./dashboards";
-import { ListOfPositions } from "./positions";
 import { useEmployee } from "@/hooks/use-employee";
 import { useProducts } from "@/hooks/use-products";
+import { dashboards } from "./dashboards";
+import { ListOfPositions } from "./positions";
 
 export default function Home() {
   const { useGetAllEmployees } = useEmployee();
