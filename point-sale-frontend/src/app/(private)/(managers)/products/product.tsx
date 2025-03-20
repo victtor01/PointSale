@@ -17,7 +17,7 @@ interface PropsProduct {
 export const Product = (props: PropsProduct) => {
   const { data } = props;
 
-  const { id, name, description, categories, price } = data;
+  const { name, description, categories, price } = data;
 
   return (
     <tr className=" border-b dark:border-gray-700 border-gray-200">

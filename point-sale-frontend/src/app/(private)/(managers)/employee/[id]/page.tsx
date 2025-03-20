@@ -9,24 +9,26 @@ import {
 } from "@/components/employee-card";
 import { CustomInputCurrency } from "@/components/input-salary";
 import { SimpleLoader } from "@/components/simple-loader";
-import { fontRoboto, fontSaira, fontValela } from "@/fonts";
+import { fontOpenSans, fontRoboto, fontSaira, fontValela } from "@/fonts";
 import { IUpdateEmployee, useEmployee } from "@/hooks/use-employee";
 import { usePositions } from "@/hooks/use-positions";
 import { IEmployee, IPositionEmployee } from "@/interfaces/IEmployee";
-import { UpdateEmployeeSchema } from "@/schemas/update-employee-schema";
+import { updateEmployeeSchema } from "@/schemas/update-employee-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { BiSolidPhone } from "react-icons/bi";
+import { BiCheck, BiSolidPhone } from "react-icons/bi";
 import {
   FaCheck,
-  FaChevronLeft,
   FaHashtag,
   FaLock,
   FaUser,
-  FaUserTie,
+  FaUserTie
 } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 
 interface ParamsOf extends Record<string, string> {
@@ -35,7 +37,7 @@ interface ParamsOf extends Record<string, string> {
 
 const useDetailsEmployee = (employee?: IEmployee) => {
   const form = useForm<IUpdateEmployee>({
-    resolver: zodResolver(UpdateEmployeeSchema),
+    resolver: zodResolver(updateEmployeeSchema),
   });
 
   const { reset, watch, setValue } = form;
@@ -50,7 +52,7 @@ const useDetailsEmployee = (employee?: IEmployee) => {
         { shouldValidate: true }
       );
     } else {
-      setValue("positions", [...positions, id], { shouldValidate: true });
+      setValue("positions", [...positions!, id], { shouldValidate: true });
     }
   };
 
@@ -105,37 +107,57 @@ export default function Details() {
   }
 
   return (
-    <CenterSection className="mt-5">
-      <div className="flex gap-2 justify-between items-center">
+    <CenterSection className="mt-5 ">
+      <header className="flex gap-2 justify-between items-center z-20">
         <div className="flex items-center gap-5">
-          <button onClick={() => router.back()}>
-            <FaChevronLeft />
+          <button
+            onClick={() => router.back()}
+            className="opacity-80 hover:opacity-100 w-9 h-9 bg-gray-200 grid place-items-center text-gray-500 rounded-full"
+          >
+            <FaArrowLeftLong />
           </button>
-          <h1 className={`${fontSaira} text-gray-600 rounded text-xl`}>
+          <h1
+            className={`${fontOpenSans} font-semibold text-gray-200 rounded text-xl`}
+          >
             Editar informações
           </h1>
         </div>
+      </header>
+
+      <div className="bg-gray-800 absolute top-0 left-0 w-full h-[15rem] ">
+        <div className="grid-image" />
       </div>
 
       <form
         onSubmit={handleSubmit((data) => update(employee.id, data))}
-        className="w-full flex flex-col mt-6 gap-4 p-5 z-30 border rounded-md bg-white"
+        className="w-full flex flex-col mt-6 z-30 border rounded-md bg-white"
       >
-        <div className="text-md font-semibold flex gap-2 flex-col">
+        <div className="text-md font-semibold flex gap-2 flex-col border-b p-5">
           <div className="flex gap-2 items-center">
             <FaLock />
             <span>Atividade</span>
           </div>
 
           <div className="flex gap-2 items-center">
-            <button
+            <motion.button
+              data-selected={true}
               type="button"
-              className="w-[4rem] overflow-hidden flex justify-end items-center border-emerald-500
-              h-[2rem] shadow-inner relative rounded-md bg-green-600 ring-2 ring-emerald-500"
+              className="min-w-[3rem] overflow-hidden grid items-center relative
+              h-[1.5rem] shadow-inner rounded-full bg-gray-200 ring-gray-200
+              ring-4 opacity-90 data-[selected=true]:opacity-100
+              data-[selected=true]:ring-indigo-500 data-[selected=true]:bg-indigo-500"
             >
-              <div className="absolute w-[1rem] rounded-full h-[1rem] border-2 left-2"></div>
-              <div className="h-[2rem] w-[2rem] bg-white rounded-md shadow-xl"></div>
-            </button>
+              <motion.div
+                layout
+                data-selected={true}
+                animate={{ x: true ? "100%" : "0" }}
+                className="h-[1.5rem] w-[1.5rem] bg-white rounded-full shadow-inner z-10
+                data-[selected=true]:text-indigo-500 opacity-90 text-gray-300 flex absolute items-center justify-center"
+              >
+                {true && <BiCheck size={20} />}
+                {false && <IoClose size={20} />}
+              </motion.div>
+            </motion.button>
 
             <div className="p-1 px-4 bg-white shadow rounded-md">
               Usuário ativo
@@ -143,61 +165,63 @@ export default function Details() {
           </div>
         </div>
 
-        <label
-          htmlFor="username"
-          className="text-md font-semibold flex flex-col mt-4"
-        >
-          <div className="flex gap-2 items-center">
-            <FaHashtag />
-            <span>Usuário</span>
-          </div>
+        <section className="flex flex-col gap-2 flex-1 p-4 py-7 border-b">
+          <label
+            htmlFor="username"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center">
+              <FaHashtag />
+              <span>Usuário</span>
+            </div>
 
-          <input
-            type="text"
-            id="username"
-            {...register("username")}
-            className="p-2 bg-gray-200 rounded-md cursor-not-allowed shadow-inner shadow-gray-300"
-            disabled
-          />
-        </label>
+            <input
+              type="text"
+              id="username"
+              {...register("username")}
+              className="p-2 bg-gray-200 rounded-md cursor-not-allowed shadow-inner shadow-gray-300"
+              disabled
+            />
+          </label>
 
-        <label
-          htmlFor="firstname"
-          className="text-md font-semibold flex flex-col"
-        >
-          <div className="flex gap-2 items-center px-1">
-            <FaUser size={14} />
-            <span>Primerio nome *</span>
-          </div>
+          <label
+            htmlFor="firstname"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center px-1">
+              <FaUser size={14} />
+              <span>Primerio nome *</span>
+            </div>
 
-          <input
-            id="firstname"
-            type="text"
-            {...register("firstName")}
-            className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
-            placeholder="Jonh Doe"
-          />
-        </label>
+            <input
+              id="firstname"
+              type="text"
+              {...register("firstName")}
+              className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
+              placeholder="Jonh Doe"
+            />
+          </label>
 
-        <label
-          htmlFor="lastname"
-          className="text-md font-semibold flex flex-col"
-        >
-          <div className="flex gap-2 items-center px-1">
-            <FaUser size={14} />
-            <span>Sobrenome</span>
-          </div>
+          <label
+            htmlFor="lastname"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center px-1">
+              <FaUser size={14} />
+              <span>Sobrenome</span>
+            </div>
 
-          <input
-            id="lastname"
-            type="text"
-            {...register("lastName")}
-            className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
-            placeholder="Jonh Doe"
-          />
-        </label>
+            <input
+              id="lastname"
+              type="text"
+              {...register("lastName")}
+              className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
+              placeholder="Jonh Doe"
+            />
+          </label>
+        </section>
 
-        <div className="flex gap-4 w-full flex-wrap">
+        <div className="flex gap-4 w-full flex-wrap border-b p-4 py-7">
           <label
             htmlFor="email"
             className="text-md font-semibold flex flex-col flex-1"
@@ -215,6 +239,7 @@ export default function Details() {
               placeholder="JonhDoe@gmail.com"
             />
           </label>
+
           <label
             htmlFor="phone"
             className="text-md font-semibold flex flex-col flex-1"
@@ -234,27 +259,27 @@ export default function Details() {
           </label>
         </div>
 
-        <label
-          htmlFor="salary"
-          className="text-md font-semibold flex flex-col flex-1"
-        >
-          <div className="flex gap-2 items-center">
-            <span>R$ Salário</span>
-          </div>
+        <section className="flex flex-col gap-2 p-4 py-7 w-full border-b">
+          <label
+            htmlFor="salary"
+            className="text-md font-semibold flex flex-col flex-1"
+          >
+            <div className="flex gap-2 items-center">
+              <span>R$ Salário</span>
+            </div>
 
-          <CustomInputCurrency
-            id="salary"
-            value={watch("salary")?.toString()}
-            className="border"
-            onChangeValue={(value) => setValue("salary", Number(value) || 0)}
-          />
-        </label>
+            <CustomInputCurrency
+              id="salary"
+              value={watch("salary")?.toString()}
+              className="border"
+              onChangeValue={(value) => setValue("salary", Number(value) || 0)}
+            />
+          </label>
 
-        <section className="flex flex-col gap-2 mt-10 w-full">
-          <header className="text-lg flex text-gray-600 w-full overflow-hidden font-semibold gap-4 justify-between">
+          <header className="text-lg flex w-full overflow-hidden font-semibold gap-4 justify-between">
             <div className="flex items-center gap-2">
               <FaUserTie />
-              <h1 className={fontRoboto}>Cargos</h1>
+              <h1>Cargos</h1>
             </div>
 
             <div className="flex items-center gap-3 flex-1 justify-end overflow-hidden">
@@ -272,9 +297,8 @@ export default function Details() {
 
           <div className="flex gap-2 flex-wrap">
             {positions?.map((position: IPositionEmployee, index: number) => {
-              const includes: boolean = watch("positions")?.includes(
-                position.id
-              );
+              const positions = watch("positions") || [];
+              const includes: boolean = positions?.includes(position.id);
               return (
                 <button
                   type="button"
@@ -304,7 +328,7 @@ export default function Details() {
           </div>
         </section>
 
-        <section className="flex mt-6 rounded-md flex-col">
+        <section className="flex rounded-md flex-col p-4">
           <div className="text-lg flex text-gray-600 font-semibold justify-between">
             <div>
               <h1 className={fontRoboto}>Preview</h1>
@@ -325,7 +349,7 @@ export default function Details() {
               )}
             />
             <EmployeeCard.Informatins
-              username={watch("username")?.toString()}
+              username={watch("username")?.toString() || ""}
               email={watch("email")}
               phone={watch("phone")}
             />
