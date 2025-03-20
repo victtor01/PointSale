@@ -121,9 +121,9 @@ export default function Details() {
 
       <form
         onSubmit={handleSubmit((data) => update(employee.id, data))}
-        className="w-full flex flex-col mt-6 gap-4 p-5 z-30 border rounded-md bg-white"
+        className="w-full flex flex-col mt-6 z-30 border rounded-md bg-white"
       >
-        <div className="text-md font-semibold flex gap-2 flex-col">
+        <div className="text-md font-semibold flex gap-2 flex-col border-b p-5">
           <div className="flex gap-2 items-center">
             <FaLock />
             <span>Atividade</span>
@@ -156,61 +156,63 @@ export default function Details() {
           </div>
         </div>
 
-        <label
-          htmlFor="username"
-          className="text-md font-semibold flex flex-col mt-4"
-        >
-          <div className="flex gap-2 items-center">
-            <FaHashtag />
-            <span>Usuário</span>
-          </div>
+        <section className="flex flex-col gap-2 flex-1 p-4 py-7 border-b">
+          <label
+            htmlFor="username"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center">
+              <FaHashtag />
+              <span>Usuário</span>
+            </div>
 
-          <input
-            type="text"
-            id="username"
-            {...register("username")}
-            className="p-2 bg-gray-200 rounded-md cursor-not-allowed shadow-inner shadow-gray-300"
-            disabled
-          />
-        </label>
+            <input
+              type="text"
+              id="username"
+              {...register("username")}
+              className="p-2 bg-gray-200 rounded-md cursor-not-allowed shadow-inner shadow-gray-300"
+              disabled
+            />
+          </label>
 
-        <label
-          htmlFor="firstname"
-          className="text-md font-semibold flex flex-col"
-        >
-          <div className="flex gap-2 items-center px-1">
-            <FaUser size={14} />
-            <span>Primerio nome *</span>
-          </div>
+          <label
+            htmlFor="firstname"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center px-1">
+              <FaUser size={14} />
+              <span>Primerio nome *</span>
+            </div>
 
-          <input
-            id="firstname"
-            type="text"
-            {...register("firstName")}
-            className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
-            placeholder="Jonh Doe"
-          />
-        </label>
+            <input
+              id="firstname"
+              type="text"
+              {...register("firstName")}
+              className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
+              placeholder="Jonh Doe"
+            />
+          </label>
 
-        <label
-          htmlFor="lastname"
-          className="text-md font-semibold flex flex-col"
-        >
-          <div className="flex gap-2 items-center px-1">
-            <FaUser size={14} />
-            <span>Sobrenome</span>
-          </div>
+          <label
+            htmlFor="lastname"
+            className="text-md font-semibold flex flex-col"
+          >
+            <div className="flex gap-2 items-center px-1">
+              <FaUser size={14} />
+              <span>Sobrenome</span>
+            </div>
 
-          <input
-            id="lastname"
-            type="text"
-            {...register("lastName")}
-            className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
-            placeholder="Jonh Doe"
-          />
-        </label>
+            <input
+              id="lastname"
+              type="text"
+              {...register("lastName")}
+              className="p-2 bg-white rounded-md border outline-none focus:ring-4 ring-indigo-500/40"
+              placeholder="Jonh Doe"
+            />
+          </label>
+        </section>
 
-        <div className="flex gap-4 w-full flex-wrap">
+        <div className="flex gap-4 w-full flex-wrap border-b p-4 py-7">
           <label
             htmlFor="email"
             className="text-md font-semibold flex flex-col flex-1"
@@ -228,6 +230,7 @@ export default function Details() {
               placeholder="JonhDoe@gmail.com"
             />
           </label>
+
           <label
             htmlFor="phone"
             className="text-md font-semibold flex flex-col flex-1"
@@ -247,23 +250,23 @@ export default function Details() {
           </label>
         </div>
 
-        <label
-          htmlFor="salary"
-          className="text-md font-semibold flex flex-col flex-1"
-        >
-          <div className="flex gap-2 items-center">
-            <span>R$ Salário</span>
-          </div>
+        <section className="flex flex-col gap-2 p-4 py-7 w-full border-b">
+          <label
+            htmlFor="salary"
+            className="text-md font-semibold flex flex-col flex-1"
+          >
+            <div className="flex gap-2 items-center">
+              <span>R$ Salário</span>
+            </div>
 
-          <CustomInputCurrency
-            id="salary"
-            value={watch("salary")?.toString()}
-            className="border"
-            onChangeValue={(value) => setValue("salary", Number(value) || 0)}
-          />
-        </label>
+            <CustomInputCurrency
+              id="salary"
+              value={watch("salary")?.toString()}
+              className="border"
+              onChangeValue={(value) => setValue("salary", Number(value) || 0)}
+            />
+          </label>
 
-        <section className="flex flex-col gap-2 mt-10 w-full">
           <header className="text-lg flex text-gray-600 w-full overflow-hidden font-semibold gap-4 justify-between">
             <div className="flex items-center gap-2">
               <FaUserTie />
@@ -317,7 +320,7 @@ export default function Details() {
           </div>
         </section>
 
-        <section className="flex mt-6 rounded-md flex-col">
+        <section className="flex rounded-md flex-col p-4">
           <div className="text-lg flex text-gray-600 font-semibold justify-between">
             <div>
               <h1 className={fontRoboto}>Preview</h1>

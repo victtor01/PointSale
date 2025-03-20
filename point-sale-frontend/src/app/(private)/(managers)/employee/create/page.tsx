@@ -1,13 +1,22 @@
+"use client";
+
 import { CenterSection } from "@/components/center-section";
+import { CustomInputCurrency } from "@/components/input-salary";
 import { fontOpenSans, fontSaira } from "@/fonts";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import { FaArrowLeftLong, FaCheck } from "react-icons/fa6";
 
 export default function Create() {
+  const router = useRouter();
+
   return (
-    <CenterSection className="py-5">
+    <div className="py-5 w-full max-w-[50rem] mx-10">
       <header className="flex items-center gap-4 justify-between">
         <div className="flex items-center gap-4">
-          <button className="opacity-80 hover:opacity-100 w-9 h-9 bg-gray-200 grid place-items-center text-gray-500 rounded-full">
+          <button
+            onClick={() => router.back()}
+            className="opacity-80 hover:opacity-100 w-9 h-9 bg-gray-200 grid place-items-center text-gray-500 rounded-full"
+          >
             <FaArrowLeftLong />
           </button>
 
@@ -19,19 +28,23 @@ export default function Create() {
 
       <section className="flex flex-col text-gray-500 mt-4 gap-3">
         <div className="p-5 bg-white  rounded-xl border gap-4 flex flex-col">
-          <div className="flex gap-2 items-center">
-            <label htmlFor="" className="flex flex-col">
-              <span className={`${fontOpenSans} text-md font-semibold`}>
-                Username
-              </span>
+          <label htmlFor="" className="flex flex-col flex-1">
+            <span className={`${fontOpenSans} text-md font-semibold`}>
+              Username
+            </span>
 
+            <div className="flex gap-4 items-center w-full">
               <input
                 type="text"
-                className="w-full p-2 bg-white rounded-md border outline-none"
+                className="w-full p-2 bg-gray-100 rounded-md flex-1 shadow-inner outline-none"
                 placeholder="nome do funcionário"
+                value={123456}
               />
-            </label>
-          </div>
+              <button className="p-1 px-3 bg-gray-700 rounded text-indigo-100 font-semibold">
+                <span className={fontOpenSans}>Gerar</span>
+              </button>
+            </div>
+          </label>
 
           <label htmlFor="" className="flex flex-col">
             <span className={`${fontOpenSans} text-md font-semibold`}>
@@ -64,23 +77,41 @@ export default function Create() {
               Salário
             </span>
 
-            <input
-              type="text"
-              className="w-full p-2 bg-white rounded-md border outline-none"
-              placeholder="nome do funcionário"
+            <CustomInputCurrency
+              value=""
+              onChangeValue={() => null}
+              className="border"
             />
           </label>
 
-          <label htmlFor="" className="flex flex-col">
+          <label htmlFor="" className="flex flex-col gap-2">
             <span className={`${fontOpenSans} text-md font-semibold`}>
               Cargos
             </span>
-
-            <input
-              type="text"
-              className="w-full p-2 bg-white rounded-md border outline-none"
-              placeholder="nome do funcionário"
-            />
+            <div className="flex flex-wrap">
+              <button
+                type="button"
+                data-includes={true}
+                onClick={() => null}
+                className="items-center flex overflow-hidden bg-white rounded-md border
+              data-[includes=true]:ring-2 data-[includes=true]:ring-indigo-500"
+              >
+                <div
+                  data-includes={true}
+                  className="w-8 h-full border-gray-400/30 border-r bg-white grid place-items-center
+                data-[includes=true]:bg-indigo-600 text-white"
+                >
+                  {true && <FaCheck size={10} />}
+                </div>
+                <span
+                  data-includes={true}
+                  className="text-md font-semibold px-2 text-gray-500 p-1
+                data-[includes=true]:bg-indigo-100"
+                >
+                  Manager
+                </span>
+              </button>
+            </div>
           </label>
         </div>
       </section>
@@ -90,6 +121,6 @@ export default function Create() {
           <span className={`${fontSaira}`}>Salvar</span>
         </button>
       </footer>
-    </CenterSection>
+    </div>
   );
 }
