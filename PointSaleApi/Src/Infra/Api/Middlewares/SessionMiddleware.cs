@@ -16,9 +16,7 @@ namespace PointSaleApi.Src.Infra.Api.Middlewares
 
     public async Task InvokeAsync(HttpContext httpContext,
       ISessionService sessionService,
-      ITokenValidator tokenValidator,
-      IJwtService jwtService
-    )
+      ITokenValidator tokenValidator)
     {
       if (RouteValidator.IsPublicRoute(httpContext))
       {

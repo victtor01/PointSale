@@ -1,5 +1,4 @@
 using PointSaleApi.Src.Core.Application.Dtos;
-using PointSaleApi.Src.Core.Domain;
 
 namespace PointSaleApi.Src.Infra.Interfaces;
 
