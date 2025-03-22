@@ -5,6 +5,7 @@ import { MinSidebar } from "@/components/min-sidebar";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { EditPosition } from "./edit-position-modal";
+import { EditProduct } from "./edit-products-modal";
 
 interface LayoutManagerProps {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ export type ModalType = keyof typeof MODALS;
 
 const MODALS = {
   "edit-position": EditPosition,
+  "edit-product": EditProduct,
 };
 
 export default function LayoutManagers({ children }: LayoutManagerProps) {
@@ -25,7 +27,7 @@ export default function LayoutManagers({ children }: LayoutManagerProps) {
 
   return (
     <AnimatePresence>
-      {ModalComponent && <EditPosition params={params} key={modalType} />}
+      {ModalComponent && <ModalComponent params={params} key={modalType} />}
 
       {!ModalComponent && (
         <motion.main

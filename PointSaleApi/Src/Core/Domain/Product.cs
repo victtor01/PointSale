@@ -15,19 +15,19 @@ public class Product
 
   [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0.")]
   public required float Price { get; set; }
-    
+
   [ForeignKey("StoreId")]
   public Store? Store { get; set; }
-    
+
   [Column("storeId")]
   public Guid StoreId { get; set; }
-    
+
   [Column("quantity")]
   public int? Quantity { get; set; } = null;
-    
+
   [Column("description")]
   [MaxLength(500)]
   public string? Description { get; set; } = null;
-    
+
   public List<OptionsProduct> Options { get; set; } = [];
 }

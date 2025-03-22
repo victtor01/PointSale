@@ -1,5 +1,6 @@
 import { formatToBRL } from "@/utils/formatBRL";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { BiCheck } from "react-icons/bi";
 import { FaPen } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -16,8 +17,9 @@ interface PropsProduct {
 
 export const Product = (props: PropsProduct) => {
   const { data } = props;
+  const { id, name, description, categories, price } = data;
 
-  const { name, description, categories, price } = data;
+  const linkToEdit = `?modal=edit-product&` + `productId=${id}`;
 
   return (
     <tr className=" border-b dark:border-gray-700 border-gray-200">
@@ -54,9 +56,12 @@ export const Product = (props: PropsProduct) => {
         </motion.button>
       </td>
       <td className="px-2 py-0 text-center">
-        <button className="w-8 h-8 bg-indigo-50/50 rounded-md grid place-items-center text-indigo-700/40">
+        <Link
+          href={linkToEdit}
+          className="w-8 h-8 bg-indigo-50/50 rounded-md grid place-items-center text-indigo-700/40"
+        >
           <FaPen />
-        </button>
+        </Link>
       </td>
     </tr>
   );

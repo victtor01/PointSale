@@ -7,6 +7,7 @@ import { BsFillBoxFill } from "react-icons/bs";
 import { Product } from "./product";
 import { useProducts } from "@/hooks/use-products";
 import { IProduct } from "@/interfaces/IProduct";
+import Link from "next/link";
 
 export default function Products() {
   const { useGetAllProducts } = useProducts();
@@ -14,7 +15,7 @@ export default function Products() {
 
   return (
     <>
-      <header className="flex w-full flex-col overflow-hidden mt-5">
+      <header className="flex w-full flex-col h-auto mt-5">
         <CenterSection className="flex flex-col h-auto pb-2 px-3">
           <div className="flex w-full justify-between items-center">
             <h1 className={`${fontSaira} text-xl font-semibold text-gray-600`}>
@@ -22,10 +23,13 @@ export default function Products() {
             </h1>
 
             <div className="flex gap-2 items-center">
-              <button className="p-2 px-3 flex gap-2 items-center text-indigo-50 bg-indigo-500/80 shadow-xl shadow-indigo-500/30 opacity-95 hover:opacity-100 rounded-md">
+              <Link
+                href="/products/create"
+                className="p-2 px-3 flex gap-2 items-center text-indigo-50 bg-indigo-500/80 shadow-xl shadow-indigo-500/30 opacity-95 hover:opacity-100 rounded-md"
+              >
                 <BiPlus />
                 <span>Produto</span>
-              </button>
+              </Link>
             </div>
           </div>
 

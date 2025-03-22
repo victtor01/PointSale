@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FaGoogle, FaLock } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const { submitLogin } = useLogin();
@@ -18,13 +19,25 @@ export default function Login() {
 
   return (
     <div
-      className={`${fontOpenSans} z-20 flex pb-[10rem] flex-col gap-2 mx-auto mt-[4rem] w-full max-w-md bg-white dark:bg-zinc-950 rounded-3xl p-8`}
+      className={`${fontOpenSans} z-20 flex pb-[10rem] flex-col gap-2 mx-auto mt-[4rem] w-full max-w-md dark:bg-zinc-950 rounded-3xl p-8`}
     >
-      <header className={`${fontSaira} grid gap-2`}>
-        <h1 className="text-[1.4rem] text-indigo-500 dark:text-white font-semibold text-center">
-          Entre com o google ou faça login para continuar!
+      <motion.div
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className={`${fontSaira} flex flex-col gap-2  bg-gradient-45 from-indigo-100/50 to-purple-100/50 p-4 rounded-xl`}
+      >
+        <div className="flex">
+          <h1 className="text-[1.4rem] text-indigo-950/80 dark:text-white font-semibold">
+            Organizze.
+          </h1>
+        </div>
+
+        <h1
+          className={`${fontOpenSans} text-[1.4rem] text-indigo-900 font-semibold text-lg dark:text-white`}
+        >
+          O melhor SaaS para gerenciar seu restaurante
         </h1>
-      </header>
+      </motion.div>
 
       {!success && (
         <div className="w-full bg-rose-600 mt-5 p-4 rounded-md border-2 border-red-300 text-white">
@@ -32,26 +45,13 @@ export default function Login() {
         </div>
       )}
 
-      <section className="flex gap-2 w-full mt-10">
-        <button className="border text-gray-600 bg-gray-50 rounded-md p-3 px-4 flex items-center gap-2 w-full opacity-80 hover:opacity-100">
-          <FaGoogle size={20} />
-          <span>Entrar com o Google</span>
-        </button>
-      </section>
-
-      <div className="flex w-full items-center justify-center">
-        <div className="w-full h-[1px] bg-gray-300"></div>
-        <span className="text-gray-400 px-4">ou</span>
-        <div className="w-full h-[1px] bg-gray-300"></div>
-      </div>
-
       <form
         onSubmit={handleSubmit((data) =>
           submitLogin(data).catch(() => setSuccess(false))
         )}
         className="grid gap-1"
       >
-        <label htmlFor="email" className="grid gap-2">
+        <label htmlFor="email" className="grid gap-2 mt-4">
           <span className="opacity-60">Email</span>
           <div className="flex border dark:border-neutral-800/70 w-full items-center rounded-md focus-within:ring-4 ring-indigo-500/80 transition-shadow">
             <MdEmail className="opacity-30 w-12" size={18} />
@@ -122,6 +122,19 @@ export default function Login() {
             <span className={fontSaira}>Entrar</span>
           </button>
         </footer>
+
+        <div className="flex w-full mt-5 items-center justify-center">
+          <div className="w-full h-[1px] bg-gray-300"></div>
+          <span className="text-gray-400 px-4">ou</span>
+          <div className="w-full h-[1px] bg-gray-300"></div>
+        </div>
+
+        <section className="flex gap-2 w-full mt-5">
+          <button className="border text-gray-600 bg-gray-50 rounded-md p-3 px-4 flex items-center gap-2 w-full opacity-80 hover:opacity-100">
+            <FaGoogle size={20} />
+            <span>Entrar com o Google</span>
+          </button>
+        </section>
       </form>
     </div>
   );

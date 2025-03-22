@@ -6,6 +6,7 @@ using PointSaleApi.Src.Core.Application.Records;
 using PointSaleApi.Src.Core.Domain;
 using PointSaleApi.Src.Infra.Attributes;
 using PointSaleApi.Src.Infra.Extensions;
+using PointSaleApi.Src.Core.Application.Services;
 
 namespace PointSaleApi.Src.Infra.Api.Controllers;
 
@@ -22,7 +23,28 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   {
     SessionManager sessionManager = HttpContext.GetManagerSessionOrThrow();
     Guid storeId = HttpContext.GetStoreIdOrThrow();
-    Product product = await _productsService.SaveProduct(createProductDto, managerId: sessionManager.UserId, storeId: storeId);
+    Product product = await _productsService.SaveAsync(createProductDto, managerId: sessionManager.UserId, storeId: storeId);
+
+    return Ok(product.toMapper());
+  }
+
+  [HttpGet("{productId}")]
+  public async Task<IActionResult> FindByIdAsync(Guid productId)
+  {
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
+
+    Product product = await _productsService.FindByIdAsync(productId, storeId);
+
+    return Ok(product.toMapper());
+  }
+
+  [HttpPut("{productId}")]
+  public async Task<IActionResult> UpdateAsync(Guid productId, [FromBody] UpdateProductRecord updateProductRecord)
+  {
+    Guid storeId = HttpContext.GetStoreIdOrThrow();
+
+    Product product = await _productsService
+    .UpdateAsync(productId, updateProductRecord, storeId);
 
     return Ok(product.toMapper());
   }
@@ -32,7 +54,7 @@ public class ProductsController(IProductsService _productsService) : ControllerB
   {
     var storeId = HttpContext.GetStoreIdOrThrow();
 
-    List<Product> products = await _productsService.GetAllProducts(
+    List<Product> products = await _productsService.GetAllProductsAsync(
       storeId: storeId, managerId: userId
     );
 

@@ -18,7 +18,7 @@ public class ProductsRepository(DatabaseContext databaseContext) : IProductsRepo
 
   public async Task<Product?> FindByIdAsync(Guid id)
   {
-    var product = await this._databaseContext.Products.AsNoTracking()
+    var product = await this._databaseContext.Products
       .FirstOrDefaultAsync(product => product.Id == id) ?? null;
 
     return product;
@@ -31,5 +31,11 @@ public class ProductsRepository(DatabaseContext databaseContext) : IProductsRepo
       .ToListAsync();
 
     return products;
+  }
+
+  public async Task UpdateAsync(Product product)
+  {
+    this._databaseContext.Products.Update(product);
+    await _databaseContext.SaveChangesAsync();
   }
 }

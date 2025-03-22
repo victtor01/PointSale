@@ -1,3 +1,6 @@
 namespace PointSaleApi.Src.Core.Application.Records;
 
-public record UpdateStatusOrderProductDTO(string status) {}
+public record UpdateStatusOrderProductDTO(string status)
+{
+
+}

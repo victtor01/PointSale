@@ -91,6 +91,7 @@ const useEditPosition = (positionId: string | null) => {
 
 export const EditPosition = ({ params }: Props) => {
   const positionId = params.get("positionId");
+
   const { position, form, togglePosition, update, toggleEmployees, isChanged } =
     useEditPosition(positionId);
   const { useGetAllPermissions: getAllPermissions } = usePermissions();
